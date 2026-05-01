@@ -1,0 +1,70 @@
+---
+interface Props {
+  topper: string;
+  /** Titular corto (nombre de la pareja / proyecto) */
+  brandLine: string;
+  /** Frase guía del PCC (lema del folleto) */
+  quote: string;
+  description: string;
+  tagline: string;
+  metaLine: string;
+  primaryLabel: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryHref: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+const {
+  topper,
+  brandLine,
+  quote,
+  description,
+  tagline,
+  metaLine,
+  primaryLabel,
+  primaryHref,
+  secondaryLabel,
+  secondaryHref,
+  imageSrc,
+  imageAlt,
+} = Astro.props;
+---
+
+<section class="pcc-hero-sbs" id="portada" aria-labelledby="pcc-hero-title">
+  <div class="pcc-hero-sbs__bg" aria-hidden="true"></div>
+  <div class="pcc-container pcc-hero-sbs__grid">
+    <div class="pcc-hero-sbs__copy">
+      {topper && <span class="pcc-topper">{topper}</span>}
+      <p class="pcc-hero-sbs__brand" id="pcc-hero-title">{brandLine}</p>
+      {(quote || tagline) && (
+        <p class="pcc-hero-sbs__hook">
+          {quote}
+          {quote && tagline ? <span class="pcc-hero-sbs__hook-sep"> · </span> : null}
+          {tagline}
+        </p>
+      )}
+      <p class="pcc-lead">{description}</p>
+      {metaLine && <p class="pcc-hero-sbs__meta">{metaLine}</p>}
+      <div class="pcc-hero-sbs__cta-row">
+        <a href={primaryHref} class="pcc-btn pcc-btn--accent">{primaryLabel}</a>
+        <a href={secondaryHref} class="pcc-btn pcc-btn--outline">{secondaryLabel}</a>
+      </div>
+    </div>
+    <div class="pcc-hero-sbs__visual">
+      <div class="pcc-hero-sbs__frame">
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          width="800"
+          height="600"
+          fetchpriority="high"
+          decoding="async"
+          referrerpolicy="no-referrer"
+          class="pcc-hero-sbs__img"
+        />
+      </div>
+    </div>
+  </div>
+</section>

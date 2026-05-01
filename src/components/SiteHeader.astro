@@ -1,0 +1,140 @@
+---
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  brand: string;
+  links: NavLink[];
+  chapterLinks: NavLink[];
+  ctaLabel: string;
+  ctaHref: string;
+  utilLinks?: { label: string; href: string; external?: boolean }[];
+}
+
+const { brand, links, chapterLinks, ctaLabel, ctaHref, utilLinks = [] } = Astro.props;
+---
+
+<header class="pcc-head-sticky">
+  {utilLinks.length > 0 && (
+    <div class="pcc-head-sticky__util">
+      <div class="pcc-container pcc-head-sticky__util-inner">
+        <nav aria-label="Referencias oficiales">
+          {utilLinks.map((u) => (
+            <a
+              href={u.href}
+              class="pcc-head-sticky__util-a"
+              target={u.external ? "_blank" : undefined}
+              rel={u.external ? "noopener noreferrer" : undefined}
+            >
+              {u.label} {u.external ? "↗" : ""}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+  )}
+
+  <div class="pcc-head-sticky__main">
+    <div class="pcc-container pcc-head-sticky__row">
+      <a href="#portada" class="pcc-head-sticky__brand">{brand}</a>
+
+      <nav class="pcc-head-sticky__desk" aria-label="Secciones">
+        {links.map((l) => (
+          <a href={l.href} class="pcc-head-sticky__pill">
+            {l.label}
+          </a>
+        ))}
+        <details class="pcc-head-sticky__details">
+          <summary class="pcc-head-sticky__summary">Capítulos</summary>
+          <ul class="pcc-head-sticky__dd">
+            {chapterLinks.map((l) => (
+              <li>
+                <a href={l.href}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </nav>
+
+      <div class="pcc-head-sticky__actions">
+        <a href={ctaHref} class="pcc-btn pcc-btn--accent pcc-head-sticky__cta">
+          {ctaLabel}
+        </a>
+        <button
+          type="button"
+          class="pcc-head-sticky__burger"
+          id="pcc-menu-toggle"
+          aria-expanded="false"
+          aria-controls="pcc-mobile-menu"
+        >
+          <span class="pcc-sr-only">Abrir menú</span>
+          <svg class="pcc-icon-open" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg class="pcc-icon-close" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="pcc-head-sticky__mobile" id="pcc-mobile-menu" hidden>
+      <div class="pcc-container">
+        <nav aria-label="Móvil — secciones">
+          {links.map((l) => (
+            <a href={l.href} class="pcc-head-sticky__mobile-a">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+        <p class="pcc-head-sticky__mobile-cap">Capítulos del folleto</p>
+        <nav aria-label="Móvil — capítulos">
+          {chapterLinks.map((l) => (
+            <a href={l.href} class="pcc-head-sticky__mobile-a pcc-head-sticky__mobile-a--sub">
+              {l.label}
+            </a>
+          ))}
+        </nav>
+        <a href={ctaHref} class="pcc-btn pcc-btn--accent pcc-head-sticky__mobile-cta">
+          {ctaLabel}
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  (() => {
+    const btn = document.getElementById("pcc-menu-toggle");
+    const panel = document.getElementById("pcc-mobile-menu");
+    if (!btn || !panel) return;
+    const iconOpen = btn.querySelector(".pcc-icon-open");
+    const iconClose = btn.querySelector(".pcc-icon-close");
+
+    const setOpen = (open) => {
+      btn.setAttribute("aria-expanded", String(open));
+      panel.hidden = !open;
+      if (iconOpen && iconClose) {
+        iconOpen.style.display = open ? "none" : "block";
+        iconClose.style.display = open ? "block" : "none";
+      }
+    };
+
+    btn.addEventListener("click", () => {
+      setOpen(btn.getAttribute("aria-expanded") !== "true");
+    });
+
+    panel.addEventListener("click", (e) => {
+      const t = e.target;
+      if (t instanceof Element && t.closest("a[href]")) setOpen(false);
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(min-width: 1024px)").matches) setOpen(false);
+    });
+
+    setOpen(false);
+  })();
+</script>

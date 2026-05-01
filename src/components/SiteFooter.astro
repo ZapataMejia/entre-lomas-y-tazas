@@ -1,0 +1,61 @@
+---
+interface FootLink {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+interface Props {
+  brand: string;
+  tagline: string;
+  year: number;
+  officialLinks: FootLink[];
+  siteLinks: FootLink[];
+  disclaimer: string;
+}
+
+const { brand, tagline, year, officialLinks, siteLinks, disclaimer } = Astro.props;
+---
+
+<footer class="pcc-foot-sbs">
+  <div class="pcc-container pcc-foot-sbs__grid">
+    <div>
+      <a href="#portada" class="pcc-foot-sbs__brand">{brand}</a>
+      <p class="pcc-foot-sbs__tag">{tagline}</p>
+    </div>
+    <div>
+      <h3 class="pcc-foot-sbs__col-h">Referencia oficial</h3>
+      <ul class="pcc-foot-sbs__ul">
+        {officialLinks.map((l) => (
+          <li>
+            <a href={l.href} target={l.external ? "_blank" : undefined} rel={l.external ? "noopener noreferrer" : undefined}>
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h3 class="pcc-foot-sbs__col-h">En esta página</h3>
+      <ul class="pcc-foot-sbs__ul">
+        {siteLinks.map((l) => (
+          <li>
+            <a href={l.href}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h3 class="pcc-foot-sbs__col-h">Aviso</h3>
+      <p class="pcc-foot-sbs__small">{disclaimer}</p>
+      <div class="pcc-foot-sbs__small pcc-foot-sbs__credit">
+        <slot name="credit" />
+      </div>
+    </div>
+  </div>
+  <div class="pcc-foot-sbs__bar">
+    <div class="pcc-container pcc-foot-sbs__copy">
+      © {year} {brand}. Cuaderno personal — no es publicación institucional del PCC.
+    </div>
+  </div>
+</footer>

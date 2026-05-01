@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  primaryLabel: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryHref: string;
+}
+
+const { title, description, primaryLabel, primaryHref, secondaryLabel, secondaryHref } = Astro.props;
+---
+
+<section class="pcc-cta-band" aria-labelledby="pcc-cta-band-h">
+  <div class="pcc-container pcc-cta-band__inner">
+    <h2 class="pcc-cta-band__h" id="pcc-cta-band-h">{title}</h2>
+    <p class="pcc-cta-band__p">{description}</p>
+    <div class="pcc-cta-band__row">
+      <a href={primaryHref} class="pcc-btn pcc-btn--accent pcc-btn--lg">
+        {primaryLabel}
+      </a>
+      <a href={secondaryHref} class="pcc-btn pcc-btn--ghost pcc-btn--lg">
+        {secondaryLabel}
+      </a>
+    </div>
+  </div>
+</section>
