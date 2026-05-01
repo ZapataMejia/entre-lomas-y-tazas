@@ -2,6 +2,8 @@
  * Diario PCC — contenido alineado al índice de la guía «Paisaje Cultural Cafetero»
  * (Mil experiencias, un destino). Fotos propias: public/fotos/
  */
+import { imagenesPcc } from "./imagenesPcc";
+
 export type Visita = {
   slug: string;
   municipio: string;
@@ -109,59 +111,13 @@ export type RutasData = {
   ideas: IdeaRuta[];
 };
 
-/** Imágenes de muestra: Wikimedia Commons, eje cafetero / PCC (sustituir por fotos propias en public/fotos/). */
 export const rutas: RutasData = {
   ilustraciones: {
-    hero: {
-      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Colombia_Landscape_Near_Salento_%2840291533535%29.jpg/1600px-Colombia_Landscape_Near_Salento_%2840291533535%29.jpg",
-      alt: "Valle y cerros cerca de Salento (Quindío), eje del Paisaje Cultural Cafetero — Pedro Szekely / Wikimedia Commons",
-    },
-    indiceBanner: {
-      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Cafetales%2C_en_Colombia.jpg/1600px-Cafetales%2C_en_Colombia.jpg",
-      alt: "Cafetales en el Triángulo del Café, Colombia — Wikimedia Commons",
-    },
-    introduccion: {
-      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Valle_De_Cocora%2C_Salento%2C_Colombia_%2813293061453%29.jpg/1200px-Valle_De_Cocora%2C_Salento%2C_Colombia_%2813293061453%29.jpg",
-      alt: "Valle de Cocora, Salento (Quindío) — palmas de cera y verdes del PCC — Travel & Shit / Wikimedia Commons",
-    },
-    bitacora: {
-      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Colombia_Landscape_Near_Salento_%2840291533535%29.jpg/1600px-Colombia_Landscape_Near_Salento_%2840291533535%29.jpg",
-      alt: "Paisaje cafetero cerca de Salento — Wikimedia Commons",
-    },
-    capitulos: [
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Cafetales%2C_en_Colombia.jpg/1200px-Cafetales%2C_en_Colombia.jpg",
-        alt: "Cafetales en Colombia — cultura del café en el PCC",
-      },
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Valle_De_Cocora%2C_Salento%2C_Colombia_%2813293061453%29.jpg/1200px-Valle_De_Cocora%2C_Salento%2C_Colombia_%2813293061453%29.jpg",
-        alt: "Valle de Cocora, naturaleza emblema del Quindío",
-      },
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Colombia_Landscape_Near_Salento_%2840291533535%29.jpg/1200px-Colombia_Landscape_Near_Salento_%2840291533535%29.jpg",
-        alt: "Paramillo y verdes cerca de Salento — caminos de altura",
-      },
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Salento01.jpg/1200px-Salento01.jpg",
-        alt: "Casas coloridas en Salento (Quindío) — pueblo patrimonio del eje cafetero",
-      },
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Colombia_Landscape_Near_Salento_%2840291533535%29.jpg/1200px-Colombia_Landscape_Near_Salento_%2840291533535%29.jpg",
-        alt: "Carreteras y lomas del paisaje cafetero",
-      },
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Salento01.jpg/1200px-Salento01.jpg",
-        alt: "Tejados y montaña — municipios del corredor PCC",
-      },
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Cafetales%2C_en_Colombia.jpg/1200px-Cafetales%2C_en_Colombia.jpg",
-        alt: "Paisaje cafetero y territorio PCC — referencia visual",
-      },
-      {
-        src: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Valle_De_Cocora%2C_Salento%2C_Colombia_%2813293061453%29.jpg/1200px-Valle_De_Cocora%2C_Salento%2C_Colombia_%2813293061453%29.jpg",
-        alt: "Mesa del territorio: café, paisaje y cocina viva en el eje",
-      },
-    ],
+    hero: imagenesPcc.hero,
+    indiceBanner: imagenesPcc.indiceBanner,
+    bitacora: imagenesPcc.bitacora,
+    introduccion: imagenesPcc.introduccion,
+    capitulos: [...imagenesPcc.capitulos],
   },
   meta: {
     /** Título público del sitio (marca en cabecera, hero y pestaña del navegador) */
