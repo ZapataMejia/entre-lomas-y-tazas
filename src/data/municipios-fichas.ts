@@ -51,10 +51,9 @@ export const fichasMunicipios: MunicipioFicha[] = [
     ],
     experienciasGuia: ["Cultura cafetera", "Cafés especiales", "Cabalgatas"],
     planTrabajo: [
-      "Completar esta ficha con fotos propias del casco y del valle.",
-      "Anotar fincas o mesas donde probaron cafés especiales.",
-      "Si hacen cabalgata: fecha, recorrido y contacto de la finca o guía.",
-      "Sumar en la bitácora olores, platos y una frase para el recuerdo.",
+      "Volver con tiempo para la cabalgata pendiente.",
+      "Anotar cafés o mesas que quieran repetir en una próxima ida.",
+      "Si descubren más rincones del casco o del valle, sumarlos acá o en la bitácora.",
     ],
     fuente: "Contenido adaptado de la guía «Mil experiencias, un destino» y notas del viaje.",
   },
@@ -67,6 +66,11 @@ export function todosSlugsMunicipios(municipiosPcc: MunicipiosPcc[]): string[] {
   for (const bloque of municipiosPcc) {
     for (const nombre of bloque.municipios) {
       slugs.add(slugMunicipio(nombre));
+    }
+    if (bloque.municipiosCuaderno) {
+      for (const nombre of bloque.municipiosCuaderno) {
+        slugs.add(slugMunicipio(nombre));
+      }
     }
   }
   for (const f of fichasMunicipios) {
@@ -104,6 +108,19 @@ export function resolverMunicipioPorSlug(slug: string, municipiosPcc: Municipios
           nucleoPcc: true,
           ficha: null,
         };
+      }
+    }
+    if (bloque.municipiosCuaderno) {
+      for (const nombre of bloque.municipiosCuaderno) {
+        if (slugMunicipio(nombre) === slug) {
+          return {
+            slug,
+            nombre,
+            departamento: bloque.departamento,
+            nucleoPcc: false,
+            ficha: fichaPorSlug.get(slug) ?? null,
+          };
+        }
       }
     }
   }

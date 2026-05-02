@@ -1,0 +1,50 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<svg
+  class={["pcc-brand-mark", className].filter(Boolean).join(" ")}
+  width="40"
+  height="40"
+  viewBox="0 0 40 40"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <!-- Lomas -->
+  <path
+    fill="currentColor"
+    fill-opacity="0.2"
+    d="M2 34c5-10 13-16 18-16s11 6 18 16v6H2v-6z"
+  />
+  <path
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    fill="none"
+    d="M4 34c6-8 12-13 16-13s10 5 16 13"
+  />
+  <!-- Taza -->
+  <path
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+    d="M12 20h10v8a2 2 0 01-2 2h-6a2 2 0 01-2-2v-8z"
+  />
+  <path stroke="currentColor" stroke-width="1.75" stroke-linecap="round" fill="none" d="M22 23h4a3 3 0 010 6h-2" />
+  <!-- Vapor -->
+  <path
+    stroke="currentColor"
+    stroke-width="1.25"
+    stroke-linecap="round"
+    fill="none"
+    opacity="0.75"
+    d="M14 14c2-2 2-4 0-6M18 12c1.5-1.8 1.5-3.8 0-5.5M22 14c2-2 2-4 0-6"
+  />
+</svg>

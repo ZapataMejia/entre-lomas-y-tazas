@@ -1,4 +1,6 @@
 ---
+import BrandMark from "./BrandMark.astro";
+
 interface Props {
   topper: string;
   /** Titular corto (nombre de la pareja / proyecto) */
@@ -30,6 +32,7 @@ const {
   imageSrc,
   imageAlt,
 } = Astro.props;
+const showHook = Boolean(quote?.trim() || tagline?.trim());
 ---
 
 <section class="pcc-hero-sbs" id="portada" aria-labelledby="pcc-hero-title">
@@ -37,12 +40,15 @@ const {
   <div class="pcc-container pcc-hero-sbs__grid">
     <div class="pcc-hero-sbs__copy">
       {topper && <span class="pcc-topper">{topper}</span>}
-      <p class="pcc-hero-sbs__brand" id="pcc-hero-title">{brandLine}</p>
-      {(quote || tagline) && (
+      <div class="pcc-hero-sbs__logoline">
+        <BrandMark class="pcc-brand-mark--hero" />
+        <p class="pcc-hero-sbs__brand" id="pcc-hero-title">{brandLine}</p>
+      </div>
+      {showHook && (
         <p class="pcc-hero-sbs__hook">
-          {quote}
-          {quote && tagline ? <span class="pcc-hero-sbs__hook-sep"> · </span> : null}
-          {tagline}
+          {quote?.trim()}
+          {quote?.trim() && tagline?.trim() ? <span class="pcc-hero-sbs__hook-sep"> · </span> : null}
+          {tagline?.trim()}
         </p>
       )}
       <p class="pcc-lead">{description}</p>

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import PhotoLightbox from "../components/PhotoLightbox.astro";
 
 interface Props {
   title: string;
@@ -10,7 +11,7 @@ interface Props {
 
 const {
   title,
-  description = "Entre lomas y tazas — diario en el Paisaje Cultural Cafetero (Colombia, UNESCO): municipios del núcleo, capítulos al estilo de la guía y bitácora con fotos.",
+  description = "Antes de que se nos olvide — diario en el Paisaje Cultural Cafetero (Colombia, UNESCO): municipios del núcleo, capítulos al estilo de la guía y bitácora con fotos.",
   ogImage,
   ogLocale = "es_CO",
 } = Astro.props;
@@ -46,5 +47,6 @@ const ogImg = ogImage ?? "";
   </head>
   <body>
     <slot />
+    <PhotoLightbox />
   </body>
 </html>

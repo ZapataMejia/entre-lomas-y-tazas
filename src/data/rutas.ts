@@ -38,6 +38,8 @@ export type DeptoTerritorio = {
 export type MunicipiosPcc = {
   departamento: string;
   municipios: string[];
+  /** Mismo departamento: pueblos del cuaderno que no están en el listado UNESCO del núcleo (p. ej. Viterbo en Caldas). */
+  municipiosCuaderno?: string[];
 };
 
 /** Entrada del índice como en el folleto (color + ancla). */
@@ -99,8 +101,6 @@ export type RutasData = {
     comoLeer: string[];
     /** Texto tipo mini guía turística (planificación, épocas, enlaces). */
     guiaTuristica: string[];
-    /** Capítulos 1–4: textos alineados a los ejes del libro */
-    capitulos: { titulo: string; cuerpo: string }[];
     cocinaTradicional: string;
     territorio: DeptoTerritorio[];
     consejosPracticos: string[];
@@ -121,14 +121,14 @@ export const rutas: RutasData = {
   },
   meta: {
     /** Título público del sitio (marca en cabecera, hero y pestaña del navegador) */
-    titulo: "Entre lomas y tazas",
-    subtitulo: "Diario en el Paisaje Cultural Cafetero · Patrimonio UNESCO",
+    titulo: "Antes de que se nos olvide",
+    subtitulo: "Diario en el Paisaje Cultural Cafetero (UNESCO)",
     selloSerie: "UNESCO 2011 · Patrimonio de la humanidad",
     campana: {
-      pre: "Es el momento de",
-      palabra: "Colombia",
-      medio: "Conócela, recórrela, disfrútala…",
-      cierre: "Seguro te va a encantar",
+      pre: "Una página",
+      palabra: "nuestra",
+      medio: "para lo que vivimos en carretera, finca y pueblo",
+      cierre: "sin prisa",
     },
     epigrafe:
       "Este espacio es nuestro diario íntimo del PCC: tomamos la guía oficial como mapa y la contamos en clave de pareja, con el mismo espíritu de un blog de viajes.",
@@ -204,7 +204,7 @@ export const rutas: RutasData = {
       tipo: "capitulo",
       num: 7,
       anchor: "cap-7",
-      titulo: "Consejos para viajeros",
+      titulo: "Antes de que se nos olvide",
       color: "#5a6b3a",
       paginaLibro: 171,
     },
@@ -218,50 +218,26 @@ export const rutas: RutasData = {
     },
   ],
   guia: {
-    heroTopper: "Cuaderno de viaje en pareja",
-    heroQuote: "Un solo territorio, mil maneras de quererlo.",
-    heroTagline: "Paisaje Cultural Cafetero · Patrimonio mundial",
-    heroMeta: "Salimos de Dosquebradas, Risaralda — base del diario",
+    heroTopper: "Diario en pareja",
+    heroQuote: "Lo que nos pasa en el eje cafetero — el diario de nuestras salidas, finca y pueblo.",
+    heroTagline: "",
+    heroMeta: "Desde Dosquebradas, Risaralda",
     lema: "Memorias del eje, anotadas con calma.",
     taglineLibro: "Guía «Mil experiencias, un destino» solo como hilo conductor.",
     introUnesco:
-      "El PCC de Colombia es patrimonio vivo de la UNESCO: cafetales en loma, pueblos, arquitectura vernácula y la cultura cafetera del día a día. Entender eso ayuda a mirar cada viaje con más respeto y más curiosidad.",
+      "El PCC es patrimonio vivo: cafetales en loma, pueblos y cultura cafetera cotidiana. Para nosotros es la excusa perfecta para mirar cada salida con respeto y curiosidad, no para presumir de saberlo todo.",
     introPersonal:
-      "Nada de postureal: esta página es el cajón donde vamos soltando fotos, olores y anécdotas mientras recorremos el paísaje cafetero. No tiene que estar perfecta; tiene que ser nuestra.",
+      "Acá va el cajón de fotos, olores y conversaciones — imperfecciones incluidas. Lo importante es que sea nuestro.",
     comoLeer: [
-      "Empezá por la presentación si querés contexto y tips prácticos.",
-      "El bloque «Por dónde navegar» repite el índice de la guía en versión web — saltá directo al capítulo que te pinte.",
-      "Municipios: el listado oficial del núcleo PCC; lo que vivimos en carretera lo verás en la bitácora, no en listas frías.",
-      "Bitácora: acá irán entradas por cada parada, con fotos y texto cuando las tengamos.",
+      "La bitácora abajo es el corazón: cada visita con fecha y relato.",
+      "Cada capítulo del folleto tiene página propia (capítulo 1 al 8) con texto largo, enlaces y sección para fotos.",
+      "«Por dónde navegar» enlaza la intro en portada y cada capítulo en su vista completa.",
+      "Municipios: fichas guía; lo que todavía no está en libro va con etiqueta Cuaderno.",
     ],
     guiaTuristica: [
-      "Conviene elegir un eje por noche: cruzar Caldas, Quindío y Risaralda en el mismo día cansa y no deja disfrutar el atardecer en el pueblo.",
-      "Para caminatas largas, la franja seca (aprox. dic–feb y jun–ago) suele ser más amable; igual, impermeable en la mochila siempre.",
-      "Fincas con recogida o cata conviene reservar con anticipación, sobre todo en puente o feriado.",
-      "En pueblos con mucha afluencia, una mitad de jornada para el casco y otra para un mirador o valle suele rendir mejor que apurarse todo.",
-      "En reservas y senderos comunitarios, respetar horarios y llevar efectivo en veredas sigue siendo regla de oro.",
-    ],
-    capitulos: [
-      {
-        titulo: "Saborear el mejor café suave del mundo",
-        cuerpo:
-          "Catas, recolección, beneficio y taza: el libro invita a pegarse a la cadena del café en el eje cafetero. Nosotros anotamos fincas, pueblos y mesas donde el aroma manda.",
-      },
-      {
-        titulo: "Disfrutar de la naturaleza y paisajes únicos",
-        cuerpo:
-          "Bosques de niebla, miradores, aves y valles. Caminatas suaves o jornadas largas según el clima — acá registramos qué senderos valen la pena y cuándo ir.",
-      },
-      {
-        titulo: "Vivir grandes aventuras en parajes privilegiados",
-        cuerpo:
-          "Paramillos, altitud y rutas exigentes: en la guía técnica aparecen alertas para quien sube alto (por ejemplo cercanía a PNN Los Nevados). Sin prisa, con respeto por el territorio.",
-      },
-      {
-        titulo: "Aprender sobre oficios auténticos",
-        cuerpo:
-          "Bahareque, teja, tejido, memoria cafetera: cultura material y oficios que dan carácter al PCC. Acá van nuestros encuentros con artesanos y pueblos patrimonio.",
-      },
+      "Mejor un eje por día que cruzar tres departamentos sin atardecer en ningún pueblo.",
+      "Impermeable en la mochila siempre; franja seca ayuda en caminatas largas, no la garantiza.",
+      "Catas y fincas con reserva — más en puente.",
     ],
     cocinaTradicional:
       "Arepas, mogollas, variaciones regionales y mesa cafetera: la cocina del PCC es parte del viaje. Esta sección es nuestro espacio para anotar platos, mercados y restaurantes que querríamos repetir o recomendar.",
@@ -312,6 +288,7 @@ export const rutas: RutasData = {
         "Supía",
         "Villamaría",
       ],
+      municipiosCuaderno: ["Viterbo"],
     },
     {
       departamento: "Risaralda",
@@ -368,11 +345,20 @@ export const rutas: RutasData = {
       departamento: "Caldas",
       fecha: "Mayo 2026",
       extracto:
-        "Valle del Risaralda, clima cálido y pueblo entre Manizales y Pereira: café, cultivos tropicales y un casco con plaza e iglesia.",
+        "Un día que nos encantó: buena comida, un rincón de frases lleno de detalle, parque, hacienda de ensueño, animales, atardecer y dos cafés hablando hasta reír.",
       nota:
-        "Primera visita que documentamos. La guía resalta el valle relativamente plano, el clima (~28 °C), la mezcla de caña, café, frutas tropicales y piscicultura; en el centro, la Inmaculada, la Casa de la Cultura y la Plaza Restrepo. Próxima meta: cafés especiales y una cabalgata, con fotos en la bitácora.",
-      experiencias: ["Cultura cafetera", "Casco urbano", "Valle del río"],
-      fotos: [],
+        "El plan nos gustó mucho; vimos lugares muy ricos y reaccionamos a todo. Comimos unas hamburguesas deliciosas —una más picante, esa no tanto, pero igual rica—. Hubo un rincón de frases, muy bonito y muy bien decorado, nos encantó. De ahí al parque, y luego a una hacienda preciosa: soñamos en voz alta qué haríamos si fuera nuestra, qué cambiaríamos; nos tomamos un montón de fotos. No alcanzamos la cabalgata y nos dio un poquito de pena; ya sabemos que hay que volver. Vimos y disfrutamos muchos animales hermosos. El atardecer en la hacienda fue un regalo. Volvimos al parque: dos cafés muy ricos, charla, risas y tiempo de calidad; hacía falta. Nos fue muy bien de retorno a la casa; paramos en la Villa Olímpica porque no queríamos llegar temprano a la casa, y saludamos a un amigo de Santi de hace muchos años y nos reímos mucho juntos. Posdata: Esmeralda llegó a dormir, jaja.",
+      experiencias: [
+        "Gastronomía",
+        "Rincón / frases",
+        "Parque",
+        "Hacienda",
+        "Animales",
+        "Atardecer",
+        "Cafés y conversación",
+        "Regreso a Pereira",
+      ],
+      fotos: Array.from({ length: 15 }, (_, j) => `/fotos/viterbo-2026-05/viterbo-${String(j + 1).padStart(2, "0")}.jpeg`),
     },
   ],
   ideas: [],

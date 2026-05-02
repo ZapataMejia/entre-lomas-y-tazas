@@ -2,24 +2,21 @@
 import Layout from "../layouts/Layout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteHero from "../components/SiteHero.astro";
-import TrustBar from "../components/TrustBar.astro";
 import CtaBand from "../components/CtaBand.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import VisitaCuaderno from "../components/VisitaCuaderno.astro";
 import { rutas } from "../data/rutas";
-import { fichasMunicipios } from "../data/municipios-fichas";
+import { capitulosDetalle } from "../data/capitulos-detalle";
 import { slugMunicipio } from "../lib/slug-municipio";
+import { navIndiceDesdeLibro, hrefEntradaIndice } from "../lib/nav-indice";
 
-const { meta, guia, indiceLibro, visitados, ideas, ilustraciones, municipiosPcc } = rutas;
-const nombreSitio = meta.titulo ?? "Entre lomas y tazas";
+const { meta, guia, indiceLibro, visitados, ilustraciones, municipiosPcc } = rutas;
+const nombreSitio = meta.titulo ?? "Antes de que se nos olvide";
 const pageTitle = `${nombreSitio} · ${meta.subtitulo ?? "Paisaje Cultural Cafetero"}`;
 const pageDescription =
-  "Entre lomas y tazas: bitácora íntima por el Paisaje Cultural Cafetero (UNESCO) — municipios, capítulos al estilo de la guía oficial y recuerdos en fotos.";
-const navIndice = indiceLibro.map((e) => ({ href: `#${e.anchor}`, label: e.tipo === "intro" ? "Intro" : `Cap. ${e.num}` }));
-const totalMunicipiosPcc = municipiosPcc.reduce((acc, d) => acc + d.municipios.length, 0);
-const municipiosFueraNucleo = fichasMunicipios.filter((f) => !f.nucleoPcc);
-
+  "Antes de que se nos olvide: diario de Santiago y Esmeralda en el Paisaje Cultural Cafetero — salidas, municipios y bitácora con fotos.";
+const navIndice = navIndiceDesdeLibro(indiceLibro);
 const capColor = (n: number) => indiceLibro.find((e) => e.num === n)?.color ?? "#153a5c";
-const capImg = (n: number) => ilustraciones.capitulos[n - 1];
 
 const navLinks = [
   { label: "Intro", href: "#introduccion" },
@@ -27,18 +24,6 @@ const navLinks = [
   { label: "Capítulos", href: "#capitulos" },
   { label: "Municipios", href: "#municipios" },
   { label: "Bitácora", href: "#bitacora" },
-];
-
-const punto = meta.puntoPartida ?? "";
-const ciudadBase = punto.replace(/^Salimos de\s+/i, "").split(",")[0]?.trim() || "Eje cafetero";
-const deptoBase = punto.split(",")[1]?.trim();
-const baseViaje = deptoBase ? `${ciudadBase}, ${deptoBase}` : ciudadBase;
-
-const trustItems = [
-  { label: "Patrimonio", value: "UNESCO · 2011" },
-  { label: "Territorio PCC", value: `${totalMunicipiosPcc} municipios` },
-  { label: "Partimos de", value: baseViaje },
-  { label: "Bitácora", value: visitados.length ? `${visitados.length} recuerdos` : "Recién empezando" },
 ];
 
 const year = new Date().getFullYear();
@@ -78,15 +63,13 @@ const siteFootLinks = [
     description={guia.introPersonal}
     tagline={guia.heroTagline}
     metaLine={guia.heroMeta?.trim() ? guia.heroMeta : meta.puntoPartida ?? ""}
-    primaryLabel="Ver el índice temático"
-    primaryHref="#indice"
-    secondaryLabel="Leer la presentación"
-    secondaryHref="#introduccion"
+    primaryLabel="Ir a la bitácora"
+    primaryHref="#bitacora"
+    secondaryLabel="Índice del folleto"
+    secondaryHref="#indice"
     imageSrc={ilustraciones.hero.src}
     imageAlt={ilustraciones.hero.alt}
   />
-
-  <TrustBar items={trustItems} />
 
   <main class="pcc-main" id="contenido">
     <article class="pcc-article pcc-article--intro-panel" id="introduccion">
@@ -95,21 +78,21 @@ const siteFootLinks = [
           <span class="pcc-kicker">Empezá por acá</span>
           <h2 class="pcc-h2 pcc-h2--section">Qué es este cuaderno</h2>
           <p class="pcc-section-dek">
-            Tomamos el folleto <em>Mil experiencias, un destino</em> solo como hilo conductor: acá guardamos fotos, notas y anécdotas
-            nuestras, sin pretender sustituir a la guía oficial.
+            El folleto <em>Mil experiencias, un destino</em> es solo el hilo: acá va lo nuestro — fotos, notas y anécdotas — sin sustituir a
+            la guía oficial.
           </p>
         </header>
         <div class="pcc-article__inner pcc-article__inner--intro">
           <div class="pcc-intro__copy">
-            <h3 class="pcc-h3 pcc-h3--muted">Patrimonio UNESCO</h3>
+            <h3 class="pcc-h3 pcc-h3--muted">Por qué UNESCO importa (un poco)</h3>
             <p class="pcc-prose pcc-prose--large">{guia.introUnesco}</p>
-            <h3 class="pcc-h3">Cómo moverte por la página</h3>
+            <h3 class="pcc-h3">Cómo se lee este sitio</h3>
             <ul class="pcc-ul pcc-ul--check">
               {guia.comoLeer.map((t) => (
                 <li>{t}</li>
               ))}
             </ul>
-            <h3 class="pcc-h3">Mini guía turística</h3>
+            <h3 class="pcc-h3">Antes de manejar</h3>
             <div class="pcc-guidecallout">
               {guia.guiaTuristica.map((p) => (
                 <p class="pcc-prose">{p}</p>
@@ -137,8 +120,8 @@ const siteFootLinks = [
           <span class="pcc-kicker">Mismo orden que el folleto</span>
           <h2 class="pcc-h2 pcc-h2--section">Por dónde navegar</h2>
           <p class="pcc-section-dek">
-            Cada bloque enlaza a la sección correspondiente. El número de página es solo referencia a la guía impresa, para ubicarse si
-            también la tienen a mano.
+            La introducción abre en esta página; cada capítulo tiene su propia vista con texto amplio, enlaces y espacio para fotos. El
+            número de página sigue siendo referencia a la guía impresa.
           </p>
         </header>
         <div class="pcc-toc-modern__banner">
@@ -158,7 +141,7 @@ const siteFootLinks = [
               <li class="pcc-toc-modern__item">
                 <a
                   class="pcc-toc-modern__a"
-                  href={`#${item.anchor}`}
+                  href={hrefEntradaIndice(item)}
                   style={item.tipo === "capitulo" && item.color ? `--toc-accent:${item.color}` : undefined}
                 >
                   <span class="pcc-toc-modern__num" aria-hidden="true">
@@ -180,11 +163,11 @@ const siteFootLinks = [
     <section class="pcc-muni" id="municipios" aria-labelledby="municipios-h2">
       <div class="pcc-muni__inner pcc-container">
         <header class="pcc-muni__head">
-          <span class="pcc-kicker">Territorio declarado patrimonio</span>
+          <span class="pcc-kicker">Mapa del territorio</span>
           <h2 class="pcc-h2 pcc-h2--section" id="municipios-h2">Municipios del núcleo PCC</h2>
           <p class="pcc-prose pcc-prose--center pcc-muni__lead">
-            El listado UNESCO del núcleo inscrito son <strong>{totalMunicipiosPcc} municipios</strong> en cuatro departamentos. Tocá un
-            nombre para abrir su ficha (vamos documentando cada uno). Lo vivido con fotos va en la{" "}
+            Tocá un nombre para la ficha guía. <strong class="pcc-muni__lead-tag">Cuaderno</strong> marca pueblos del mismo departamento que
+            <strong>no</strong> entran en el listado UNESCO del núcleo (como <strong>Viterbo</strong>). Lo vivido, en la{" "}
             <a class="pcc-a" href="#bitacora">bitácora</a>.
           </p>
         </header>
@@ -213,34 +196,25 @@ const siteFootLinks = [
                       </a>
                     </li>
                   ))}
+                  {bloque.municipiosCuaderno?.map((nombre) => (
+                    <li>
+                      <a
+                        class="pcc-muni__chip pcc-muni__chip--link pcc-muni__chip--cuaderno"
+                        href={`/municipio/${slugMunicipio(nombre)}`}
+                        title="Mismo departamento; no está en el listado UNESCO del núcleo PCC — lo documentamos en el cuaderno."
+                      >
+                        {nombre}
+                        <span class="pcc-muni__chip-tag" aria-hidden="true">
+                          Cuaderno
+                        </span>
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             ))
           }
         </div>
-
-        {
-          municipiosFueraNucleo.length > 0 && (
-            <div class="pcc-muni__extra">
-              <h3 class="pcc-h3 pcc-muni__extra-h">También en nuestro mapa (fuera del núcleo UNESCO)</h3>
-              <p class="pcc-prose pcc-muni__extra-lead">
-                Pueblos del mismo eje cafetero o del valle que visitamos aunque no entren en el listado oficial de la inscripción.
-                Acá documentamos Viterbo con texto de la guía y nuestras notas.
-              </p>
-              <ul class="pcc-muni__extra-list">
-                {municipiosFueraNucleo.map((m) => (
-                  <li>
-                    <a class="pcc-muni__extra-a" href={`/municipio/${m.slug}`}>
-                      <strong>{m.nombre}</strong>
-                      <span class="pcc-muni__extra-dpto">{m.departamento}</span>
-                      <span class="pcc-muni__extra-go">Abrir ficha →</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
       </div>
     </section>
 
@@ -250,19 +224,28 @@ const siteFootLinks = [
           <span class="pcc-kicker">Mil experiencias, un destino</span>
           <h2 class="pcc-h2 pcc-h2--section" id="capitulos-heading">Capítulos del folleto</h2>
           <p class="pcc-section-dek">
-            Los ocho ejes de la guía oficial, en nuestra voz: qué significan para nosotros y qué vamos anotando al recorrer el PCC.
+            Cada tarjeta resume el capítulo y enlaza a la página con texto completo, enlaces y hueco para fotos cuando las suban.
           </p>
         </header>
 
         {
-          guia.capitulos.map((cap, i) => {
-            const n = i + 1;
+          [1, 2, 3, 4, 5, 6, 7, 8].map((n) => {
+            const entradaCap = indiceLibro.find((e) => e.num === n);
+            const tituloCap = entradaCap?.titulo ?? `Capítulo ${n}`;
+            const det = capitulosDetalle[n - 1];
+            const ill = ilustraciones.capitulos[n - 1];
             return (
-              <article class="pcc-chapter-card" id={`cap-${n}`} style={`--accent: ${capColor(n)}`}>
+              <a
+                class:list={["pcc-chapter-card", n === 8 && "pcc-chapter-card--last"]}
+                id={`cap-${n}`}
+                href={`/capitulo/${n}`}
+                aria-label={`Capítulo ${n}: ${tituloCap}`}
+                style={`--accent: ${capColor(n)}`}
+              >
                 <div class="pcc-chapter-card__media">
                   <img
-                    src={ilustraciones.capitulos[i].src}
-                    alt={ilustraciones.capitulos[i].alt}
+                    src={ill.src}
+                    alt={ill.alt}
                     width="1200"
                     height="675"
                     loading="lazy"
@@ -274,101 +257,14 @@ const siteFootLinks = [
                   <span class="pcc-chapter-card__no">{String(n).padStart(2, "0")}</span>
                   <div>
                     <p class="pcc-kicker pcc-kicker--accent">Capítulo {n}</p>
-                    <h3 class="pcc-chapter-card__title">{cap.titulo}</h3>
-                    <p class="pcc-prose">{cap.cuerpo}</p>
+                    <h3 class="pcc-chapter-card__title">{tituloCap}</h3>
+                    <p class="pcc-prose">{det.resumen}</p>
                   </div>
                 </div>
-              </article>
+              </a>
             );
           })
         }
-
-        <article class="pcc-chapter-card pcc-chapter-card--wide" id="cap-5" style={`--accent: ${capColor(5)}`}>
-          <div class="pcc-chapter-card__media">
-            <img src={capImg(5).src} alt={capImg(5).alt} width="1200" height="675" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-          </div>
-          <div class="pcc-chapter-card__body">
-            <span class="pcc-chapter-card__no">05</span>
-            <div>
-              <p class="pcc-kicker pcc-kicker--accent">Capítulo 5</p>
-              <h3 class="pcc-chapter-card__title">Rutas del Paisaje Cultural Cafetero</h3>
-              <p class="pcc-prose">
-                Rutas y corredores del folleto, comparados con vuestra lista de pendientes y el mapa general.
-              </p>
-              <h4 class="pcc-h4">Próximas paradas</h4>
-              <ul class="pcc-rutas pcc-rutas--cards">
-                {ideas.length === 0 ? (
-                  <li class="pcc-rutas__empty">Por ahora no hay próximas paradas anotadas; cuando fantaseen con un pueblo, lo suman al cuaderno.</li>
-                ) : (
-                  ideas.map((it) => (
-                    <li class="pcc-ruta-card">
-                      <strong>{it.municipio}</strong>
-                      {it.departamento && <span class="pcc-ruta-card__depto">{it.departamento}</span>}
-                      {it.detalle && <p class="pcc-ruta-card__d">{it.detalle}</p>}
-                    </li>
-                  ))
-                )}
-              </ul>
-            </div>
-          </div>
-        </article>
-
-        <article class="pcc-chapter-card" id="cap-6" style={`--accent: ${capColor(6)}`}>
-          <div class="pcc-chapter-card__media">
-            <img src={capImg(6).src} alt={capImg(6).alt} width="1200" height="675" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-          </div>
-          <div class="pcc-chapter-card__body">
-            <span class="pcc-chapter-card__no">06</span>
-            <div>
-              <p class="pcc-kicker pcc-kicker--accent">Capítulo 6</p>
-              <h3 class="pcc-chapter-card__title">Municipios · mirada de cercanía</h3>
-              <p class="pcc-prose">
-                El listado completo está en <a class="pcc-a" href="#municipios">Municipios del PCC</a>. Acá, el resumen afectivo de
-                cómo leen el territorio desde {ciudadBase}.
-              </p>
-              <div class="pcc-grid pcc-grid--tight">
-                {guia.territorio.map((d) => (
-                  <div class="pcc-card pcc-card--lift">
-                    <h4 class="pcc-card__h">{d.nombre}</h4>
-                    <p class="pcc-card__p">{d.resumen}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="pcc-chapter-card" id="cap-7" style={`--accent: ${capColor(7)}`}>
-          <div class="pcc-chapter-card__media">
-            <img src={capImg(7).src} alt={capImg(7).alt} width="1200" height="675" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-          </div>
-          <div class="pcc-chapter-card__body">
-            <span class="pcc-chapter-card__no">07</span>
-            <div>
-              <p class="pcc-kicker pcc-kicker--accent">Capítulo 7</p>
-              <h3 class="pcc-chapter-card__title">Consejos para viajeros</h3>
-              <ul class="pcc-tips pcc-tips--cards">
-                {guia.consejosPracticos.map((c) => (
-                  <li>{c}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </article>
-
-        <article class="pcc-chapter-card pcc-chapter-card--last" id="cap-8" style={`--accent: ${capColor(8)}`}>
-          <div class="pcc-chapter-card__media">
-            <img src={capImg(8).src} alt={capImg(8).alt} width="1200" height="675" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
-          </div>
-          <div class="pcc-chapter-card__body">
-            <span class="pcc-chapter-card__no">08</span>
-            <div>
-              <p class="pcc-kicker pcc-kicker--accent">Capítulo 8</p>
-              <h3 class="pcc-chapter-card__title">Cocina tradicional</h3>
-              <p class="pcc-prose">{guia.cocinaTradicional}</p>
-            </div>
-          </div>
-        </article>
       </div>
     </section>
 
@@ -378,7 +274,7 @@ const siteFootLinks = [
       primaryLabel="Ver bitácora"
       primaryHref="#bitacora"
       secondaryLabel="Próximas rutas"
-      secondaryHref="#cap-5"
+      secondaryHref="/capitulo/5"
     />
 
     <section class="pcc-bit" id="bitacora">
@@ -412,40 +308,7 @@ const siteFootLinks = [
                 </p>
               </div>
             ) : (
-              visitados.map((v, i) => (
-                <article class="pcc-card pcc-card--entry" id={`entrada-${v.slug || i}`}>
-                  <header class="pcc-entry__hd">
-                    <span class="pcc-entry__no">{String(i + 1).padStart(2, "0")}</span>
-                    <div>
-                      <h3 class="pcc-entry__place">{v.municipio}</h3>
-                      <p class="pcc-entry__date">
-                        {v.fecha}
-                        {v.departamento && ` · ${v.departamento}`}
-                      </p>
-                    </div>
-                  </header>
-                  {v.experiencias && v.experiencias.length > 0 && (
-                    <ul class="pcc-tags">
-                      {v.experiencias.map((t) => (
-                        <li>{t}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {v.extracto && <p class="pcc-entry__ex">{v.extracto}</p>}
-                  {v.nota && <p class="pcc-entry__note">{v.nota}</p>}
-                  {v.fotos.length > 0 ? (
-                    <div class="pcc-shots">
-                      {v.fotos.map((src, j) => (
-                        <figure class="pcc-shot">
-                          <img src={src} alt={`${v.municipio}, foto ${j + 1}`} loading="lazy" width="800" height="600" referrerpolicy="no-referrer" />
-                        </figure>
-                      ))}
-                    </div>
-                  ) : (
-                    <p class="pcc-pending">Cuando suban fotos del viaje, aparecerán acá en cada entrada.</p>
-                  )}
-                </article>
-              ))
+              visitados.map((v, i) => <VisitaCuaderno visita={v} index={i} variant="bitacora" />)
             )
           }
         </div>

@@ -1,4 +1,6 @@
 ---
+import BrandMark from "./BrandMark.astro";
+
 interface NavLink {
   label: string;
   href: string;
@@ -39,7 +41,10 @@ const { brand, brandHref = "#portada", links, chapterLinks, ctaLabel, ctaHref, u
 
   <div class="pcc-head-sticky__main">
     <div class="pcc-container pcc-head-sticky__row">
-      <a href={brandHref} class="pcc-head-sticky__brand">{brand}</a>
+      <a href={brandHref} class="pcc-head-sticky__brand pcc-head-sticky__brand--with-mark">
+        <BrandMark class="pcc-brand-mark--header" />
+        <span class="pcc-head-sticky__brand-text">{brand}</span>
+      </a>
 
       <nav class="pcc-head-sticky__desk" aria-label="Secciones">
         {links.map((l) => (

@@ -2,8 +2,10 @@
 import Layout from "../../layouts/Layout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import SiteFooter from "../../components/SiteFooter.astro";
+import VisitaCuaderno from "../../components/VisitaCuaderno.astro";
 import { rutas } from "../../data/rutas";
 import { resolverMunicipioPorSlug, todosSlugsMunicipios } from "../../data/municipios-fichas";
+import { navIndiceDesdeLibro } from "../../lib/nav-indice";
 import { slugMunicipio } from "../../lib/slug-municipio";
 
 export function getStaticPaths() {
@@ -18,13 +20,10 @@ if (!resolved) {
 }
 
 const { meta, guia, indiceLibro, visitados } = rutas;
-const nombreSitio = meta.titulo ?? "Entre lomas y tazas";
+const nombreSitio = meta.titulo ?? "Antes de que se nos olvide";
 const pageTitle = `${resolved.nombre} · ${nombreSitio}`;
-const pageDescription = resolved.ficha?.introduccion
-  ? `${resolved.nombre} (${resolved.departamento}): ${resolved.ficha.introduccion.slice(0, 140)}…`
-  : `${resolved.nombre}, ${resolved.departamento} — ficha del cuaderno del Paisaje Cultural Cafetero.`;
 
-const navIndice = indiceLibro.map((e) => ({ href: `/#${e.anchor}`, label: e.tipo === "intro" ? "Intro" : `Cap. ${e.num}` }));
+const navIndice = navIndiceDesdeLibro(indiceLibro);
 
 const navLinks = [
   { label: "Intro", href: "/#introduccion" },
@@ -49,12 +48,18 @@ const siteFootLinks = [
 const entradaBitacora = visitados.find(
   (v) => v.slug === resolved.slug || slugMunicipio(v.municipio) === resolved.slug,
 );
+const indiceBitacora = entradaBitacora != null ? visitados.indexOf(entradaBitacora) : -1;
 const bitacoraHref =
   entradaBitacora != null
     ? `/#entrada-${entradaBitacora.slug ?? slugMunicipio(entradaBitacora.municipio)}`
     : null;
 
 const f = resolved.ficha;
+const pageDescription = entradaBitacora?.extracto
+  ? `${resolved.nombre}: ${entradaBitacora.extracto}`
+  : resolved.ficha?.introduccion
+    ? `${resolved.nombre} (${resolved.departamento}): ${resolved.ficha.introduccion.slice(0, 140)}…`
+    : `${resolved.nombre}, ${resolved.departamento} — ficha del cuaderno del Paisaje Cultural Cafetero.`;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
@@ -70,7 +75,7 @@ const f = resolved.ficha;
   />
 
   <main class="pcc-ficha" id="contenido-ficha">
-    <div class="pcc-container pcc-ficha__wrap">
+    <div class:list={["pcc-container", "pcc-ficha__wrap", entradaBitacora && "pcc-ficha__wrap--wide"]}>
       <nav class="pcc-ficha__crumb" aria-label="Ruta">
         <a href="/">Inicio</a>
         <span aria-hidden="true"> / </span>
@@ -100,6 +105,12 @@ const f = resolved.ficha;
           )
         }
       </header>
+
+      {
+        entradaBitacora != null && indiceBitacora >= 0 && (
+          <VisitaCuaderno visita={entradaBitacora} index={indiceBitacora} variant="ficha" />
+        )
+      }
 
       {
         f?.datos && f.datos.length > 0 && (
@@ -187,23 +198,24 @@ const f = resolved.ficha;
 
       <section class="pcc-ficha__section pcc-ficha__cta" aria-labelledby="ficha-bit">
         <h2 class="pcc-ficha__h2" id="ficha-bit">
-          En nuestro cuaderno
+          También en la portada
         </h2>
         {
           entradaBitacora ? (
             <p class="pcc-prose">
-              Ya hay una entrada de bitácora para esta visita.{" "}
+              La misma entrada está en la{" "}
               <a class="pcc-a" href={bitacoraHref!}>
-                Ver recuerdos de {resolved.nombre} ↵
+                bitácora de inicio
               </a>
+              , por si querés enlazarla o comparar con otras visitas.
             </p>
           ) : (
             <p class="pcc-prose">
-              Cuando tengan fotos y relato, enlacen la visita desde la bitácora en la{" "}
-              <a class="pcc-a" href="/">
-                portada
-              </a>{" "}
-              (sección Bitácora).
+              Cuando tengan fotos y relato, pueden sumar la visita en <em>visitados</em> en la{" "}
+              <a class="pcc-a" href="/#bitacora">
+                bitácora de la portada
+              </a>
+              ; esta ficha enlazará solo automáticamente.
             </p>
           )
         }

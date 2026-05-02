@@ -1,0 +1,107 @@
+---
+import type { Visita } from "../data/rutas";
+
+interface Props {
+  visita: Visita;
+  index: number;
+  variant?: "bitacora" | "ficha";
+}
+
+const { visita: v, index: i, variant = "bitacora" } = Astro.props;
+const entryId = v.slug ?? String(i);
+const articleId = variant === "bitacora" ? `entrada-${entryId}` : "visita-cuaderno";
+const wrapperClass =
+  variant === "bitacora" ? "pcc-card pcc-card--entry" : "pcc-ficha-visita pcc-card pcc-card--entry";
+---
+
+<article class={wrapperClass} id={articleId}>
+  {
+    variant === "bitacora" && (
+      <header class="pcc-entry__hd">
+        <span class="pcc-entry__no">{String(i + 1).padStart(2, "0")}</span>
+        <div>
+          <h3 class="pcc-entry__place">{v.municipio}</h3>
+          <p class="pcc-entry__date">
+            {v.fecha}
+            {v.departamento && ` · ${v.departamento}`}
+          </p>
+        </div>
+      </header>
+    )
+  }
+  {
+    variant === "ficha" && (
+      <header class="pcc-ficha-visita__head">
+        <span class="pcc-kicker">Bitácora</span>
+        <h2 class="pcc-ficha-visita__h">Lo que vivimos</h2>
+        <p class="pcc-ficha-visita__meta">
+          {v.fecha}
+          {v.departamento && ` · ${v.departamento}`}
+        </p>
+      </header>
+    )
+  }
+
+  {
+    v.extracto && (
+      <section class="pcc-visita-block" aria-labelledby={`vis-ex-${entryId}`}>
+        <h4 class="pcc-visita-label" id={`vis-ex-${entryId}`}>
+          En una frase
+        </h4>
+        <p class="pcc-entry__ex pcc-entry__ex--tight">{v.extracto}</p>
+      </section>
+    )
+  }
+
+  {
+    v.experiencias && v.experiencias.length > 0 && (
+      <section class="pcc-visita-block" aria-labelledby={`vis-mg-${entryId}`}>
+        <h4 class="pcc-visita-label" id={`vis-mg-${entryId}`}>
+          Lo que más nos gustó
+        </h4>
+        <ul class="pcc-tags">
+          {v.experiencias.map((t) => (
+            <li>{t}</li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    v.nota && (
+      <section class="pcc-visita-block" aria-labelledby={`vis-rel-${entryId}`}>
+        <h4 class="pcc-visita-label" id={`vis-rel-${entryId}`}>
+          Relato
+        </h4>
+        <p class="pcc-entry__note">{v.nota}</p>
+      </section>
+    )
+  }
+
+  {
+    v.fotos.length > 0 ? (
+      <section class="pcc-visita-block" aria-labelledby={`vis-fot-${entryId}`}>
+        <h4 class="pcc-visita-label" id={`vis-fot-${entryId}`}>
+          Fotos
+        </h4>
+        <div class:list={["pcc-shots", variant === "ficha" && "pcc-shots--large"]}>
+          {v.fotos.map((src, j) => (
+            <figure class="pcc-shot" title="Clic para ampliar; en el visor usá flechas o deslizá el dedo">
+              <img
+                src={src}
+                alt={`${v.municipio}, foto ${j + 1}`}
+                loading="lazy"
+                width="800"
+                height="600"
+                referrerpolicy="no-referrer"
+              />
+            </figure>
+          ))}
+        </div>
+      </section>
+    ) : (
+      <p class="pcc-pending">Cuando suban fotos del viaje, aparecerán acá.</p>
+    )
+  }
+</article>

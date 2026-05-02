@@ -14,10 +14,10 @@ const img = (src: string, alt: string): Img => ({ src, alt });
 const commons = (path: string) => `https://upload.wikimedia.org/wikipedia/commons/${path}`;
 
 export const imagenesPcc = {
-  /** Portada — vista amplia del eje cafetero (Salento, Quindío) */
+  /** Portada — Risaralda, más cerca de nuestra base (Dosquebradas / Pereira) que un paisaje genérico del Quindío */
   hero: img(
-    commons("c/ca/Colombia_Landscape_Near_Salento_%2840291533535%29.jpg"),
-    "Lomas y cumbres cerca de Salento, Quindío — paisaje típico del PCC. Pedro Szekely / Wikimedia Commons.",
+    commons("5/59/Church_at_Marsella_-_Risaralda_-_Colombia_-_panoramio.jpg"),
+    "Iglesia y loma en Marsella, Risaralda — corredor cafetero. Wikimedia Commons.",
   ),
 
   /** Banda del índice — cultivo en ladera / cultura cafetera */
@@ -60,12 +60,12 @@ export const imagenesPcc = {
       "Artesanías en Filandia, Quindío — oficios y cultura material del territorio cafetero. Wikimedia Commons.",
     ),
     img(
-      commons("5/59/Church_at_Marsella_-_Risaralda_-_Colombia_-_panoramio.jpg"),
-      "Iglesia y paisaje en Marsella, Risaralda — pueblo del corredor cafetero sobre la ruta. Wikimedia Commons.",
-    ),
-    img(
       commons("4/4e/Parque_de_Pijao%2C_Quind%C3%ADo.jpg"),
       "Parque principal de Pijao, Quindío — municipio patrimonio dentro del núcleo PCC. Wikimedia Commons.",
+    ),
+    img(
+      commons("c/ca/Colombia_Landscape_Near_Salento_%2840291533535%29.jpg"),
+      "Lomas del Quindío cerca de Salento — paisaje en una ruta típica del PCC. Pedro Szekely / Wikimedia Commons.",
     ),
     img(
       commons("7/79/Salento01.jpg"),

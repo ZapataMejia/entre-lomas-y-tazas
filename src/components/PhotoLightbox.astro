@@ -1,0 +1,189 @@
+<dialog id="pcc-foto-lightbox" class="pcc-foto-lightbox" aria-label="Visor de fotos">
+  <div class="pcc-foto-lightbox__box">
+    <button type="button" class="pcc-foto-lightbox__close" aria-label="Cerrar">
+      <span aria-hidden="true">×</span>
+    </button>
+    <button
+      type="button"
+      class="pcc-foto-lightbox__nav pcc-foto-lightbox__nav--prev"
+      aria-label="Foto anterior"
+      hidden
+    >
+      <span aria-hidden="true">‹</span>
+    </button>
+    <button
+      type="button"
+      class="pcc-foto-lightbox__nav pcc-foto-lightbox__nav--next"
+      aria-label="Foto siguiente"
+      hidden
+    >
+      <span aria-hidden="true">›</span>
+    </button>
+    <img class="pcc-foto-lightbox__img" src="" alt="" decoding="async" />
+    <p class="pcc-foto-lightbox__count" aria-live="polite" hidden></p>
+  </div>
+</dialog>
+
+<script is:inline>
+  (() => {
+    const dialog = document.getElementById("pcc-foto-lightbox");
+    const box = dialog?.querySelector(".pcc-foto-lightbox__box");
+    const fullImg = dialog?.querySelector(".pcc-foto-lightbox__img");
+    const closeBtn = dialog?.querySelector(".pcc-foto-lightbox__close");
+    const prevBtn = dialog?.querySelector(".pcc-foto-lightbox__nav--prev");
+    const nextBtn = dialog?.querySelector(".pcc-foto-lightbox__nav--next");
+    const countEl = dialog?.querySelector(".pcc-foto-lightbox__count");
+    if (!dialog || !box || !fullImg || !closeBtn || !prevBtn || !nextBtn || !countEl) return;
+
+    /** @type {{ src: string, alt: string }[]} */
+    let gallery = [];
+    let index = 0;
+    let touchStartX = /** @type {number | null} */ (null);
+
+    const updateUi = () => {
+      const n = gallery.length;
+      const multi = n > 1;
+      prevBtn.hidden = !multi;
+      nextBtn.hidden = !multi;
+      countEl.hidden = !multi;
+      if (multi) {
+        countEl.textContent = `${index + 1} / ${n}`;
+      } else {
+        countEl.textContent = "";
+      }
+    };
+
+    /** Escala solo hacia abajo: nunca agranda más allá de los píxeles reales (evita “blur” por upscale). */
+    const applyLightboxImgBounds = () => {
+      const nw = fullImg.naturalWidth;
+      const nh = fullImg.naturalHeight;
+      if (!nw || !nh) return;
+      const vx = window.innerWidth * 0.96;
+      const vy = window.innerHeight * 0.88;
+      const r = Math.min(1, vx / nw, vy / nh);
+      const w = Math.round(nw * r);
+      const h = Math.round(nh * r);
+      fullImg.style.width = `${w}px`;
+      fullImg.style.height = `${h}px`;
+    };
+
+    const scheduleBounds = () => {
+      if (!dialog.open) return;
+      if (fullImg.naturalWidth) applyLightboxImgBounds();
+    };
+
+    let resizeT = 0;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(scheduleBounds, 120);
+    });
+
+    const showIndex = (i) => {
+      if (gallery.length === 0) return;
+      const len = gallery.length;
+      index = ((i % len) + len) % len;
+      const item = gallery[index];
+      fullImg.removeAttribute("style");
+      fullImg.src = item.src;
+      fullImg.alt = item.alt;
+      updateUi();
+
+      const afterLoad = () => applyLightboxImgBounds();
+
+      if (fullImg.decode && typeof fullImg.decode === "function") {
+        fullImg.decode().then(afterLoad).catch(afterLoad);
+      } else {
+        fullImg.onload = afterLoad;
+      }
+      if (fullImg.complete && fullImg.naturalWidth) afterLoad();
+    };
+
+    const openFromThumb = (thumb) => {
+      if (!(thumb instanceof HTMLImageElement)) return;
+      const shotsRoot = thumb.closest(".pcc-shots");
+      /** @type {HTMLImageElement[]} */
+      const imgs = shotsRoot
+        ? Array.from(shotsRoot.querySelectorAll(".pcc-shot img")).filter((n) => n instanceof HTMLImageElement)
+        : [thumb];
+
+      gallery = imgs
+        .map((img) => ({
+          src: img.currentSrc || img.getAttribute("src") || "",
+          alt: img.alt || "",
+        }))
+        .filter((x) => x.src);
+
+      if (gallery.length === 0) return;
+
+      const idx = imgs.indexOf(thumb);
+      index = idx >= 0 ? idx : 0;
+      showIndex(index);
+      dialog.showModal();
+      closeBtn.focus();
+    };
+
+    document.body.addEventListener("click", (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      const shot = t.closest(".pcc-shot");
+      if (!shot) return;
+      const thumb = shot.querySelector("img");
+      if (!thumb || !(thumb instanceof HTMLImageElement)) return;
+      e.preventDefault();
+      openFromThumb(thumb);
+    });
+
+    box.addEventListener("click", (e) => {
+      if (e.target === box) dialog.close();
+    });
+
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dialog.close();
+    });
+
+    prevBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showIndex(index - 1);
+    });
+
+    nextBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showIndex(index + 1);
+    });
+
+    dialog.addEventListener("keydown", (e) => {
+      if (!dialog.open || gallery.length < 2) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        showIndex(index - 1);
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        showIndex(index + 1);
+      }
+    });
+
+    box.addEventListener(
+      "touchstart",
+      (e) => {
+        if (gallery.length < 2) return;
+        touchStartX = e.changedTouches[0].screenX;
+      },
+      { passive: true },
+    );
+
+    box.addEventListener(
+      "touchend",
+      (e) => {
+        if (gallery.length < 2 || touchStartX == null) return;
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        touchStartX = null;
+        if (Math.abs(dx) < 56) return;
+        if (dx < 0) showIndex(index + 1);
+        else showIndex(index - 1);
+      },
+      { passive: true },
+    );
+  })();
+</script>
