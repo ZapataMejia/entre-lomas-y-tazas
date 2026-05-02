@@ -462,38 +462,46 @@ export const capitulosDetalle: CapituloDetalle[] = [
         lista: [
           "Mercados dominicales, ferias plazuela después de misa o algunos cobros sobre corredores rurales: el datáfono puede fallar aun cuando afiche “todas las tarjetas”.",
           "Mezcla de denominaciones pequeñas facilita peso fresco, taxis cortos o propina rápida sin discutir contra el tiempo cuando la fila dominical ya se enrolló.",
-          "Guardar efectivo grande aparte en bolso interior cerrado no exhibir ante puesto muy congestionado temporada alta día turístico día.",
+          "Apartar el billete grueso en bolso cerrado porque frente a parqueadero o mostrador muy llenos en temporada alta vale la misma distracción que en ciudad puerta.",
+        ],
+      },
+      {
+        titulo: "En plaza, finca y camino cafetero",
+        lista: [
+          "Pedir permiso antes de fotografiar patio o proceso de beneficio cerrado — portón echado y perros de finca no son foto libre redes.",
+          "Respetar cultivo cercado, atravesar sólo donde convidan y cerrar la tranquera con la misma calma porque el día siguiente el vecino igual necesita trabajo en finca.",
+          "Reservar catas, noches cercanas al Valle de Cocora o bases con salida madrugadora con semanas sobre ferias estudiantiles o Semana Santa evita madrugadas frustradas y rumor de plaza sin hueco.",
+        ],
+      },
+      {
+        titulo: "Hidratación, digestión y farmacia ciudad puerta",
+        lista: [
+          "Camino largo con niebla en Cocora, loma sobre Apía o sol fuerte antes de llegar mirador Filandia: el valle mismo no avisa cuánto sed trajiste hasta que subís primera cuesta siguiente.",
+          "Sancocho abundante tras día entre mesa cafetera o vereda rinde mejor con dormir suficiente antes del madrugón hacia Cocora u otra loma exigente: digestión y rodillas igual agradecen la pausa.",
+          "En Pereira, Manizales o Armenia encuentras digestivos rutinarios, antihistamínicos cuando viajas con alergias controladas o antibióticos de ciclo prolongado si la receta viaja física igual; ubicá antes una farmacia cerca del alojamiento y no confíes solo en marca de tu ciudad reproducida redes.",
+        ],
+      },
+      {
+        titulo: "Salud y calma PCC",
+        texto: [
+          "Encadenar salida madrugadora al Valle de Cocora, un almuerzo largo en vereda donde inviten bien y cerrar mirando el horizonte al atardecer en la misma jornada cansa igual rodillas que la voz; repartimos el cuaderno en varios días cuando el tiempo deja, buscando la misma calma que venían delineando los primeros capítulos del folleto y este mismo diario.",
+          "Desde Dosquebradas preservamos ese respiro: plaza después del aguacero, tinto cerquita del atardecer y charlas con quien llega igual fincas vecinas porque allí mismo nació la bitácora con ese tono cálido de los primeros capítulos, sin hacer pasar rumor de marca inventada como dato cerrado.",
         ],
       },
     ],
+    enlacesUtiles: [{ etiqueta: "Portal Paisaje Cultural Cafetero", url: "https://paisajeculturalcafetero.org.co/" }],
     fotos: [],
   },
   {
     num: 8,
     resumen:
-      "Cocina tradicional del eje: mesa larga, desayuno fuerte y mercado los domingos.",
+      "Mercados dominicales, desayunos de plaza antes de Cocora u otra caminata, loncheras al borde del corredor y platos hogareños del eje — guía práctica Risaralda–Quindío–Caldas donde anotamos mesa tras mesa sin tratar rumor de marca famosa como dato oficial verificado.",
     introduccion:
-      "Cerrar el folleto con cocina tradicional es honor a la mesa cafetera: arepas, calentao, mogolla, huevos, chocolate o tinto, y los platos que cada municipio reclama como propios. Este capítulo es nuestro bloc de notas gastronómicas para repetir y compartir.",
+      "El folleto cierra cantando cocina tradicional nosotras y nosotros la vivimos igual que ese regreso Dosquebradas con pan recién dorado arrecheros calentaos mogolla jugosa chocolatada espesa tinto madrugón plaza charla igual fincas vecinas combinación día arroz blanco día frijoles rojos día sopas día hogar día día regreso día carretera día misma temporada alta día madrugadora Cocora día sin inventar día negocio año Internet como hechos certificados día.",
     secciones: [
       {
-        titulo: "Desayuno y mercado",
-        lista: [
-          "Mercado municipal temprano: fruta, queso, hierbas y charla.",
-          "Desayuno caliente antes de caminata larga — el cuerpo lo agradece en altitud.",
-        ],
-      },
-      {
-        titulo: "Platos que solemos cruzar",
-        lista: [
-          "Mondongo, sancocho, frijoles, aguacate grande en ensalada casera.",
-          "Dulces regionales en confiterías de plaza — ideal para llevar a casa.",
-        ],
-      },
-      {
-        titulo: "Para anotar",
-        texto: [
-          "Guardamos nombre del lugar, plato, precio aproximado y si merece vuelta con amigos. Las fotos de comida (cuando las subamos) van al final de esta página como en la bitácora.",
-        ],
+        titulo: "Mercados cerrados ciudad puerta proyecto plazuela pueblo día",
+        lista: [],
       },
     ],
     fotos: [],

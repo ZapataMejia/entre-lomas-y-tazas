@@ -1702,20 +1702,21 @@ a.pcc-chapter-card:focus-visible {
 
 .pcc-bit__mast {
   margin: 0;
-  max-height: min(32vh, 260px);
+  max-height: min(52vh, 480px);
   overflow: hidden;
   opacity: 0.9;
 }
 
 .pcc-bit__mast img {
+  display: block;
   width: 100%;
-  height: min(32vh, 260px);
+  height: min(52vh, 480px);
   object-fit: cover;
-  object-position: center 40%;
+  object-position: center 30%;
 }
 
 .pcc-bit__head {
-  padding: 2rem 0 1rem;
+  padding: 1.25rem 0 1rem;
   text-align: center;
 }
 
@@ -2010,31 +2011,44 @@ a.pcc-chapter-card:focus-visible {
   border-top: 1px solid var(--pcc-line);
 }
 
+/* Fondo claro: anular estilos “sobre oscuro” del bloque anterior */
+.pcc-bit .pcc-bit__head .pcc-kicker {
+  color: var(--pcc-ink-soft);
+}
+
+.pcc-bit .pcc-h2--on-dark {
+  color: var(--pcc-ink);
+}
+
+.pcc-bit .pcc-bit__intro {
+  color: var(--pcc-ink-soft);
+}
+
 .pcc-bit__mast {
   margin: 0;
-  max-height: min(32vh, 280px);
+  max-height: min(52vh, 480px);
   overflow: hidden;
 }
 
 .pcc-bit__mast img {
   display: block;
   width: 100%;
-  height: min(32vh, 280px);
+  height: min(52vh, 480px);
   object-fit: cover;
-  object-position: center 40%;
+  object-position: center 30%;
 }
 
 .pcc-bit__inner {
   max-width: var(--pcc-wide);
   margin: 0 auto;
-  padding: 2.75rem 1.25rem 3rem;
+  padding: 1rem 1.25rem 2.75rem;
 }
 
 .pcc-cards {
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 }
 
 .pcc-card--entry {
