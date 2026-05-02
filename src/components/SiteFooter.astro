@@ -7,6 +7,7 @@ interface FootLink {
 
 interface Props {
   brand: string;
+  brandHref?: string;
   tagline: string;
   year: number;
   officialLinks: FootLink[];
@@ -14,13 +15,13 @@ interface Props {
   disclaimer: string;
 }
 
-const { brand, tagline, year, officialLinks, siteLinks, disclaimer } = Astro.props;
+const { brand, brandHref = "#portada", tagline, year, officialLinks, siteLinks, disclaimer } = Astro.props;
 ---
 
 <footer class="pcc-foot-sbs">
   <div class="pcc-container pcc-foot-sbs__grid">
     <div>
-      <a href="#portada" class="pcc-foot-sbs__brand">{brand}</a>
+      <a href={brandHref} class="pcc-foot-sbs__brand">{brand}</a>
       <p class="pcc-foot-sbs__tag">{tagline}</p>
     </div>
     <div>

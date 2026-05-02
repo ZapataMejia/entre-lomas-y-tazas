@@ -6,6 +6,8 @@ import TrustBar from "../components/TrustBar.astro";
 import CtaBand from "../components/CtaBand.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import { rutas } from "../data/rutas";
+import { fichasMunicipios } from "../data/municipios-fichas";
+import { slugMunicipio } from "../lib/slug-municipio";
 
 const { meta, guia, indiceLibro, visitados, ideas, ilustraciones, municipiosPcc } = rutas;
 const nombreSitio = meta.titulo ?? "Entre lomas y tazas";
@@ -14,6 +16,7 @@ const pageDescription =
   "Entre lomas y tazas: bitácora íntima por el Paisaje Cultural Cafetero (UNESCO) — municipios, capítulos al estilo de la guía oficial y recuerdos en fotos.";
 const navIndice = indiceLibro.map((e) => ({ href: `#${e.anchor}`, label: e.tipo === "intro" ? "Intro" : `Cap. ${e.num}` }));
 const totalMunicipiosPcc = municipiosPcc.reduce((acc, d) => acc + d.municipios.length, 0);
+const municipiosFueraNucleo = fichasMunicipios.filter((f) => !f.nucleoPcc);
 
 const capColor = (n: number) => indiceLibro.find((e) => e.num === n)?.color ?? "#153a5c";
 const capImg = (n: number) => ilustraciones.capitulos[n - 1];
@@ -180,9 +183,9 @@ const siteFootLinks = [
           <span class="pcc-kicker">Territorio declarado patrimonio</span>
           <h2 class="pcc-h2 pcc-h2--section" id="municipios-h2">Municipios del núcleo PCC</h2>
           <p class="pcc-prose pcc-prose--center pcc-muni__lead">
-            El listado UNESCO del núcleo inscrito son <strong>{totalMunicipiosPcc} municipios</strong> en cuatro departamentos. Es la
-            referencia territorial del viaje; vosotros marcáis en la <a class="pcc-a" href="#bitacora">bitácora</a> lo que van
-            conociendo con fotos y relatos.
+            El listado UNESCO del núcleo inscrito son <strong>{totalMunicipiosPcc} municipios</strong> en cuatro departamentos. Tocá un
+            nombre para abrir su ficha (vamos documentando cada uno). Lo vivido con fotos va en la{" "}
+            <a class="pcc-a" href="#bitacora">bitácora</a>.
           </p>
         </header>
 
@@ -205,7 +208,9 @@ const siteFootLinks = [
                 <ul class="pcc-muni__chips" aria-label={`Municipios en ${bloque.departamento}`}>
                   {bloque.municipios.map((nombre) => (
                     <li>
-                      <span class="pcc-muni__chip">{nombre}</span>
+                      <a class="pcc-muni__chip pcc-muni__chip--link" href={`/municipio/${slugMunicipio(nombre)}`}>
+                        {nombre}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -213,6 +218,29 @@ const siteFootLinks = [
             ))
           }
         </div>
+
+        {
+          municipiosFueraNucleo.length > 0 && (
+            <div class="pcc-muni__extra">
+              <h3 class="pcc-h3 pcc-muni__extra-h">También en nuestro mapa (fuera del núcleo UNESCO)</h3>
+              <p class="pcc-prose pcc-muni__extra-lead">
+                Pueblos del mismo eje cafetero o del valle que visitamos aunque no entren en el listado oficial de la inscripción.
+                Acá documentamos Viterbo con texto de la guía y nuestras notas.
+              </p>
+              <ul class="pcc-muni__extra-list">
+                {municipiosFueraNucleo.map((m) => (
+                  <li>
+                    <a class="pcc-muni__extra-a" href={`/municipio/${m.slug}`}>
+                      <strong>{m.nombre}</strong>
+                      <span class="pcc-muni__extra-dpto">{m.departamento}</span>
+                      <span class="pcc-muni__extra-go">Abrir ficha →</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
       </div>
     </section>
 

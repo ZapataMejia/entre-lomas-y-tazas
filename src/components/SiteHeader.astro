@@ -6,6 +6,7 @@ interface NavLink {
 
 interface Props {
   brand: string;
+  brandHref?: string;
   links: NavLink[];
   chapterLinks: NavLink[];
   ctaLabel: string;
@@ -13,7 +14,7 @@ interface Props {
   utilLinks?: { label: string; href: string; external?: boolean }[];
 }
 
-const { brand, links, chapterLinks, ctaLabel, ctaHref, utilLinks = [] } = Astro.props;
+const { brand, brandHref = "#portada", links, chapterLinks, ctaLabel, ctaHref, utilLinks = [] } = Astro.props;
 ---
 
 <header class="pcc-head-sticky">
@@ -38,7 +39,7 @@ const { brand, links, chapterLinks, ctaLabel, ctaHref, utilLinks = [] } = Astro.
 
   <div class="pcc-head-sticky__main">
     <div class="pcc-container pcc-head-sticky__row">
-      <a href="#portada" class="pcc-head-sticky__brand">{brand}</a>
+      <a href={brandHref} class="pcc-head-sticky__brand">{brand}</a>
 
       <nav class="pcc-head-sticky__desk" aria-label="Secciones">
         {links.map((l) => (

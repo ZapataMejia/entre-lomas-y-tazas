@@ -361,6 +361,19 @@ export const rutas: RutasData = {
       ],
     },
   ],
-  visitados: [],
+  visitados: [
+    {
+      slug: "viterbo",
+      municipio: "Viterbo",
+      departamento: "Caldas",
+      fecha: "Mayo 2026",
+      extracto:
+        "Valle del Risaralda, clima cálido y pueblo entre Manizales y Pereira: café, cultivos tropicales y un casco con plaza e iglesia.",
+      nota:
+        "Primera visita que documentamos. La guía resalta el valle relativamente plano, el clima (~28 °C), la mezcla de caña, café, frutas tropicales y piscicultura; en el centro, la Inmaculada, la Casa de la Cultura y la Plaza Restrepo. Próxima meta: cafés especiales y una cabalgata, con fotos en la bitácora.",
+      experiencias: ["Cultura cafetera", "Casco urbano", "Valle del río"],
+      fotos: [],
+    },
+  ],
   ideas: [],
 };

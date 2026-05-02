@@ -1,0 +1,231 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import { rutas } from "../../data/rutas";
+import { resolverMunicipioPorSlug, todosSlugsMunicipios } from "../../data/municipios-fichas";
+import { slugMunicipio } from "../../lib/slug-municipio";
+
+export function getStaticPaths() {
+  return todosSlugsMunicipios(rutas.municipiosPcc).map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const resolved = slug ? resolverMunicipioPorSlug(slug, rutas.municipiosPcc) : null;
+
+if (!resolved) {
+  return Astro.redirect("/");
+}
+
+const { meta, guia, indiceLibro, visitados } = rutas;
+const nombreSitio = meta.titulo ?? "Entre lomas y tazas";
+const pageTitle = `${resolved.nombre} · ${nombreSitio}`;
+const pageDescription = resolved.ficha?.introduccion
+  ? `${resolved.nombre} (${resolved.departamento}): ${resolved.ficha.introduccion.slice(0, 140)}…`
+  : `${resolved.nombre}, ${resolved.departamento} — ficha del cuaderno del Paisaje Cultural Cafetero.`;
+
+const navIndice = indiceLibro.map((e) => ({ href: `/#${e.anchor}`, label: e.tipo === "intro" ? "Intro" : `Cap. ${e.num}` }));
+
+const navLinks = [
+  { label: "Intro", href: "/#introduccion" },
+  { label: "Índice", href: "/#indice" },
+  { label: "Capítulos", href: "/#capitulos" },
+  { label: "Municipios", href: "/#municipios" },
+  { label: "Bitácora", href: "/#bitacora" },
+];
+
+const year = new Date().getFullYear();
+const officialFootLinks = [
+  { label: "Portal Paisaje Cultural Cafetero", href: "https://paisajeculturalcafetero.org.co/", external: true },
+  { label: "Listado UNESCO", href: "https://whc.unesco.org/en/list/1121/", external: true },
+];
+
+const siteFootLinks = [
+  { label: "Portada", href: "/" },
+  { label: "Municipios", href: "/#municipios" },
+  { label: "Bitácora", href: "/#bitacora" },
+];
+
+const entradaBitacora = visitados.find(
+  (v) => v.slug === resolved.slug || slugMunicipio(v.municipio) === resolved.slug,
+);
+const bitacoraHref =
+  entradaBitacora != null
+    ? `/#entrada-${entradaBitacora.slug ?? slugMunicipio(entradaBitacora.municipio)}`
+    : null;
+
+const f = resolved.ficha;
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <a class="pcc-skip" href="#contenido-ficha">Saltar al contenido</a>
+
+  <SiteHeader
+    brand={nombreSitio}
+    brandHref="/"
+    links={navLinks}
+    chapterLinks={navIndice}
+    ctaLabel="Bitácora"
+    ctaHref="/#bitacora"
+  />
+
+  <main class="pcc-ficha" id="contenido-ficha">
+    <div class="pcc-container pcc-ficha__wrap">
+      <nav class="pcc-ficha__crumb" aria-label="Ruta">
+        <a href="/">Inicio</a>
+        <span aria-hidden="true"> / </span>
+        <a href="/#municipios">Municipios</a>
+        <span aria-hidden="true"> / </span>
+        <span>{resolved.nombre}</span>
+      </nav>
+
+      <header class="pcc-ficha__head">
+        <span class="pcc-kicker">
+          {resolved.nucleoPcc ? "Núcleo UNESCO · PCC" : "Eje cafetero · fuera del núcleo"}
+        </span>
+        <h1 class="pcc-ficha__h">{resolved.nombre}</h1>
+        <p class="pcc-ficha__depto">{resolved.departamento}</p>
+        {
+          f?.introduccion && (
+            <p class="pcc-prose pcc-ficha__intro">
+              {f.introduccion}
+            </p>
+          )
+        }
+        {
+          !f && (
+            <p class="pcc-prose pcc-ficha__intro">
+              Municipio del listado oficial del núcleo Paisaje Cultural Cafetero. Pronto ampliaremos esta ficha con datos de la guía y de nuestras visitas.
+            </p>
+          )
+        }
+      </header>
+
+      {
+        f?.datos && f.datos.length > 0 && (
+          <section class="pcc-ficha__section" aria-labelledby="ficha-datos">
+            <h2 class="pcc-ficha__h2" id="ficha-datos">
+              Datos rápidos
+            </h2>
+            <dl class="pcc-ficha__datos">
+              {f.datos.map((d) => (
+                <div class="pcc-ficha__dato">
+                  <dt>{d.label}</dt>
+                  <dd>{d.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )
+      }
+
+      {
+        f?.cuerpo && f.cuerpo.length > 0 && (
+          <section class="pcc-ficha__section" aria-labelledby="ficha-cuerpo">
+            <h2 class="pcc-ficha__h2" id="ficha-cuerpo">
+              Paisaje y territorio
+            </h2>
+            {f.cuerpo.map((p) => (
+              <p class="pcc-prose">{p}</p>
+            ))}
+          </section>
+        )
+      }
+
+      {
+        f?.atractivosUrbanos && f.atractivosUrbanos.length > 0 && (
+          <section class="pcc-ficha__section" aria-labelledby="ficha-urbano">
+            <h2 class="pcc-ficha__h2" id="ficha-urbano">
+              Casco urbano
+            </h2>
+            <ul class="pcc-ul pcc-ul--check">
+              {f.atractivosUrbanos.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        f?.experienciasGuia && f.experienciasGuia.length > 0 && (
+          <section class="pcc-ficha__section" aria-labelledby="ficha-exp">
+            <h2 class="pcc-ficha__h2" id="ficha-exp">
+              Experiencias que destacan
+            </h2>
+            <ul class="pcc-tags pcc-tags--ficha">
+              {f.experienciasGuia.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        f?.planTrabajo && f.planTrabajo.length > 0 && (
+          <section class="pcc-ficha__section pcc-ficha__section--plan" aria-labelledby="ficha-plan">
+            <h2 class="pcc-ficha__h2" id="ficha-plan">
+              Plan para seguir explorando
+            </h2>
+            <ul class="pcc-ul pcc-ul--check">
+              {f.planTrabajo.map((t) => (
+                <li>{t}</li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      {
+        f?.fuente && (
+          <p class="pcc-ficha__fuente">
+            <small>{f.fuente}</small>
+          </p>
+        )
+      }
+
+      <section class="pcc-ficha__section pcc-ficha__cta" aria-labelledby="ficha-bit">
+        <h2 class="pcc-ficha__h2" id="ficha-bit">
+          En nuestro cuaderno
+        </h2>
+        {
+          entradaBitacora ? (
+            <p class="pcc-prose">
+              Ya hay una entrada de bitácora para esta visita.{" "}
+              <a class="pcc-a" href={bitacoraHref!}>
+                Ver recuerdos de {resolved.nombre} ↵
+              </a>
+            </p>
+          ) : (
+            <p class="pcc-prose">
+              Cuando tengan fotos y relato, enlacen la visita desde la bitácora en la{" "}
+              <a class="pcc-a" href="/">
+                portada
+              </a>{" "}
+              (sección Bitácora).
+            </p>
+          )
+        }
+      </section>
+
+      <p class="pcc-ficha__back">
+        <a class="pcc-a" href="/#municipios">← Volver al mapa de municipios</a>
+      </p>
+    </div>
+  </main>
+
+  <SiteFooter
+    brand={nombreSitio}
+    brandHref="/"
+    tagline={`${guia.lema} Por ${meta.autores ?? ""}.`}
+    year={year}
+    officialLinks={officialFootLinks}
+    siteLinks={siteFootLinks}
+    disclaimer="Diario personal — no es publicación institucional del PCC."
+  >
+    <p slot="credit">
+      Ficha municipal · {resolved.nombre}. Podéis ampliar el texto en el código o mandarnos correcciones.
+    </p>
+  </SiteFooter>
+</Layout>

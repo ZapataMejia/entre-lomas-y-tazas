@@ -2072,6 +2072,224 @@ code {
   color: rgba(255, 255, 255, 0.78);
 }
 
+/* Chips municipio — enlace a ficha */
+.pcc-muni__chip--link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background 0.15s var(--pcc-ease),
+    border-color 0.15s var(--pcc-ease),
+    transform 0.12s var(--pcc-ease);
+}
+
+.pcc-muni__chip--link:hover {
+  background: var(--pcc-bg);
+  border-color: var(--pcc-primary);
+  transform: translateY(-1px);
+}
+
+/* Municipios fuera del núcleo (lista ampliada) */
+.pcc-muni__extra {
+  margin-top: 2.5rem;
+  padding: 1.5rem 1.35rem 1.65rem;
+  background: rgba(45, 107, 79, 0.06);
+  border: 1px dashed var(--pcc-line);
+  border-radius: var(--pcc-radius);
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pcc-muni__extra-h {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  color: var(--pcc-primary);
+}
+
+.pcc-muni__extra-lead {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--pcc-ink-soft);
+  line-height: 1.6;
+}
+
+.pcc-muni__extra-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pcc-muni__extra-list li + li {
+  margin-top: 0.65rem;
+}
+
+.pcc-muni__extra-a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--pcc-bg);
+  border: 1px solid var(--pcc-line);
+  border-radius: var(--pcc-radius-sm);
+  text-decoration: none;
+  color: var(--pcc-ink);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition:
+    box-shadow 0.2s var(--pcc-ease),
+    border-color 0.2s var(--pcc-ease);
+}
+
+.pcc-muni__extra-a:hover {
+  border-color: var(--pcc-primary);
+  box-shadow: var(--pcc-shadow);
+}
+
+.pcc-muni__extra-dpto {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--pcc-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pcc-muni__extra-go {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--pcc-accent);
+}
+
+/* Página ficha municipal */
+.pcc-ficha {
+  padding: 1.5rem 0 3.5rem;
+  min-height: 50vh;
+  background: linear-gradient(180deg, var(--pcc-cream) 0%, var(--pcc-bg) 40%);
+}
+
+.pcc-ficha__wrap {
+  max-width: 40rem;
+}
+
+.pcc-ficha__crumb {
+  font-size: 0.82rem;
+  color: var(--pcc-ink-soft);
+  margin-bottom: 1.5rem;
+}
+
+.pcc-ficha__crumb a {
+  color: var(--pcc-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pcc-ficha__crumb a:hover {
+  text-decoration: underline;
+}
+
+.pcc-ficha__head {
+  margin-bottom: 2rem;
+}
+
+.pcc-ficha__h {
+  margin: 0.35rem 0 0.15rem;
+  font-family: var(--pcc-display);
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--pcc-ink);
+  line-height: 1.1;
+}
+
+.pcc-ficha__depto {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--pcc-primary);
+}
+
+.pcc-ficha__intro {
+  margin: 0;
+}
+
+.pcc-ficha__section {
+  margin-bottom: 2rem;
+}
+
+.pcc-ficha__section--plan {
+  padding: 1.1rem 1.15rem;
+  background: var(--pcc-sage);
+  border-radius: var(--pcc-radius-sm);
+  border: 1px solid var(--pcc-line);
+}
+
+.pcc-ficha__h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--pcc-sans);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pcc-ink);
+}
+
+.pcc-ficha__datos {
+  margin: 0;
+  display: grid;
+  gap: 0.65rem 0;
+}
+
+.pcc-ficha__dato {
+  display: grid;
+  grid-template-columns: minmax(8rem, 38%) 1fr;
+  gap: 0.25rem 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--pcc-line);
+}
+
+.pcc-ficha__dato:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pcc-ficha__datos dt {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pcc-ink-soft);
+}
+
+.pcc-ficha__datos dd {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--pcc-ink);
+  line-height: 1.45;
+}
+
+.pcc-ficha__fuente {
+  margin: 1.5rem 0;
+  color: var(--pcc-ink-soft);
+}
+
+.pcc-ficha__cta {
+  padding: 1.25rem 1.2rem;
+  background: var(--pcc-bg);
+  border: 1px solid var(--pcc-line);
+  border-radius: var(--pcc-radius);
+}
+
+.pcc-ficha__back {
+  margin: 2rem 0 0;
+}
+
+.pcc-tags--ficha {
+  margin-top: 0.35rem;
+}
+
 @media print {
   .pcc-head-sticky {
     position: static;
