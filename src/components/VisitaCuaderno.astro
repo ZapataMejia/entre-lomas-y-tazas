@@ -1,5 +1,6 @@
 ---
 import type { Visita } from "../data/rutas";
+import CalificacionEstrellas from "./CalificacionEstrellas.astro";
 
 interface Props {
   visita: Visita;
@@ -30,6 +31,17 @@ const wrapperClass =
     )
   }
   {
+    variant === "bitacora" && (
+      <div class="pcc-entry__calificacion">
+        <CalificacionEstrellas
+          slug={v.slug}
+          inicial={(v.calificacion ?? 0) as 0 | 1 | 2 | 3 | 4 | 5}
+          nombreLugar={v.municipio}
+        />
+      </div>
+    )
+  }
+  {
     variant === "ficha" && (
       <header class="pcc-ficha-visita__head">
         <span class="pcc-kicker">Bitácora</span>
@@ -38,6 +50,11 @@ const wrapperClass =
           {v.fecha}
           {v.departamento && ` · ${v.departamento}`}
         </p>
+        <CalificacionEstrellas
+          slug={v.slug}
+          inicial={(v.calificacion ?? 0) as 0 | 1 | 2 | 3 | 4 | 5}
+          nombreLugar={v.municipio}
+        />
       </header>
     )
   }

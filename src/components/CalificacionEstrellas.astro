@@ -1,0 +1,105 @@
+---
+interface Props {
+  slug: string;
+  /** Valor publicado en `rutas.ts`; si no hay, 0 = sin calificar en datos */
+  inicial?: 0 | 1 | 2 | 3 | 4 | 5;
+  /** Texto corto para lectores de pantalla */
+  nombreLugar?: string;
+}
+
+const { slug, inicial = 0, nombreLugar = "esta visita" } = Astro.props;
+---
+
+<div
+  class="pcc-calificacion"
+  data-pcc-calificacion
+  data-slug={slug}
+  data-inicial={inicial}
+  role="group"
+  aria-label={`Calificación de 1 a 5 estrellas para ${nombreLugar}`}
+>
+  <span class="pcc-calificacion__label">Nuestra nota</span>
+  <div class="pcc-calificacion__stars" data-stars>
+    {
+      [1, 2, 3, 4, 5].map((n) => (
+        <button
+          type="button"
+          class="pcc-calificacion__star"
+          data-value={n}
+          aria-label={`${n} estrella${n > 1 ? "s" : ""}`}
+          aria-pressed="false"
+        >
+          <span aria-hidden="true">★</span>
+        </button>
+      ))
+    }
+  </div>
+  <p class="pcc-calificacion__hint" data-hint>
+    Tocá las estrellas. Se guarda en este navegador; para fijarla en el sitio subí el número en <code class="pcc-code">visitados</code> en el código.
+  </p>
+</div>
+
+<script is:inline>
+  function initCalificacionRoots() {
+    document.querySelectorAll("[data-pcc-calificacion]").forEach(function (root) {
+      if (root.getAttribute("data-hydrated") === "1") return;
+      root.setAttribute("data-hydrated", "1");
+      var slug = root.getAttribute("data-slug");
+      if (!slug) return;
+      var key = "pcc-calificacion-" + slug;
+      var built = parseInt(root.getAttribute("data-inicial") || "0", 10) || 0;
+
+      function readEffective() {
+        var raw = localStorage.getItem(key);
+        if (raw != null) {
+          var n = parseInt(raw, 10);
+          if (n >= 1 && n <= 5) return n;
+        }
+        return built >= 1 && built <= 5 ? built : 0;
+      }
+
+      function paint(value) {
+        root.querySelectorAll(".pcc-calificacion__star").forEach(function (btn, idx) {
+          var n = idx + 1;
+          var filled = value > 0 && n <= value;
+          btn.setAttribute("aria-pressed", filled ? "true" : "false");
+          btn.classList.toggle("pcc-calificacion__star--on", filled);
+        });
+        var hint = root.querySelector("[data-hint]");
+        if (hint && value > 0) {
+          hint.textContent =
+            value +
+            " de 5 · también se usa en «Lo que más nos gustó» en la portada (este mismo navegador).";
+        }
+      }
+
+      function setRating(n) {
+        localStorage.setItem(key, String(n));
+        paint(n);
+        try {
+          window.dispatchEvent(new CustomEvent("pcc-calificacion-cambio", { detail: { slug: slug, calificacion: n } }));
+        } catch (_) {}
+      }
+
+      root.querySelectorAll(".pcc-calificacion__star").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var v = parseInt(btn.getAttribute("data-value") || "0", 10);
+          if (v >= 1 && v <= 5) {
+            var cur = readEffective();
+            if (cur === v) {
+              localStorage.removeItem(key);
+              paint(readEffective());
+            } else {
+              setRating(v);
+            }
+          }
+        });
+      });
+
+      paint(readEffective());
+    });
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initCalificacionRoots);
+  else initCalificacionRoots();
+</script>

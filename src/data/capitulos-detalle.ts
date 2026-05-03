@@ -495,13 +495,62 @@ export const capitulosDetalle: CapituloDetalle[] = [
   {
     num: 8,
     resumen:
-      "Mercados dominicales, desayunos de plaza antes de Cocora u otra caminata, loncheras al borde del corredor y platos hogareños del eje — guía práctica Risaralda–Quindío–Caldas donde anotamos mesa tras mesa sin tratar rumor de marca famosa como dato oficial verificado.",
+      "Mercados de domingo, desayunos de plaza antes del sendero Cocora–Apía, loncheras al borde carretera y platos hogareños del eje Cafetero — mismo cuaderno que capítulos 1–2: nombres de municipios sí, rumor de marca famosa jamás como si fuera dato oficial.",
     introduccion:
-      "El folleto cierra cantando cocina tradicional nosotras y nosotros la vivimos igual que ese regreso Dosquebradas con pan recién dorado arrecheros calentaos mogolla jugosa chocolatada espesa tinto madrugón plaza charla igual fincas vecinas combinación día arroz blanco día frijoles rojos día sopas día hogar día día regreso día carretera día misma temporada alta día madrugadora Cocora día sin inventar día negocio año Internet como hechos certificados día.",
+      "Cierra «Mil experiencias» con la cocina tradicional nosotras y nosotros la tratamos igual que ese regreso a Dosquebradas: pan recién dorado, arrechería o santafereño caliente, mogolla, huevos con todo lo que pusieron en la sala, chocolatada espesa o chocolate de mesa cuando hace falta, tinto madrugón en plaza después del agua o finca con la misma conversación cercana; arroz, frijoles, sopas hogareñas, mondongo algunos fines de semana. Acá recomendamos sólo tipologías —mercado cubierto, feria de domingo, cafetería genérica, cafés de especialidad del pueblo— jamás nombres de negocio imaginados como verdades de guía.",
     secciones: [
       {
-        titulo: "Mercados cerrados ciudad puerta proyecto plazuela pueblo día",
-        lista: [],
+        titulo: "Mercados cerrados y plaza dominical (Pereira–Armenia–Chinchiná y pueblos chicos)",
+        lista: [
+          "Llegá temprano a los cubiertos grandes de ciudad puerta: el olor a queso campesino, cilantro y fruta de vereda vale más que cualquier lista influencer sin mapa.",
+          "En Salento, Filandia, Marsella o plaza de Apía el domingo también se mezcla vestido de misa y lonchera improvisada; combiná compra corta con foto documental sin apurar al vendedor.",
+        ],
+      },
+      {
+        titulo: "Desayuno fuerte antes del barro o la niebla",
+        lista: [
+          "Arepa rellena huevo carne, calentao con arroz y fríjol, o chocolate con pan dulce rinden bien cuando el sendero Cocora o trocha Apía mojan el calzado.",
+          "Un vaso de jugo natural en feria sirve de electrolitos baratos antes de subir; el cuerpo en altitud agradece calorías reales, no sólo snack industrial.",
+        ],
+      },
+      {
+        titulo: "Sopas, mondongo y mesa larga en finca o salón de pueblo",
+        texto: [
+          "Sancocho de gallina o pollo, mondongo con arroz y aguacate, fríjoles con chicharrón o hogao y ensalada — platos que repiten en Risaralda, Quindío y Caldas con matices domésticos. La clave del cuaderno es preguntar qué cortes usan hoy y si el caldo lleva papa criolla o yuca según lo que hubo en mercado.",
+        ],
+      },
+      {
+        titulo: "Lonchera borde carretera y arrecheros improvisados",
+        lista: [
+          "Entre Dosquebradas y el Quindío o hacia occidente caldense aparecen puestos honestos de huevos pericos, empanadas o arrecheras; detené el carro donde haya sombra y manos limpias antes que por estética de redes.",
+          "Llevá servilletas y agua embotellada porque el condimento rinde y el dedo mancha logo del folleto igual que la camiseta.",
+        ],
+      },
+      {
+        titulo: "Dulces y confites de vitrina (sin caer en marcas inventadas)",
+        lista: [
+          "Arequipe, manjar blanco regional, jaleas de guayaba o mortiño en frascos de plaza — ideales para maleta si el vuelo permite peso dulce.",
+          "Preguntá si el dulce fue hecho en casa o traído de cooperativa vecina; esa respuesta es mejor etiqueta que slogan colorido.",
+        ],
+      },
+      {
+        titulo: "Tinto, chocolate y después un filtrado en cafés de especialidad",
+        texto: [
+          "Cerramos con tinto amargo de termo o chocolatada espesa como cierran muchas familias de la región; cuando el cuerpo ya no pide más dulzor, un café de especialidad donde el barista quiera conversar cuenta la historia de origen lavado con el mismo celo que recomendamos en el capítulo 1 — sólo aquí aplicamos ese ojo gastronómico, sin etiquetar ningún establecimiento concreto que no hayamos vivido nosotras y nosotros.",
+        ],
+      },
+      {
+        titulo: "Qué registrar en la bitácora gastronómica",
+        lista: [
+          "Tipo de lugar (mercado cubierto, feria dominical, salón sobre la plaza o mesa larga en finca), cuál fue el plato protagonista y si la porción alcanzó después de caminar bajo lluvia o sol fuerte.",
+          "Si algún cocinero menciona nombre de tienda escribilo tal cual él o ella lo dijo; jamás pegamos rumores de redes como si fueran carteles municipales verificados.",
+        ],
+      },
+    ],
+    enlacesUtiles: [
+      {
+        etiqueta: "Gastronomía de Colombia — contexto (Wikipedia)",
+        url: "https://es.wikipedia.org/wiki/Gastronom%C3%ADa_de_Colombia",
       },
     ],
     fotos: [],

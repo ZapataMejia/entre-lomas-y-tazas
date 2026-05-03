@@ -9,6 +9,8 @@ export type Visita = {
   municipio: string;
   departamento?: string;
   fecha?: string;
+  /** 1–5: para destacados en portada y estrellas en la ficha */
+  calificacion?: 1 | 2 | 3 | 4 | 5;
   extracto?: string;
   nota?: string;
   experiencias?: string[];
@@ -344,6 +346,7 @@ export const rutas: RutasData = {
       municipio: "Viterbo",
       departamento: "Caldas",
       fecha: "Mayo 2026",
+      calificacion: 5,
       extracto:
         "Un día que nos encantó: buena comida, un rincón de frases lleno de detalle, parque, hacienda de ensueño, animales, atardecer y dos cafés hablando hasta reír.",
       nota:

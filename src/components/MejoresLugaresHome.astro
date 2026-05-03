@@ -1,0 +1,153 @@
+---
+import type { Visita } from "../data/rutas";
+
+interface Props {
+  visitados: Visita[];
+}
+
+const { visitados } = Astro.props;
+
+/** Solo entradas con historia para contar el “por qué” */
+const conExtracto = visitados.filter((v) => v.extracto && v.extracto.trim().length > 0);
+
+const filas = conExtracto
+  .map((v) => ({
+    slug: v.slug,
+    municipio: v.municipio,
+    departamento: v.departamento ?? "",
+    fecha: v.fecha ?? "",
+    extracto: v.extracto!,
+    experiencias: v.experiencias ?? [],
+    built: v.calificacion ?? 0,
+    href: `/municipio/${v.slug}`,
+    bitacoraHref: `/#entrada-${v.slug}`,
+  }))
+  .sort((a, b) => b.built - a.built);
+
+---
+
+<section class="pcc-mejores" id="destacados" aria-labelledby="mejores-h2">
+  <div class="pcc-container">
+    <header class="pcc-mejores__head">
+      <span class="pcc-kicker">Bitácora</span>
+      <h2 class="pcc-h2 pcc-h2--section" id="mejores-h2">Lo que más nos gustó</h2>
+      <p class="pcc-section-dek pcc-mejores__dek">
+        Lugares que ya pisamos y que llevan estrellas en el cuaderno. El resumen cuenta <strong>por qué</strong> nos quedó el día.
+      </p>
+    </header>
+
+    {
+      filas.length === 0 ? (
+        <p class="pcc-prose pcc-mejores__empty">
+          Cuando sumen visitas con <code class="pcc-code">extracto</code> y <code class="pcc-code">calificacion</code> en{" "}
+          <code class="pcc-code">rutas.ts</code>, van a aparecer acá ordenadas por nota.
+        </p>
+      ) : (
+        <ul class="pcc-mejores__list" id="pcc-mejores-list">
+          {filas.map((row) => (
+            <li class="pcc-mejores__card" data-slug={row.slug} data-built-rating={row.built}>
+              <div class="pcc-mejores__stars" data-mejores-stars aria-hidden="true" />
+              <h3 class="pcc-mejores__h">
+                <a class="pcc-a" href={row.href}>
+                  {row.municipio}
+                </a>
+              </h3>
+              <p class="pcc-mejores__meta">
+                {row.fecha}
+                {row.departamento ? ` · ${row.departamento}` : ""}
+              </p>
+              <p class="pcc-mejores__porque">
+                <span class="pcc-mejores__porque-label">Por qué nos gustó</span>
+                {row.extracto}
+              </p>
+              {row.experiencias.length > 0 && (
+                <ul class="pcc-mejores__tags">
+                  {row.experiencias.slice(0, 6).map((t) => (
+                    <li>{t}</li>
+                  ))}
+                </ul>
+              )}
+              <p class="pcc-mejores__links">
+                <a class="pcc-btn pcc-btn--outline" href={row.href}>
+                  Ficha del municipio
+                </a>
+                <a class="pcc-a pcc-mejores__a-bit" href={row.bitacoraHref}>
+                  Ver en la bitácora
+                </a>
+              </p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    function keyFor(slug) {
+      return "pcc-calificacion-" + slug;
+    }
+
+    function effectiveRating(slug, built) {
+      var raw = localStorage.getItem(keyFor(slug));
+      if (raw != null) {
+        var n = parseInt(raw, 10);
+        if (n >= 1 && n <= 5) return n;
+      }
+      return built >= 1 && built <= 5 ? built : 0;
+    }
+
+    function paintStars(el, n) {
+      if (!el) return;
+      el.textContent = "";
+      for (var i = 1; i <= 5; i++) {
+        var s = document.createElement("span");
+        s.className = "pcc-mejores__star" + (i <= n ? " pcc-mejores__star--on" : "");
+        s.textContent = "★";
+        el.appendChild(s);
+      }
+    }
+
+    function refresh() {
+      var list = document.getElementById("pcc-mejores-list");
+      if (!list) return;
+      var items = Array.prototype.slice.call(list.querySelectorAll(".pcc-mejores__card"));
+      var scored = items.map(function (card) {
+        var slug = card.getAttribute("data-slug");
+        var built = parseInt(card.getAttribute("data-built-rating") || "0", 10) || 0;
+        var eff = slug ? effectiveRating(slug, built) : 0;
+        return { card: card, eff: eff };
+      });
+      var tieneDestacados = scored.some(function (x) {
+        return x.eff >= 4;
+      });
+      scored.forEach(function (x) {
+        paintStars(x.card.querySelector("[data-mejores-stars]"), x.eff);
+        x.card.setAttribute("data-effective-rating", String(x.eff));
+        if (tieneDestacados) x.card.style.display = x.eff >= 4 ? "" : "none";
+        else x.card.style.display = "";
+      });
+      var visible = scored.filter(function (x) {
+        return x.card.style.display !== "none";
+      });
+      visible.sort(function (a, b) {
+        return b.eff - a.eff;
+      });
+      visible.forEach(function (x) {
+        list.appendChild(x.card);
+      });
+    }
+
+    function run() {
+      refresh();
+      window.addEventListener("pcc-calificacion-cambio", refresh);
+      window.addEventListener("storage", function (e) {
+        if (e.key && e.key.indexOf("pcc-calificacion-") === 0) refresh();
+      });
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);
+    else run();
+  })();
+</script>

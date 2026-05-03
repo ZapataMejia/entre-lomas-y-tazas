@@ -5,6 +5,7 @@ import SiteHero from "../components/SiteHero.astro";
 import CtaBand from "../components/CtaBand.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import VisitaCuaderno from "../components/VisitaCuaderno.astro";
+import MejoresLugaresHome from "../components/MejoresLugaresHome.astro";
 import { rutas } from "../data/rutas";
 import { capitulosDetalle } from "../data/capitulos-detalle";
 import { slugMunicipio } from "../lib/slug-municipio";
@@ -12,6 +13,9 @@ import { navIndiceDesdeLibro, hrefEntradaIndice } from "../lib/nav-indice";
 
 const { meta, guia, indiceLibro, visitados, ilustraciones, municipiosPcc } = rutas;
 const nombreSitio = meta.titulo ?? "Antes de que se nos olvide";
+const slugsConVisita = new Set(
+  visitados.map((v) => (typeof v.slug === "string" && v.slug.length > 0 ? v.slug : slugMunicipio(v.municipio))),
+);
 const pageTitle = `${nombreSitio} · ${meta.subtitulo ?? "Paisaje Cultural Cafetero"}`;
 const pageDescription =
   "Antes de que se nos olvide: diario de Santiago y Esmeralda en el Paisaje Cultural Cafetero — salidas, municipios y bitácora con fotos.";
@@ -23,6 +27,7 @@ const navLinks = [
   { label: "Índice", href: "#indice" },
   { label: "Capítulos", href: "#capitulos" },
   { label: "Municipios", href: "#municipios" },
+  { label: "Favoritos", href: "#destacados" },
   { label: "Bitácora", href: "#bitacora" },
 ];
 
@@ -39,6 +44,7 @@ const siteFootLinks = [
   { label: "Introducción", href: "#introduccion" },
   { label: "Índice del folleto", href: "#indice" },
   { label: "Capítulos", href: "#capitulos" },
+  { label: "Favoritos", href: "#destacados" },
   { label: "Municipios", href: "#municipios" },
   { label: "Nuestras fotos", href: "#nuestras-fotos" },
   { label: "Bitácora", href: "#bitacora" },
@@ -191,7 +197,14 @@ const siteFootLinks = [
                 <ul class="pcc-muni__chips" aria-label={`Municipios en ${bloque.departamento}`}>
                   {bloque.municipios.map((nombre) => (
                     <li>
-                      <a class="pcc-muni__chip pcc-muni__chip--link" href={`/municipio/${slugMunicipio(nombre)}`}>
+                      <a
+                        class:list={[
+                          "pcc-muni__chip",
+                          "pcc-muni__chip--link",
+                          slugsConVisita.has(slugMunicipio(nombre)) && "pcc-muni__chip--visitado",
+                        ]}
+                        href={`/municipio/${slugMunicipio(nombre)}`}
+                      >
                         {nombre}
                       </a>
                     </li>
@@ -199,14 +212,17 @@ const siteFootLinks = [
                   {bloque.municipiosCuaderno?.map((nombre) => (
                     <li>
                       <a
-                        class="pcc-muni__chip pcc-muni__chip--link pcc-muni__chip--cuaderno"
+                        class:list={[
+                          "pcc-muni__chip",
+                          "pcc-muni__chip--link",
+                          "pcc-muni__chip--cuaderno",
+                          slugsConVisita.has(slugMunicipio(nombre)) && "pcc-muni__chip--visitado",
+                        ]}
                         href={`/municipio/${slugMunicipio(nombre)}`}
                         title="Mismo departamento; no está en el listado UNESCO del núcleo PCC — lo documentamos en el cuaderno."
                       >
                         {nombre}
-                        <span class="pcc-muni__chip-tag" aria-hidden="true">
-                          Cuaderno
-                        </span>
+                        <span class="pcc-muni__chip-tag">Cuaderno</span>
                       </a>
                     </li>
                   ))}
@@ -217,6 +233,8 @@ const siteFootLinks = [
         </div>
       </div>
     </section>
+
+    <MejoresLugaresHome visitados={visitados} />
 
     <section class="pcc-cap-shell" id="capitulos" aria-labelledby="capitulos-heading">
       <div class="pcc-container">
