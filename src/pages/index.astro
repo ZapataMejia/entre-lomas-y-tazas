@@ -10,6 +10,7 @@ import { rutas } from "../data/rutas";
 import { capitulosDetalle } from "../data/capitulos-detalle";
 import { slugMunicipio } from "../lib/slug-municipio";
 import { navIndiceDesdeLibro, hrefEntradaIndice } from "../lib/nav-indice";
+import { withBase } from "../lib/base";
 
 const { meta, guia, indiceLibro, visitados, ilustraciones, municipiosPcc } = rutas;
 const nombreSitio = meta.titulo ?? "Antes de que se nos olvide";
@@ -203,7 +204,7 @@ const siteFootLinks = [
                           "pcc-muni__chip--link",
                           slugsConVisita.has(slugMunicipio(nombre)) && "pcc-muni__chip--visitado",
                         ]}
-                        href={`/municipio/${slugMunicipio(nombre)}`}
+                        href={withBase(`/municipio/${slugMunicipio(nombre)}`)}
                       >
                         {nombre}
                       </a>
@@ -218,7 +219,7 @@ const siteFootLinks = [
                           "pcc-muni__chip--cuaderno",
                           slugsConVisita.has(slugMunicipio(nombre)) && "pcc-muni__chip--visitado",
                         ]}
-                        href={`/municipio/${slugMunicipio(nombre)}`}
+                        href={withBase(`/municipio/${slugMunicipio(nombre)}`)}
                         title="Mismo departamento; no está en el listado UNESCO del núcleo PCC — lo documentamos en el cuaderno."
                       >
                         {nombre}
@@ -256,7 +257,7 @@ const siteFootLinks = [
               <a
                 class:list={["pcc-chapter-card", n === 8 && "pcc-chapter-card--last"]}
                 id={`cap-${n}`}
-                href={`/capitulo/${n}`}
+                href={withBase(`/capitulo/${n}`)}
                 aria-label={`Capítulo ${n}: ${tituloCap}`}
                 style={`--accent: ${capColor(n)}`}
               >
@@ -292,7 +293,7 @@ const siteFootLinks = [
       primaryLabel="Ver bitácora"
       primaryHref="#bitacora"
       secondaryLabel="Próximas rutas"
-      secondaryHref="/capitulo/5"
+      secondaryHref={withBase("/capitulo/5")}
     />
 
     <section class="pcc-bit" id="bitacora">

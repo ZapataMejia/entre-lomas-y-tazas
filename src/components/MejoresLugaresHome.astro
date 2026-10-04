@@ -1,5 +1,6 @@
 ---
 import type { Visita } from "../data/rutas";
+import { withBase } from "../lib/base";
 
 interface Props {
   visitados: Visita[];
@@ -19,8 +20,8 @@ const filas = conExtracto
     extracto: v.extracto!,
     experiencias: v.experiencias ?? [],
     built: v.calificacion ?? 0,
-    href: `/municipio/${v.slug}`,
-    bitacoraHref: `/#entrada-${v.slug}`,
+    href: withBase(`/municipio/${v.slug}`),
+    bitacoraHref: withBase(`/#entrada-${v.slug}`),
   }))
   .sort((a, b) => b.built - a.built);
 

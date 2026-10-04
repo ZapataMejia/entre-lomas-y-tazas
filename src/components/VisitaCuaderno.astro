@@ -1,6 +1,7 @@
 ---
 import type { Visita } from "../data/rutas";
 import CalificacionEstrellas from "./CalificacionEstrellas.astro";
+import { withBase } from "../lib/base";
 
 interface Props {
   visita: Visita;
@@ -106,7 +107,7 @@ const wrapperClass =
           {v.fotos.map((src, j) => (
             <figure class="pcc-shot" title="Clic para ampliar; en el visor usá flechas o deslizá el dedo">
               <img
-                src={src}
+                src={withBase(src)}
                 alt={`${v.municipio}, foto ${j + 1}`}
                 loading="lazy"
                 width="800"

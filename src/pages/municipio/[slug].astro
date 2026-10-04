@@ -7,6 +7,7 @@ import { rutas } from "../../data/rutas";
 import { resolverMunicipioPorSlug, todosSlugsMunicipios } from "../../data/municipios-fichas";
 import { navIndiceDesdeLibro } from "../../lib/nav-indice";
 import { slugMunicipio } from "../../lib/slug-municipio";
+import { withBase } from "../../lib/base";
 
 export function getStaticPaths() {
   return todosSlugsMunicipios(rutas.municipiosPcc).map((slug) => ({ params: { slug } }));
@@ -16,7 +17,7 @@ const { slug } = Astro.params;
 const resolved = slug ? resolverMunicipioPorSlug(slug, rutas.municipiosPcc) : null;
 
 if (!resolved) {
-  return Astro.redirect("/");
+  return Astro.redirect(withBase("/"));
 }
 
 const { meta, guia, indiceLibro, visitados } = rutas;
@@ -26,12 +27,12 @@ const pageTitle = `${resolved.nombre} · ${nombreSitio}`;
 const navIndice = navIndiceDesdeLibro(indiceLibro);
 
 const navLinks = [
-  { label: "Intro", href: "/#introduccion" },
-  { label: "Índice", href: "/#indice" },
-  { label: "Capítulos", href: "/#capitulos" },
-  { label: "Municipios", href: "/#municipios" },
-  { label: "Favoritos", href: "/#destacados" },
-  { label: "Bitácora", href: "/#bitacora" },
+  { label: "Intro", href: withBase("/#introduccion") },
+  { label: "Índice", href: withBase("/#indice") },
+  { label: "Capítulos", href: withBase("/#capitulos") },
+  { label: "Municipios", href: withBase("/#municipios") },
+  { label: "Favoritos", href: withBase("/#destacados") },
+  { label: "Bitácora", href: withBase("/#bitacora") },
 ];
 
 const year = new Date().getFullYear();
@@ -41,9 +42,9 @@ const officialFootLinks = [
 ];
 
 const siteFootLinks = [
-  { label: "Portada", href: "/" },
-  { label: "Municipios", href: "/#municipios" },
-  { label: "Bitácora", href: "/#bitacora" },
+  { label: "Portada", href: withBase("/") },
+  { label: "Municipios", href: withBase("/#municipios") },
+  { label: "Bitácora", href: withBase("/#bitacora") },
 ];
 
 const entradaBitacora = visitados.find(
@@ -52,7 +53,7 @@ const entradaBitacora = visitados.find(
 const indiceBitacora = entradaBitacora != null ? visitados.indexOf(entradaBitacora) : -1;
 const bitacoraHref =
   entradaBitacora != null
-    ? `/#entrada-${entradaBitacora.slug ?? slugMunicipio(entradaBitacora.municipio)}`
+    ? withBase(`/#entrada-${entradaBitacora.slug ?? slugMunicipio(entradaBitacora.municipio)}`)
     : null;
 
 const f = resolved.ficha;
@@ -68,19 +69,19 @@ const pageDescription = entradaBitacora?.extracto
 
   <SiteHeader
     brand={nombreSitio}
-    brandHref="/"
+    brandHref={withBase("/")}
     links={navLinks}
     chapterLinks={navIndice}
     ctaLabel="Bitácora"
-    ctaHref="/#bitacora"
+    ctaHref={withBase("/#bitacora")}
   />
 
   <main class="pcc-ficha" id="contenido-ficha">
     <div class:list={["pcc-container", "pcc-ficha__wrap", entradaBitacora && "pcc-ficha__wrap--wide"]}>
       <nav class="pcc-ficha__crumb" aria-label="Ruta">
-        <a href="/">Inicio</a>
+        <a href={withBase("/")}>Inicio</a>
         <span aria-hidden="true"> / </span>
-        <a href="/#municipios">Municipios</a>
+        <a href={withBase("/#municipios")}>Municipios</a>
         <span aria-hidden="true"> / </span>
         <span>{resolved.nombre}</span>
       </nav>
@@ -213,7 +214,7 @@ const pageDescription = entradaBitacora?.extracto
           ) : (
             <p class="pcc-prose">
               Cuando tengan fotos y relato, pueden sumar la visita en <em>visitados</em> en la{" "}
-              <a class="pcc-a" href="/#bitacora">
+              <a class="pcc-a" href={withBase("/#bitacora")}>
                 bitácora de la portada
               </a>
               ; esta ficha enlazará solo automáticamente.
@@ -223,14 +224,14 @@ const pageDescription = entradaBitacora?.extracto
       </section>
 
       <p class="pcc-ficha__back">
-        <a class="pcc-a" href="/#municipios">← Volver al mapa de municipios</a>
+        <a class="pcc-a" href={withBase("/#municipios")}>← Volver al mapa de municipios</a>
       </p>
     </div>
   </main>
 
   <SiteFooter
     brand={nombreSitio}
-    brandHref="/"
+    brandHref={withBase("/")}
     tagline={`${guia.lema} Por ${meta.autores ?? ""}.`}
     year={year}
     officialLinks={officialFootLinks}
