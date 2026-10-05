@@ -72,13 +72,25 @@ export const rutasMapa: RutaMapa[] = [
     distanciaKm: 31.8,
     visitaSlug: "palestina",
     fotos: [
-      { src: "/fotos/palestina/palestina-01.jpeg", alt: "Salida", lat: CASA.lat, lng: CASA.lng },
       {
-        src: "/fotos/palestina/palestina-12.jpeg",
-        alt: "Palestina, Caldas",
-        lat: 5.0203683,
-        lng: -75.6223394,
+        src: "/fotos/palestina/palestina-01.jpeg",
+        alt: "Palestina 1",
+        lat: CASA.lat,
+        lng: CASA.lng,
       },
+      ...Array.from({ length: 23 }, (_, i) => {
+        const n = i + 2;
+        const nn = String(n).padStart(2, "0");
+        const pin =
+          n === 12
+            ? { lat: 5.0203683, lng: -75.6223394 }
+            : {};
+        return {
+          src: `/fotos/palestina/palestina-${nn}.jpeg`,
+          alt: `Palestina ${n}`,
+          ...pin,
+        };
+      }),
     ],
   },
   {
@@ -119,22 +131,25 @@ export const rutasMapa: RutaMapa[] = [
     fotos: [
       {
         src: "/fotos/viterbo-2026-05/viterbo-01.jpeg",
-        alt: "Salida",
+        alt: "Viterbo 1",
         lat: CASA.lat,
         lng: CASA.lng,
       },
-      {
-        src: "/fotos/viterbo-2026-05/viterbo-08.jpeg",
-        alt: "Hacienda El Jordán, Viterbo",
-        lat: 5.057656,
-        lng: -75.8715827,
-      },
-      {
-        src: "/fotos/viterbo-2026-05/viterbo-12.jpeg",
-        alt: "Viterbo, Caldas",
-        lat: 5.0605779,
-        lng: -75.872356,
-      },
+      ...Array.from({ length: 14 }, (_, i) => {
+        const n = i + 2;
+        const nn = String(n).padStart(2, "0");
+        const pin =
+          n === 8
+            ? { lat: 5.057656, lng: -75.8715827 }
+            : n === 12
+              ? { lat: 5.0605779, lng: -75.872356 }
+              : {};
+        return {
+          src: `/fotos/viterbo-2026-05/viterbo-${nn}.jpeg`,
+          alt: `Viterbo ${n}`,
+          ...pin,
+        };
+      }),
     ],
   },
 ];
