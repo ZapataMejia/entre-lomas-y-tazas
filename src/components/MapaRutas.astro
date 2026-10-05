@@ -1,0 +1,375 @@
+---
+import type { RutaMapa } from "../data/rutas-mapa";
+import { MAPA_CENTRO_DEFAULT } from "../data/rutas-mapa";
+import { withBase } from "../lib/base";
+
+interface Props {
+  rutas: RutaMapa[];
+}
+
+const { rutas } = Astro.props;
+
+const terrenoLabel: Record<string, string> = {
+  destapada: "Destapada",
+  carretera: "Carretera",
+  mixto: "Mixto",
+  sendero: "Sendero",
+  moto: "Moto",
+};
+
+const payload = rutas.map((r) => ({
+  slug: r.slug,
+  titulo: r.titulo,
+  fecha: r.fecha ?? "",
+  terreno: r.terreno ?? "",
+  extracto: r.extracto ?? "",
+  nota: r.nota ?? "",
+  gpx: r.gpx ? withBase(r.gpx) : "",
+  wikilocUrl: r.wikilocUrl ?? "",
+  distanciaKm: r.distanciaKm ?? null,
+  desnivelM: r.desnivelM ?? null,
+  fotos: (r.fotos ?? []).map((f) => ({
+    src: withBase(f.src),
+    alt: f.alt ?? r.titulo,
+    lat: f.lat ?? null,
+    lng: f.lng ?? null,
+  })),
+  centro: r.centro
+    ? { lat: r.centro.lat, lng: r.centro.lng, zoom: r.centro.zoom ?? 12 }
+    : null,
+  visitaHref: r.visitaSlug ? withBase(`/#entrada-${r.visitaSlug}`) : "",
+}));
+
+const centroDefault = MAPA_CENTRO_DEFAULT;
+const payloadJson = JSON.stringify(payload);
+---
+
+<section class="pcc-mapas" id="rutas" aria-labelledby="rutas-h2">
+  <div class="pcc-container">
+    <header class="pcc-section-head">
+      <span class="pcc-kicker">Al estilo Wikiloc</span>
+      <h2 class="pcc-h2 pcc-h2--section" id="rutas-h2">Rutas y destapadas</h2>
+      <p class="pcc-section-dek">
+        El trazo en el mapa, las fotos del camino y la nota del día. Ideal para destapadas en moto o en carro: subís el GPX
+        (Wikiloc, Strava, el celular) y el recuerdo queda anclado al terreno.
+      </p>
+    </header>
+
+    <div class="pcc-mapas__layout" data-pcc-mapas>
+      <div class="pcc-mapas__list-wrap">
+        {
+          rutas.length === 0 ? (
+            <div class="pcc-mapas__empty">
+              <p class="pcc-mapas__empty-title">Todavía no hay trazos publicados</p>
+              <p class="pcc-mapas__empty-text">
+                Cuando exporten el GPX de una destapada (como la de ayer), lo dejamos en{" "}
+                <code class="pcc-code">public/rutas/</code> y aparece acá con el recorrido, kilómetros y pins de fotos.
+              </p>
+              <ol class="pcc-mapas__how">
+                <li>Grabá la ruta en Wikiloc / Strava / GPS del celular.</li>
+                <li>
+                  Exportá <strong>GPX</strong>.
+                </li>
+                <li>
+                  Archivo en <code class="pcc-code">public/rutas/mi-salida.gpx</code>.
+                </li>
+                <li>
+                  Entrada en <code class="pcc-code">src/data/rutas-mapa.ts</code> (hay un ejemplo comentado).
+                </li>
+              </ol>
+            </div>
+          ) : (
+            <ul class="pcc-mapas__list" role="list">
+              {rutas.map((r, i) => (
+                <li>
+                  <button
+                    type="button"
+                    class:list={["pcc-mapas__card", i === 0 && "is-active"]}
+                    data-ruta-slug={r.slug}
+                    aria-pressed={i === 0 ? "true" : "false"}
+                  >
+                    <span class="pcc-mapas__card-meta">
+                      {r.fecha && <time>{r.fecha}</time>}
+                      {r.terreno && <span class="pcc-mapas__tag">{terrenoLabel[r.terreno] ?? r.terreno}</span>}
+                    </span>
+                    <span class="pcc-mapas__card-title">{r.titulo}</span>
+                    {r.extracto && <span class="pcc-mapas__card-ex">{r.extracto}</span>}
+                    <span class="pcc-mapas__card-stats">
+                      {r.distanciaKm != null && <span>{r.distanciaKm} km</span>}
+                      {r.desnivelM != null && <span>{r.desnivelM} m+</span>}
+                      {r.gpx ? <span class="pcc-mapas__ok">GPX</span> : <span class="pcc-mapas__wait">Sin GPX</span>}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <div class="pcc-mapas__stage">
+        <div
+          class="pcc-mapas__canvas"
+          id="pcc-map-canvas"
+          role="region"
+          aria-label="Mapa de rutas"
+          data-default-lat={centroDefault.lat}
+          data-default-lng={centroDefault.lng}
+          data-default-zoom={centroDefault.zoom}
+        >
+        </div>
+        <p class="pcc-mapas__credit">
+          Mapa ©{" "}
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>
+          · trazos tipo Wikiloc con GPX propio
+        </p>
+        <div class="pcc-mapas__detail" id="pcc-map-detail" hidden>
+          <h3 class="pcc-mapas__detail-title" data-detail-title></h3>
+          <p class="pcc-mapas__detail-ex" data-detail-ex></p>
+          <p class="pcc-mapas__detail-note" data-detail-note></p>
+          <p class="pcc-mapas__detail-links">
+            <a class="pcc-a" data-detail-wiki href="#" target="_blank" rel="noopener noreferrer" hidden>Ver en Wikiloc ↗</a>
+            <a class="pcc-a" data-detail-visita href="#" hidden>Ver en bitácora</a>
+          </p>
+          <div class="pcc-mapas__detail-fotos" data-detail-fotos></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="pcc-rutas-json" set:html={payloadJson} />
+
+<script>
+  // @ts-nocheck
+  (async function () {
+    const canvas = document.getElementById("pcc-map-canvas");
+    const jsonEl = document.getElementById("pcc-rutas-json");
+    if (!canvas || !jsonEl) return;
+
+    function loadLeaflet() {
+      return new Promise((resolve, reject) => {
+        if (window.L) {
+          resolve(window.L);
+          return;
+        }
+        if (!document.getElementById("pcc-leaflet-css")) {
+          const link = document.createElement("link");
+          link.id = "pcc-leaflet-css";
+          link.rel = "stylesheet";
+          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+          document.head.appendChild(link);
+        }
+        const s = document.createElement("script");
+        s.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+        s.onload = () => resolve(window.L);
+        s.onerror = () => reject(new Error("Leaflet no cargó"));
+        document.head.appendChild(s);
+      });
+    }
+
+    let rutas = [];
+    try {
+      rutas = JSON.parse(jsonEl.textContent || "[]");
+    } catch (_) {
+      rutas = [];
+    }
+
+    const defLat = parseFloat(canvas.getAttribute("data-default-lat") || "4.8394");
+    const defLng = parseFloat(canvas.getAttribute("data-default-lng") || "-75.6724");
+    const defZoom = parseInt(canvas.getAttribute("data-default-zoom") || "11", 10);
+
+    let L;
+    try {
+      L = await loadLeaflet();
+    } catch (e) {
+      canvas.innerHTML =
+        '<p style="padding:1.5rem;color:#5c6f69;font:0.95rem/1.4 system-ui">No se pudo cargar el mapa. Revisá la red e intentá de nuevo.</p>';
+      return;
+    }
+
+    const map = L.map(canvas, { scrollWheelZoom: false });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: "&copy; OpenStreetMap",
+    }).addTo(map);
+    map.setView([defLat, defLng], defZoom);
+    map.on("click", () => map.scrollWheelZoom.enable());
+
+    let trackLayer = null;
+    const startEnd = [];
+
+    function clearLayers() {
+      if (trackLayer) {
+        map.removeLayer(trackLayer);
+        trackLayer = null;
+      }
+      startEnd.forEach((m) => map.removeLayer(m));
+      startEnd.length = 0;
+      if (window.__pccFotoLayer) {
+        map.removeLayer(window.__pccFotoLayer);
+        window.__pccFotoLayer = null;
+      }
+    }
+
+    function parseGpx(text) {
+      const doc = new DOMParser().parseFromString(text, "application/xml");
+      return [...doc.querySelectorAll("trkpt, rtept")]
+        .map((p) => {
+          const lat = parseFloat(p.getAttribute("lat") || "");
+          const lon = parseFloat(p.getAttribute("lon") || "");
+          return Number.isFinite(lat) && Number.isFinite(lon) ? [lat, lon] : null;
+        })
+        .filter(Boolean);
+    }
+
+    function paintDetail(ruta) {
+      const box = document.getElementById("pcc-map-detail");
+      if (!box) return;
+      if (!ruta) {
+        box.hidden = true;
+        return;
+      }
+      box.hidden = false;
+      const t = box.querySelector("[data-detail-title]");
+      const ex = box.querySelector("[data-detail-ex]");
+      const note = box.querySelector("[data-detail-note]");
+      const wiki = box.querySelector("[data-detail-wiki]");
+      const visita = box.querySelector("[data-detail-visita]");
+      const fotos = box.querySelector("[data-detail-fotos]");
+      if (t) t.textContent = ruta.titulo;
+      if (ex) {
+        ex.textContent = ruta.extracto || "";
+        ex.hidden = !ruta.extracto;
+      }
+      if (note) {
+        note.textContent = ruta.nota || "";
+        note.hidden = !ruta.nota;
+      }
+      if (wiki) {
+        if (ruta.wikilocUrl) {
+          wiki.hidden = false;
+          wiki.href = ruta.wikilocUrl;
+        } else wiki.hidden = true;
+      }
+      if (visita) {
+        if (ruta.visitaHref) {
+          visita.hidden = false;
+          visita.href = ruta.visitaHref;
+        } else visita.hidden = true;
+      }
+      if (fotos) {
+        fotos.innerHTML = "";
+        (ruta.fotos || []).forEach((f) => {
+          const img = document.createElement("img");
+          img.src = f.src;
+          img.alt = f.alt || ruta.titulo;
+          img.loading = "lazy";
+          fotos.appendChild(img);
+        });
+        fotos.hidden = !(ruta.fotos && ruta.fotos.length);
+      }
+    }
+
+    async function showRuta(slug) {
+      const ruta = rutas.find((r) => r.slug === slug) || null;
+      clearLayers();
+      paintDetail(ruta);
+
+      document.querySelectorAll("[data-ruta-slug]").forEach((btn) => {
+        const on = btn.getAttribute("data-ruta-slug") === slug;
+        btn.classList.toggle("is-active", on);
+        btn.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+
+      if (!ruta) {
+        map.setView([defLat, defLng], defZoom);
+        return;
+      }
+
+      const bounds = [];
+
+      if (ruta.gpx) {
+        try {
+          const res = await fetch(ruta.gpx);
+          if (res.ok) {
+            const latlngs = parseGpx(await res.text());
+            if (latlngs.length) {
+              trackLayer = L.polyline(latlngs, {
+                color: "#b8572a",
+                weight: 4,
+                opacity: 0.92,
+                lineJoin: "round",
+              }).addTo(map);
+              bounds.push(...latlngs);
+              startEnd.push(
+                L.circleMarker(latlngs[0], {
+                  radius: 7,
+                  color: "#1e4d3a",
+                  fillColor: "#2d6b4f",
+                  fillOpacity: 1,
+                  weight: 2,
+                })
+                  .bindTooltip("Inicio")
+                  .addTo(map),
+                L.circleMarker(latlngs[latlngs.length - 1], {
+                  radius: 7,
+                  color: "#b8572a",
+                  fillColor: "#b8572a",
+                  fillOpacity: 1,
+                  weight: 2,
+                })
+                  .bindTooltip("Fin")
+                  .addTo(map),
+              );
+            }
+          }
+        } catch (_) {}
+      }
+
+      const fotoLayer = L.layerGroup().addTo(map);
+      window.__pccFotoLayer = fotoLayer;
+      (ruta.fotos || []).forEach((f, idx) => {
+        if (f.lat == null || f.lng == null) return;
+        const ll = [f.lat, f.lng];
+        bounds.push(ll);
+        L.circleMarker(ll, {
+          radius: 8,
+          color: "#0f172a",
+          fillColor: "#fff",
+          fillOpacity: 1,
+          weight: 2,
+        })
+          .bindPopup(
+            `<div class="pcc-map-pop"><img src="${f.src}" alt="" /><p>${f.alt || "Foto " + (idx + 1)}</p></div>`,
+            { maxWidth: 220 },
+          )
+          .addTo(fotoLayer);
+      });
+
+      if (bounds.length) map.fitBounds(bounds, { padding: [36, 36], maxZoom: 14 });
+      else if (ruta.centro) map.setView([ruta.centro.lat, ruta.centro.lng], ruta.centro.zoom || 12);
+      else map.setView([defLat, defLng], defZoom);
+
+      setTimeout(() => map.invalidateSize(), 100);
+    }
+
+    document.querySelectorAll("[data-ruta-slug]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const slug = btn.getAttribute("data-ruta-slug");
+        if (slug) showRuta(slug);
+      });
+    });
+
+    if (rutas.length) showRuta(rutas[0].slug);
+    else {
+      paintDetail(null);
+      map.setView([defLat, defLng], defZoom);
+      setTimeout(() => map.invalidateSize(), 100);
+    }
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => map.invalidateSize()).observe(canvas);
+    }
+  })();
+</script>

@@ -145,8 +145,8 @@ export const rutas: RutasData = {
     comoLeer: [
       "La bitácora es el corazón: cada visita con fecha, relato y fotos.",
       "En Lugares marcamos a dónde ya fuimos; la ficha guarda el detalle.",
+      "En Rutas van las destapadas y trazos GPX (estilo Wikiloc) con el camino en el mapa.",
       "Favoritos reúne los sitios que más nos gustaron (estrellas).",
-      "Después vamos sumando salidas nuevas: moto, fin de semana, lo que salga.",
     ],
     guiaTuristica: [
       "Mejor un eje por día que cruzar tres departamentos sin atardecer en ningún pueblo.",

@@ -2848,3 +2848,236 @@ a.pcc-chapter-card:focus-visible {
     position: static;
   }
 }
+
+/* ——— Rutas / mapa (estilo Wikiloc) ——— */
+.pcc-mapas {
+  padding: var(--pcc-section-y) 0;
+  background: var(--pcc-bg);
+  border-top: 1px solid var(--pcc-line);
+}
+
+.pcc-mapas__layout {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 960px) {
+  .pcc-mapas__layout {
+    grid-template-columns: minmax(16rem, 22rem) 1fr;
+    align-items: start;
+    gap: 1.5rem;
+  }
+}
+
+.pcc-mapas__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-height: min(70vh, 36rem);
+  overflow: auto;
+}
+
+.pcc-mapas__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border-radius: var(--pcc-radius-sm);
+  border: 1px solid var(--pcc-line);
+  background: var(--pcc-cream);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: border-color 0.2s var(--pcc-ease), box-shadow 0.2s var(--pcc-ease), background 0.2s var(--pcc-ease);
+}
+
+.pcc-mapas__card:hover {
+  border-color: var(--pcc-moss);
+}
+
+.pcc-mapas__card.is-active {
+  border-color: var(--pcc-accent);
+  background: #fff;
+  box-shadow: var(--pcc-shadow);
+}
+
+.pcc-mapas__card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.65rem;
+  font-size: 0.78rem;
+  color: var(--pcc-ink-soft);
+}
+
+.pcc-mapas__tag {
+  display: inline-flex;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--pcc-sage);
+  color: var(--pcc-forest);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.pcc-mapas__card-title {
+  font-family: var(--pcc-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--pcc-forest-dark);
+}
+
+.pcc-mapas__card-ex {
+  font-size: 0.9rem;
+  color: var(--pcc-ink-soft);
+  line-height: 1.45;
+}
+
+.pcc-mapas__card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--pcc-earth);
+  margin-top: 0.15rem;
+}
+
+.pcc-mapas__ok {
+  color: var(--pcc-leaf);
+}
+
+.pcc-mapas__wait {
+  color: var(--pcc-accent);
+}
+
+.pcc-mapas__stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.pcc-mapas__canvas {
+  width: 100%;
+  height: min(62vh, 28rem);
+  min-height: 18rem;
+  border-radius: var(--pcc-radius);
+  border: 1px solid var(--pcc-line);
+  overflow: hidden;
+  background: var(--pcc-paper);
+  z-index: 0;
+}
+
+.pcc-mapas__credit {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--pcc-ink-soft);
+}
+
+.pcc-mapas__credit a {
+  color: inherit;
+}
+
+.pcc-mapas__empty {
+  padding: 1.25rem 1.1rem;
+  border-radius: var(--pcc-radius);
+  border: 1px dashed var(--pcc-line);
+  background: var(--pcc-cream);
+}
+
+.pcc-mapas__empty-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--pcc-display);
+  font-size: 1.25rem;
+  color: var(--pcc-forest-dark);
+}
+
+.pcc-mapas__empty-text {
+  margin: 0 0 0.85rem;
+  color: var(--pcc-ink-soft);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.pcc-mapas__how {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--pcc-ink);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.pcc-mapas__how li + li {
+  margin-top: 0.35rem;
+}
+
+.pcc-mapas__detail {
+  padding: 1rem 1.1rem;
+  border-radius: var(--pcc-radius-sm);
+  border: 1px solid var(--pcc-line);
+  background: #fff;
+}
+
+.pcc-mapas__detail-title {
+  margin: 0 0 0.35rem;
+  font-family: var(--pcc-display);
+  font-size: 1.2rem;
+  color: var(--pcc-forest-dark);
+}
+
+.pcc-mapas__detail-ex,
+.pcc-mapas__detail-note {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: var(--pcc-ink-soft);
+  line-height: 1.5;
+}
+
+.pcc-mapas__detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 0.65rem 0 0;
+}
+
+.pcc-mapas__detail-fotos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+}
+
+.pcc-mapas__detail-fotos img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 0.35rem;
+  border: 1px solid var(--pcc-line);
+}
+
+.pcc-map-pop {
+  text-align: center;
+  max-width: 200px;
+}
+
+.pcc-map-pop img {
+  width: 100%;
+  border-radius: 4px;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.pcc-map-pop p {
+  margin: 0;
+  font-size: 0.8rem;
+}

@@ -6,7 +6,9 @@ import CtaBand from "../components/CtaBand.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import VisitaCuaderno from "../components/VisitaCuaderno.astro";
 import MejoresLugaresHome from "../components/MejoresLugaresHome.astro";
+import MapaRutas from "../components/MapaRutas.astro";
 import { rutas } from "../data/rutas";
+import { rutasMapa } from "../data/rutas-mapa";
 import { slugMunicipio } from "../lib/slug-municipio";
 import { withBase } from "../lib/base";
 
@@ -22,6 +24,7 @@ const pageDescription =
 const navLinks = [
   { label: "Intro", href: "#introduccion" },
   { label: "Lugares", href: "#municipios" },
+  { label: "Rutas", href: "#rutas" },
   { label: "Favoritos", href: "#destacados" },
   { label: "Bitácora", href: "#bitacora" },
 ];
@@ -37,6 +40,7 @@ const siteFootLinks = [
   { label: "Portada", href: "#portada" },
   { label: "Introducción", href: "#introduccion" },
   { label: "Lugares", href: "#municipios" },
+  { label: "Rutas", href: "#rutas" },
   { label: "Favoritos", href: "#destacados" },
   { label: "Bitácora", href: "#bitacora" },
 ];
@@ -56,8 +60,8 @@ const siteFootLinks = [
     metaLine={guia.heroMeta?.trim() ? guia.heroMeta : meta.puntoPartida ?? ""}
     primaryLabel="Ir a la bitácora"
     primaryHref="#bitacora"
-    secondaryLabel="Ver lugares"
-    secondaryHref="#municipios"
+    secondaryLabel="Ver rutas"
+    secondaryHref="#rutas"
     imageSrc={ilustraciones.hero.src}
     imageAlt={ilustraciones.hero.alt}
   />
@@ -179,6 +183,8 @@ const siteFootLinks = [
       </div>
     </section>
 
+    <MapaRutas rutas={rutasMapa} />
+
     <MejoresLugaresHome visitados={visitados} />
 
     <CtaBand
@@ -186,8 +192,8 @@ const siteFootLinks = [
       description="Cuando bajamos del mirador o de la finca, el mejor cierre es una entrada con fecha, olores, platos y fotos. Ahí vive el recuerdo."
       primaryLabel="Ver bitácora"
       primaryHref="#bitacora"
-      secondaryLabel="Ver lugares"
-      secondaryHref="#municipios"
+      secondaryLabel="Ver rutas"
+      secondaryHref="#rutas"
     />
 
     <section class="pcc-bit" id="bitacora">

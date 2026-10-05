@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="entre-lomas-plantilla" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>Plantilla destapada Dosquebradas</name>
+    <desc>Trazo de ejemplo para probar el mapa. Reemplazar con GPX real.</desc>
+  </metadata>
+  <trk>
+    <name>Plantilla destapada</name>
+    <type>destapada</type>
+    <trkseg>
+      <trkpt lat="4.8394" lon="-75.6724"><ele>1460</ele></trkpt>
+      <trkpt lat="4.8450" lon="-75.6800"><ele>1485</ele></trkpt>
+      <trkpt lat="4.8520" lon="-75.6880"><ele>1520</ele></trkpt>
+      <trkpt lat="4.8585" lon="-75.6955"><ele>1560</ele></trkpt>
+      <trkpt lat="4.8640" lon="-75.7020"><ele>1590</ele></trkpt>
+      <trkpt lat="4.8700" lon="-75.7085"><ele>1620</ele></trkpt>
+      <trkpt lat="4.8755" lon="-75.7140"><ele>1645</ele></trkpt>
+      <trkpt lat="4.8800" lon="-75.7200"><ele>1670</ele></trkpt>
+      <trkpt lat="4.8840" lon="-75.7265"><ele>1690</ele></trkpt>
+      <trkpt lat="4.8880" lon="-75.7320"><ele>1710</ele></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
