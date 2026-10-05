@@ -14,6 +14,8 @@ export type Visita = {
   nota?: string;
   experiencias?: string[];
   fotos: string[];
+  /** slug de `rutasMapa` — muestra el mapa del camino dentro de la bitácora */
+  rutaSlug?: string;
 };
 
 export type IdeaRuta = {
@@ -260,18 +262,21 @@ export const rutas: RutasData = {
       departamento: "Caldas",
       fecha: "Mayo 2026",
       calificacion: 5,
+      /** Mapa del camino: La Sultana → Hacienda El Jordán */
+      rutaSlug: "dosquebradas-viterbo-hacienda-el-jordan",
       extracto:
         "Un día que nos encantó: buena comida, un rincón de frases lleno de detalle, parque, hacienda de ensueño, animales, atardecer y dos cafés hablando hasta reír.",
       nota:
-        "El plan nos gustó mucho; vimos lugares muy ricos y reaccionamos a todo. Comimos unas hamburguesas deliciosas —una más picante, esa no tanto, pero igual rica—. Hubo un rincón de frases, muy bonito y muy bien decorado, nos encantó. De ahí al parque, y luego a una hacienda preciosa: soñamos en voz alta qué haríamos si fuera nuestra, qué cambiaríamos; nos tomamos un montón de fotos. No alcanzamos la cabalgata y nos dio un poquito de pena; ya sabemos que hay que volver. Vimos y disfrutamos muchos animales hermosos. El atardecer en la hacienda fue un regalo. Volvimos al parque: dos cafés muy ricos, charla, risas y tiempo de calidad; hacía falta. Nos fue muy bien de retorno a la casa; paramos en la Villa Olímpica porque no queríamos llegar temprano a la casa, y saludamos a un amigo de Santi de hace muchos años y nos reímos mucho juntos. Posdata: Esmeralda llegó a dormir, jaja.",
+        "Salimos de casa en La Sultana (Dosquebradas) hacia Viterbo. El plan nos gustó mucho; vimos lugares muy ricos y reaccionamos a todo. Comimos unas hamburguesas deliciosas —una más picante, esa no tanto, pero igual rica—. Hubo un rincón de frases, muy bonito y muy bien decorado, nos encantó. De ahí al parque, y luego a una hacienda preciosa (El Jordán): soñamos en voz alta qué haríamos si fuera nuestra, qué cambiaríamos; nos tomamos un montón de fotos. No alcanzamos la cabalgata y nos dio un poquito de pena; ya sabemos que hay que volver. Vimos y disfrutamos muchos animales hermosos. El atardecer en la hacienda fue un regalo. Volvimos al parque: dos cafés muy ricos, charla, risas y tiempo de calidad; hacía falta. Nos fue muy bien de retorno a la casa; paramos en la Villa Olímpica porque no queríamos llegar temprano a la casa, y saludamos a un amigo de Santi de hace muchos años y nos reímos mucho juntos. Posdata: Esmeralda llegó a dormir, jaja.",
       experiencias: [
         "Gastronomía",
         "Rincón / frases",
         "Parque",
-        "Hacienda",
+        "Hacienda El Jordán",
         "Animales",
         "Atardecer",
         "Cafés y conversación",
+        "Ruta desde La Sultana",
         "Regreso a La Sultana",
       ],
       fotos: Array.from({ length: 15 }, (_, j) => `/fotos/viterbo-2026-05/viterbo-${String(j + 1).padStart(2, "0")}.jpeg`),

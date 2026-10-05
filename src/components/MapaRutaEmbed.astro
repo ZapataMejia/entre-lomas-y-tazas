@@ -1,0 +1,207 @@
+---
+/**
+ * Mapa compacto de una sola ruta (para bitácora / ficha).
+ */
+import type { RutaMapa } from "../data/rutas-mapa";
+import { withBase } from "../lib/base";
+
+interface Props {
+  ruta: RutaMapa;
+  /** id único en la página si hay varios embeds */
+  embedId?: string;
+}
+
+const { ruta, embedId = ruta.slug } = Astro.props;
+const canvasId = `pcc-embed-map-${embedId}`;
+const jsonId = `pcc-embed-json-${embedId}`;
+
+const payload = {
+  titulo: ruta.titulo,
+  gpx: ruta.gpx ? withBase(ruta.gpx) : "",
+  googleMapsUrl: ruta.googleMapsUrl ?? "",
+  wikilocUrl: ruta.wikilocUrl ?? "",
+  distanciaKm: ruta.distanciaKm ?? null,
+  terreno: ruta.terreno ?? "",
+  extracto: ruta.extracto ?? "",
+  fotos: (ruta.fotos ?? []).map((f) => ({
+    src: withBase(f.src),
+    alt: f.alt ?? ruta.titulo,
+    lat: f.lat ?? null,
+    lng: f.lng ?? null,
+  })),
+  centro: ruta.centro
+    ? { lat: ruta.centro.lat, lng: ruta.centro.lng, zoom: ruta.centro.zoom ?? 11 }
+    : null,
+};
+
+const payloadJson = JSON.stringify(payload);
+
+const terrenoLabel: Record<string, string> = {
+  destapada: "Destapada",
+  carretera: "Carretera",
+  mixto: "Mixto",
+  sendero: "Sendero",
+  moto: "Moto",
+};
+---
+
+<div class="pcc-embed-map" data-pcc-embed={embedId}>
+  <div class="pcc-embed-map__head">
+    <div>
+      <p class="pcc-embed-map__kicker">Cómo llegamos</p>
+      <p class="pcc-embed-map__title">{ruta.titulo}</p>
+      <p class="pcc-embed-map__meta">
+        {ruta.terreno && <span>{terrenoLabel[ruta.terreno] ?? ruta.terreno}</span>}
+        {ruta.distanciaKm != null && <span>{ruta.distanciaKm} km</span>}
+        {ruta.fecha && <span>{ruta.fecha}</span>}
+      </p>
+    </div>
+    <div class="pcc-embed-map__links">
+      {
+        ruta.googleMapsUrl && (
+          <a class="pcc-a" href={ruta.googleMapsUrl} target="_blank" rel="noopener noreferrer">
+            Google Maps ↗
+          </a>
+        )
+      }
+      <a class="pcc-a" href={withBase("/#rutas")}>Todas las rutas</a>
+    </div>
+  </div>
+  <div
+    class="pcc-embed-map__canvas"
+    id={canvasId}
+    role="region"
+    aria-label={`Mapa: ${ruta.titulo}`}
+  >
+  </div>
+  <p class="pcc-embed-map__credit">
+    OpenStreetMap · trazo GPX desde casa (La Sultana) hasta el destino
+  </p>
+</div>
+
+<script type="application/json" id={jsonId} set:html={payloadJson} />
+
+<script define:vars={{ canvasId, jsonId }}>
+  // @ts-nocheck
+  (async function () {
+    const canvas = document.getElementById(canvasId);
+    const jsonEl = document.getElementById(jsonId);
+    if (!canvas || !jsonEl) return;
+
+    function loadLeaflet() {
+      return new Promise((resolve, reject) => {
+        if (window.L) {
+          resolve(window.L);
+          return;
+        }
+        if (!document.getElementById("pcc-leaflet-css")) {
+          const link = document.createElement("link");
+          link.id = "pcc-leaflet-css";
+          link.rel = "stylesheet";
+          link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+          document.head.appendChild(link);
+        }
+        const s = document.createElement("script");
+        s.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+        s.onload = () => resolve(window.L);
+        s.onerror = () => reject(new Error("Leaflet"));
+        document.head.appendChild(s);
+      });
+    }
+
+    let data = {};
+    try {
+      data = JSON.parse(jsonEl.textContent || "{}");
+    } catch (_) {
+      return;
+    }
+
+    let L;
+    try {
+      L = await loadLeaflet();
+    } catch (_) {
+      canvas.innerHTML =
+        '<p class="pcc-embed-map__err">No se pudo cargar el mapa.</p>';
+      return;
+    }
+
+    const map = L.map(canvas, { scrollWheelZoom: false });
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: "&copy; OSM",
+    }).addTo(map);
+    map.on("click", () => map.scrollWheelZoom.enable());
+
+    const bounds = [];
+
+    if (data.gpx) {
+      try {
+        const res = await fetch(data.gpx);
+        if (res.ok) {
+          const doc = new DOMParser().parseFromString(await res.text(), "application/xml");
+          const latlngs = [...doc.querySelectorAll("trkpt, rtept")]
+            .map((p) => {
+              const lat = parseFloat(p.getAttribute("lat") || "");
+              const lon = parseFloat(p.getAttribute("lon") || "");
+              return Number.isFinite(lat) && Number.isFinite(lon) ? [lat, lon] : null;
+            })
+            .filter(Boolean);
+          if (latlngs.length) {
+            L.polyline(latlngs, {
+              color: "#b8572a",
+              weight: 4,
+              opacity: 0.92,
+              lineJoin: "round",
+            }).addTo(map);
+            bounds.push(...latlngs);
+            L.circleMarker(latlngs[0], {
+              radius: 7,
+              color: "#1e4d3a",
+              fillColor: "#2d6b4f",
+              fillOpacity: 1,
+              weight: 2,
+            })
+              .bindTooltip("Casa · La Sultana")
+              .addTo(map);
+            L.circleMarker(latlngs[latlngs.length - 1], {
+              radius: 7,
+              color: "#b8572a",
+              fillColor: "#b8572a",
+              fillOpacity: 1,
+              weight: 2,
+            })
+              .bindTooltip("Destino")
+              .addTo(map);
+          }
+        }
+      } catch (_) {}
+    }
+
+    (data.fotos || []).forEach((f, idx) => {
+      if (f.lat == null || f.lng == null) return;
+      const ll = [f.lat, f.lng];
+      bounds.push(ll);
+      L.circleMarker(ll, {
+        radius: 7,
+        color: "#0f172a",
+        fillColor: "#fff",
+        fillOpacity: 1,
+        weight: 2,
+      })
+        .bindPopup(
+          `<div class="pcc-map-pop"><img src="${f.src}" alt="" /><p>${f.alt || "Foto " + (idx + 1)}</p></div>`,
+          { maxWidth: 200 },
+        )
+        .addTo(map);
+    });
+
+    if (bounds.length) map.fitBounds(bounds, { padding: [28, 28], maxZoom: 13 });
+    else if (data.centro) map.setView([data.centro.lat, data.centro.lng], data.centro.zoom || 11);
+    else map.setView([4.8196, -75.6768], 10);
+
+    setTimeout(() => map.invalidateSize(), 120);
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => map.invalidateSize()).observe(canvas);
+    }
+  })();
+</script>

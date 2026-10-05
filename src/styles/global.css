@@ -3081,3 +3081,88 @@ a.pcc-chapter-card:focus-visible {
   margin: 0;
   font-size: 0.8rem;
 }
+
+/* ——— Mapa embebido en bitácora ——— */
+.pcc-visita-block--map {
+  margin-top: 0.25rem;
+}
+
+.pcc-embed-map {
+  border: 1px solid var(--pcc-line);
+  border-radius: var(--pcc-radius-sm);
+  background: var(--pcc-cream);
+  overflow: hidden;
+}
+
+.pcc-embed-map__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  padding: 0.85rem 1rem 0.65rem;
+}
+
+.pcc-embed-map__kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pcc-accent);
+}
+
+.pcc-embed-map__title {
+  margin: 0.15rem 0 0;
+  font-family: var(--pcc-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--pcc-forest-dark);
+  line-height: 1.25;
+}
+
+.pcc-embed-map__meta {
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--pcc-ink-soft);
+}
+
+.pcc-embed-map__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.pcc-embed-map__canvas {
+  width: 100%;
+  height: min(42vh, 18rem);
+  min-height: 14rem;
+  background: var(--pcc-paper);
+  border-top: 1px solid var(--pcc-line);
+  z-index: 0;
+}
+
+.pcc-embed-map__credit {
+  margin: 0;
+  padding: 0.4rem 1rem 0.55rem;
+  font-size: 0.72rem;
+  color: var(--pcc-ink-soft);
+}
+
+.pcc-embed-map__err {
+  margin: 0;
+  padding: 1.25rem;
+  color: var(--pcc-ink-soft);
+  font-size: 0.9rem;
+}
+
+.pcc-ficha-visita .pcc-embed-map__canvas {
+  height: min(48vh, 22rem);
+  min-height: 16rem;
+}

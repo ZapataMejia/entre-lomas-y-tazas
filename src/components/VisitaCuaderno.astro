@@ -1,6 +1,8 @@
 ---
 import type { Visita } from "../data/rutas";
 import CalificacionEstrellas from "./CalificacionEstrellas.astro";
+import MapaRutaEmbed from "./MapaRutaEmbed.astro";
+import { rutasMapa } from "../data/rutas-mapa";
 import { withBase } from "../lib/base";
 
 interface Props {
@@ -14,6 +16,12 @@ const entryId = v.slug ?? String(i);
 const articleId = variant === "bitacora" ? `entrada-${entryId}` : "visita-cuaderno";
 const wrapperClass =
   variant === "bitacora" ? "pcc-card pcc-card--entry" : "pcc-ficha-visita pcc-card pcc-card--entry";
+
+const ruta =
+  v.rutaSlug != null && v.rutaSlug.length > 0
+    ? rutasMapa.find((r) => r.slug === v.rutaSlug)
+    : undefined;
+const embedId = `${variant}-${entryId}`;
 ---
 
 <article class={wrapperClass} id={articleId}>
@@ -67,6 +75,17 @@ const wrapperClass =
           En una frase
         </h4>
         <p class="pcc-entry__ex pcc-entry__ex--tight">{v.extracto}</p>
+      </section>
+    )
+  }
+
+  {
+    ruta && (
+      <section class="pcc-visita-block pcc-visita-block--map" aria-labelledby={`vis-ruta-${entryId}`}>
+        <h4 class="pcc-visita-label" id={`vis-ruta-${entryId}`}>
+          La ruta
+        </h4>
+        <MapaRutaEmbed ruta={ruta} embedId={embedId} />
       </section>
     )
   }
