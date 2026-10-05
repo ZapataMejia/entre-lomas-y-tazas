@@ -117,7 +117,7 @@ export const rutas: RutasData = {
     /** Crédito (pie de página); el nombre del sitio es `titulo` */
     autores: "Santiago y Esmeralda",
     /** Dónde vivimos — se muestra una sola vez (hero) */
-    puntoPartida: "La Sultana, Dosquebradas",
+    puntoPartida: "El corazón de nuestro hogar",
     mostrarCintaHoy: false,
     textoCintaHoy: "Hoy una ruta nueva",
     enlaceMapa: {
@@ -137,8 +137,8 @@ export const rutas: RutasData = {
     heroTopper: "Diario en pareja",
     heroQuote: "Lo que nos pasa en el eje cafetero — y en los otros rincones que vamos conociendo.",
     heroTagline: "",
-    /** Única mención de dónde vivimos en portada */
-    heroMeta: "Vivimos en La Sultana, Dosquebradas",
+    /** Línea bajo el lead en el hero */
+    heroMeta: "El corazón de nuestro hogar",
     lema: "Memorias anotadas con calma.",
     taglineLibro: "Recuerdos juntos.",
     /** Segundo párrafo corto; sin repetir el barrio */
