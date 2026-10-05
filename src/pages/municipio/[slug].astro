@@ -5,7 +5,6 @@ import SiteFooter from "../../components/SiteFooter.astro";
 import VisitaCuaderno from "../../components/VisitaCuaderno.astro";
 import { rutas } from "../../data/rutas";
 import { resolverMunicipioPorSlug, todosSlugsMunicipios } from "../../data/municipios-fichas";
-import { navIndiceDesdeLibro } from "../../lib/nav-indice";
 import { slugMunicipio } from "../../lib/slug-municipio";
 import { withBase } from "../../lib/base";
 
@@ -20,17 +19,13 @@ if (!resolved) {
   return Astro.redirect(withBase("/"));
 }
 
-const { meta, guia, indiceLibro, visitados } = rutas;
+const { meta, guia, visitados } = rutas;
 const nombreSitio = meta.titulo ?? "Antes de que se nos olvide";
 const pageTitle = `${resolved.nombre} · ${nombreSitio}`;
 
-const navIndice = navIndiceDesdeLibro(indiceLibro);
-
 const navLinks = [
   { label: "Intro", href: withBase("/#introduccion") },
-  { label: "Índice", href: withBase("/#indice") },
-  { label: "Capítulos", href: withBase("/#capitulos") },
-  { label: "Municipios", href: withBase("/#municipios") },
+  { label: "Lugares", href: withBase("/#municipios") },
   { label: "Favoritos", href: withBase("/#destacados") },
   { label: "Bitácora", href: withBase("/#bitacora") },
 ];
@@ -71,7 +66,6 @@ const pageDescription = entradaBitacora?.extracto
     brand={nombreSitio}
     brandHref={withBase("/")}
     links={navLinks}
-    chapterLinks={navIndice}
     ctaLabel="Bitácora"
     ctaHref={withBase("/#bitacora")}
   />
@@ -81,7 +75,7 @@ const pageDescription = entradaBitacora?.extracto
       <nav class="pcc-ficha__crumb" aria-label="Ruta">
         <a href={withBase("/")}>Inicio</a>
         <span aria-hidden="true"> / </span>
-        <a href={withBase("/#municipios")}>Municipios</a>
+        <a href={withBase("/#municipios")}>Lugares</a>
         <span aria-hidden="true"> / </span>
         <span>{resolved.nombre}</span>
       </nav>

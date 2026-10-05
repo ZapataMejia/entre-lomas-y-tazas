@@ -10,13 +10,12 @@ interface Props {
   brand: string;
   brandHref?: string;
   links: NavLink[];
-  chapterLinks: NavLink[];
   ctaLabel: string;
   ctaHref: string;
   utilLinks?: { label: string; href: string; external?: boolean }[];
 }
 
-const { brand, brandHref = "#portada", links, chapterLinks, ctaLabel, ctaHref, utilLinks = [] } = Astro.props;
+const { brand, brandHref = "#portada", links, ctaLabel, ctaHref, utilLinks = [] } = Astro.props;
 ---
 
 <header class="pcc-head-sticky">
@@ -52,16 +51,6 @@ const { brand, brandHref = "#portada", links, chapterLinks, ctaLabel, ctaHref, u
             {l.label}
           </a>
         ))}
-        <details class="pcc-head-sticky__details">
-          <summary class="pcc-head-sticky__summary">Capítulos</summary>
-          <ul class="pcc-head-sticky__dd">
-            {chapterLinks.map((l) => (
-              <li>
-                <a href={l.href}>{l.label}</a>
-              </li>
-            ))}
-          </ul>
-        </details>
       </nav>
 
       <div class="pcc-head-sticky__actions">
@@ -91,14 +80,6 @@ const { brand, brandHref = "#portada", links, chapterLinks, ctaLabel, ctaHref, u
         <nav aria-label="Móvil — secciones">
           {links.map((l) => (
             <a href={l.href} class="pcc-head-sticky__mobile-a">
-              {l.label}
-            </a>
-          ))}
-        </nav>
-        <p class="pcc-head-sticky__mobile-cap">Capítulos del folleto</p>
-        <nav aria-label="Móvil — capítulos">
-          {chapterLinks.map((l) => (
-            <a href={l.href} class="pcc-head-sticky__mobile-a pcc-head-sticky__mobile-a--sub">
               {l.label}
             </a>
           ))}

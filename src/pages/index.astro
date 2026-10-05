@@ -7,27 +7,21 @@ import SiteFooter from "../components/SiteFooter.astro";
 import VisitaCuaderno from "../components/VisitaCuaderno.astro";
 import MejoresLugaresHome from "../components/MejoresLugaresHome.astro";
 import { rutas } from "../data/rutas";
-import { capitulosDetalle } from "../data/capitulos-detalle";
 import { slugMunicipio } from "../lib/slug-municipio";
-import { navIndiceDesdeLibro, hrefEntradaIndice } from "../lib/nav-indice";
 import { withBase } from "../lib/base";
 
-const { meta, guia, indiceLibro, visitados, ilustraciones, municipiosPcc } = rutas;
+const { meta, guia, visitados, ilustraciones, municipiosPcc } = rutas;
 const nombreSitio = meta.titulo ?? "Antes de que se nos olvide";
 const slugsConVisita = new Set(
   visitados.map((v) => (typeof v.slug === "string" && v.slug.length > 0 ? v.slug : slugMunicipio(v.municipio))),
 );
-const pageTitle = `${nombreSitio} · ${meta.subtitulo ?? "Paisaje Cultural Cafetero"}`;
+const pageTitle = `${nombreSitio} · ${meta.subtitulo ?? "Recuerdos de viaje"}`;
 const pageDescription =
-  "Antes de que se nos olvide: diario de Santiago y Esmeralda en el Paisaje Cultural Cafetero — salidas, municipios y bitácora con fotos.";
-const navIndice = navIndiceDesdeLibro(indiceLibro);
-const capColor = (n: number) => indiceLibro.find((e) => e.num === n)?.color ?? "#153a5c";
+  "Diario de Santiago y Esmeralda: lugares que visitamos, fotos, qué nos gustó y lo que hicimos juntos.";
 
 const navLinks = [
   { label: "Intro", href: "#introduccion" },
-  { label: "Índice", href: "#indice" },
-  { label: "Capítulos", href: "#capitulos" },
-  { label: "Municipios", href: "#municipios" },
+  { label: "Lugares", href: "#municipios" },
   { label: "Favoritos", href: "#destacados" },
   { label: "Bitácora", href: "#bitacora" },
 ];
@@ -37,17 +31,13 @@ const year = new Date().getFullYear();
 const officialFootLinks = [
   { label: "Portal Paisaje Cultural Cafetero", href: "https://paisajeculturalcafetero.org.co/", external: true },
   { label: "Listado UNESCO", href: "https://whc.unesco.org/en/list/1121/", external: true },
-  { label: "Wikimedia — categoría PCC", href: "https://commons.wikimedia.org/wiki/Category:Paisaje_Cultural_Cafetero", external: true },
 ];
 
 const siteFootLinks = [
   { label: "Portada", href: "#portada" },
   { label: "Introducción", href: "#introduccion" },
-  { label: "Índice del folleto", href: "#indice" },
-  { label: "Capítulos", href: "#capitulos" },
+  { label: "Lugares", href: "#municipios" },
   { label: "Favoritos", href: "#destacados" },
-  { label: "Municipios", href: "#municipios" },
-  { label: "Nuestras fotos", href: "#nuestras-fotos" },
   { label: "Bitácora", href: "#bitacora" },
 ];
 ---
@@ -55,13 +45,7 @@ const siteFootLinks = [
 <Layout title={pageTitle} description={pageDescription} ogImage={ilustraciones.hero.src}>
   <a class="pcc-skip" href="#introduccion">Saltar al contenido</a>
 
-  <SiteHeader
-    brand={nombreSitio}
-    links={navLinks}
-    chapterLinks={navIndice}
-    ctaLabel="Bitácora"
-    ctaHref="#bitacora"
-  />
+  <SiteHeader brand={nombreSitio} links={navLinks} ctaLabel="Bitácora" ctaHref="#bitacora" />
 
   <SiteHero
     topper={guia.heroTopper}
@@ -72,8 +56,8 @@ const siteFootLinks = [
     metaLine={guia.heroMeta?.trim() ? guia.heroMeta : meta.puntoPartida ?? ""}
     primaryLabel="Ir a la bitácora"
     primaryHref="#bitacora"
-    secondaryLabel="Índice del folleto"
-    secondaryHref="#indice"
+    secondaryLabel="Ver lugares"
+    secondaryHref="#municipios"
     imageSrc={ilustraciones.hero.src}
     imageAlt={ilustraciones.hero.alt}
   />
@@ -85,26 +69,33 @@ const siteFootLinks = [
           <span class="pcc-kicker">Empezá por acá</span>
           <h2 class="pcc-h2 pcc-h2--section">Qué es este cuaderno</h2>
           <p class="pcc-section-dek">
-            El folleto <em>Mil experiencias, un destino</em> es solo el hilo: acá va lo nuestro — fotos, notas y anécdotas — sin sustituir a
-            la guía oficial.
+            Un recuerdo juntos: a dónde fuimos, qué hicimos, qué nos gustó y las fotos del día. Sin prisa y sin texto de guía
+            turística.
           </p>
         </header>
         <div class="pcc-article__inner pcc-article__inner--intro">
           <div class="pcc-intro__copy">
-            <h3 class="pcc-h3 pcc-h3--muted">Por qué UNESCO importa (un poco)</h3>
-            <p class="pcc-prose pcc-prose--large">{guia.introUnesco}</p>
-            <h3 class="pcc-h3">Cómo se lee este sitio</h3>
+            <h3 class="pcc-h3 pcc-h3--muted">De qué va</h3>
+            <p class="pcc-prose pcc-prose--large">{guia.introPersonal}</p>
+            <p class="pcc-prose">{guia.introUnesco}</p>
+            <h3 class="pcc-h3">Cómo se lee</h3>
             <ul class="pcc-ul pcc-ul--check">
               {guia.comoLeer.map((t) => (
                 <li>{t}</li>
               ))}
             </ul>
-            <h3 class="pcc-h3">Antes de manejar</h3>
-            <div class="pcc-guidecallout">
-              {guia.guiaTuristica.map((p) => (
-                <p class="pcc-prose">{p}</p>
-              ))}
-            </div>
+            {
+              guia.guiaTuristica.length > 0 && (
+                <>
+                  <h3 class="pcc-h3">Notas sueltas de viaje</h3>
+                  <div class="pcc-guidecallout">
+                    {guia.guiaTuristica.map((p) => (
+                      <p class="pcc-prose">{p}</p>
+                    ))}
+                  </div>
+                </>
+              )
+            }
           </div>
           <figure class="pcc-intro__fig">
             <img
@@ -121,60 +112,13 @@ const siteFootLinks = [
       </div>
     </article>
 
-    <nav class="pcc-toc pcc-toc--modern" id="indice" aria-label="Índice alineado a la guía oficial">
-      <div class="pcc-container">
-        <header class="pcc-section-head pcc-section-head--toc">
-          <span class="pcc-kicker">Mismo orden que el folleto</span>
-          <h2 class="pcc-h2 pcc-h2--section">Por dónde navegar</h2>
-          <p class="pcc-section-dek">
-            La introducción abre en esta página; cada capítulo tiene su propia vista con texto amplio, enlaces y espacio para fotos. El
-            número de página sigue siendo referencia a la guía impresa.
-          </p>
-        </header>
-        <div class="pcc-toc-modern__banner">
-          <img
-            src={ilustraciones.indiceBanner.src}
-            alt={ilustraciones.indiceBanner.alt}
-            width="2000"
-            height="800"
-            loading="lazy"
-            decoding="async"
-            referrerpolicy="no-referrer"
-          />
-        </div>
-        <ul class="pcc-toc-modern__list">
-          {
-            indiceLibro.map((item) => (
-              <li class="pcc-toc-modern__item">
-                <a
-                  class="pcc-toc-modern__a"
-                  href={hrefEntradaIndice(item)}
-                  style={item.tipo === "capitulo" && item.color ? `--toc-accent:${item.color}` : undefined}
-                >
-                  <span class="pcc-toc-modern__num" aria-hidden="true">
-                    {item.tipo === "intro" ? "∙" : item.num != null ? String(item.num).padStart(2, "0") : ""}
-                  </span>
-                  <span class="pcc-toc-modern__text">
-                    <span class="pcc-toc-modern__kind">{item.tipo === "intro" ? "Introducción" : `Capítulo ${item.num}`}</span>
-                    <span class="pcc-toc-modern__title">{item.titulo}</span>
-                  </span>
-                  {item.paginaLibro != null && <span class="pcc-toc-modern__pg">Guía p. {item.paginaLibro}</span>}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </nav>
-
     <section class="pcc-muni" id="municipios" aria-labelledby="municipios-h2">
       <div class="pcc-muni__inner pcc-container">
         <header class="pcc-muni__head">
-          <span class="pcc-kicker">Mapa del territorio</span>
-          <h2 class="pcc-h2 pcc-h2--section" id="municipios-h2">Municipios del núcleo PCC</h2>
+          <span class="pcc-kicker">Mapa vivo</span>
+          <h2 class="pcc-h2 pcc-h2--section" id="municipios-h2">Lugares del eje (y más)</h2>
           <p class="pcc-prose pcc-prose--center pcc-muni__lead">
-            Tocá un nombre para la ficha guía. <strong class="pcc-muni__lead-tag">Cuaderno</strong> marca pueblos del mismo departamento que
-            <strong>no</strong> entran en el listado UNESCO del núcleo (como <strong>Viterbo</strong>). Lo vivido, en la{" "}
+            Tocá un nombre para la ficha. Los que ya visitamos se marcan. Lo vivido, con fotos y nota, está en la{" "}
             <a class="pcc-a" href="#bitacora">bitácora</a>.
           </p>
         </header>
@@ -183,8 +127,8 @@ const siteFootLinks = [
           <div class="pcc-muni__nuestras-inner">
             <h3 class="pcc-h3 pcc-h3--muted">Recuerdos sobre el mapa</h3>
             <p class="pcc-prose pcc-muni__nuestras-prose">
-              Cuando visiten un pueblo, lo suman a la bitácora con imágenes y una nota corta: olores, conversaciones, qué les gustaría
-              repetir. Así este mapa deja de ser solo nombres y empieza a llenarse de vida.
+              Cuando vamos a un pueblo o a otro rincón, lo sumamos a la bitácora con fotos y una nota corta: qué hicimos, qué
+              nos gustó, qué repetiríamos. Así el mapa deja de ser solo nombres y se llena de vida.
             </p>
           </div>
         </div>
@@ -194,8 +138,8 @@ const siteFootLinks = [
             municipiosPcc.map((bloque) => (
               <div class="pcc-muni__card">
                 <h3 class="pcc-muni__depto">{bloque.departamento}</h3>
-                <p class="pcc-muni__count">{bloque.municipios.length} municipios en el núcleo</p>
-                <ul class="pcc-muni__chips" aria-label={`Municipios en ${bloque.departamento}`}>
+                <p class="pcc-muni__count">{bloque.municipios.length} en el listado base</p>
+                <ul class="pcc-muni__chips" aria-label={`Lugares en ${bloque.departamento}`}>
                   {bloque.municipios.map((nombre) => (
                     <li>
                       <a
@@ -220,10 +164,10 @@ const siteFootLinks = [
                           slugsConVisita.has(slugMunicipio(nombre)) && "pcc-muni__chip--visitado",
                         ]}
                         href={withBase(`/municipio/${slugMunicipio(nombre)}`)}
-                        title="Mismo departamento; no está en el listado UNESCO del núcleo PCC — lo documentamos en el cuaderno."
+                        title="Lo sumamos al cuaderno aunque no esté en el listado base del núcleo."
                       >
                         {nombre}
-                        <span class="pcc-muni__chip-tag">Cuaderno</span>
+                        <span class="pcc-muni__chip-tag">Nuestro</span>
                       </a>
                     </li>
                   ))}
@@ -237,63 +181,13 @@ const siteFootLinks = [
 
     <MejoresLugaresHome visitados={visitados} />
 
-    <section class="pcc-cap-shell" id="capitulos" aria-labelledby="capitulos-heading">
-      <div class="pcc-container">
-        <header class="pcc-section-head">
-          <span class="pcc-kicker">Mil experiencias, un destino</span>
-          <h2 class="pcc-h2 pcc-h2--section" id="capitulos-heading">Capítulos del folleto</h2>
-          <p class="pcc-section-dek">
-            Cada tarjeta resume el capítulo y enlaza a la página con texto completo, enlaces y hueco para fotos cuando las suban.
-          </p>
-        </header>
-
-        {
-          [1, 2, 3, 4, 5, 6, 7, 8].map((n) => {
-            const entradaCap = indiceLibro.find((e) => e.num === n);
-            const tituloCap = entradaCap?.titulo ?? `Capítulo ${n}`;
-            const det = capitulosDetalle[n - 1];
-            const ill = ilustraciones.capitulos[n - 1];
-            return (
-              <a
-                class:list={["pcc-chapter-card", n === 8 && "pcc-chapter-card--last"]}
-                id={`cap-${n}`}
-                href={withBase(`/capitulo/${n}`)}
-                aria-label={`Capítulo ${n}: ${tituloCap}`}
-                style={`--accent: ${capColor(n)}`}
-              >
-                <div class="pcc-chapter-card__media">
-                  <img
-                    src={ill.src}
-                    alt={ill.alt}
-                    width="1200"
-                    height="675"
-                    loading="lazy"
-                    decoding="async"
-                    referrerpolicy="no-referrer"
-                  />
-                </div>
-                <div class="pcc-chapter-card__body">
-                  <span class="pcc-chapter-card__no">{String(n).padStart(2, "0")}</span>
-                  <div>
-                    <p class="pcc-kicker pcc-kicker--accent">Capítulo {n}</p>
-                    <h3 class="pcc-chapter-card__title">{tituloCap}</h3>
-                    <p class="pcc-prose">{det.resumen}</p>
-                  </div>
-                </div>
-              </a>
-            );
-          })
-        }
-      </div>
-    </section>
-
     <CtaBand
       title="El viaje sigue en la bitácora"
-      description="Cuando bajan de la finca o del mirador, el mejor cierre es una entrada con fecha, olores, platos y fotos. Ahí vive el recuerdo."
+      description="Cuando bajamos del mirador o de la finca, el mejor cierre es una entrada con fecha, olores, platos y fotos. Ahí vive el recuerdo."
       primaryLabel="Ver bitácora"
       primaryHref="#bitacora"
-      secondaryLabel="Próximas rutas"
-      secondaryHref={withBase("/capitulo/5")}
+      secondaryLabel="Ver lugares"
+      secondaryHref="#municipios"
     />
 
     <section class="pcc-bit" id="bitacora">
@@ -310,9 +204,9 @@ const siteFootLinks = [
       </figure>
       <div class="pcc-bit__head pcc-container">
         <span class="pcc-kicker">Memorias</span>
-        <h2 class="pcc-h2 pcc-h2--section pcc-h2--on-dark">Bitácora · lo que vamos visitando</h2>
+        <h2 class="pcc-h2 pcc-h2--section pcc-h2--on-dark">Bitácora · a dónde fuimos</h2>
         <p class="pcc-bit__intro">
-          Un espacio íntimo: fecha, sensaciones, platos que probaron y fotos. Sin prisa — cada escapada puede sumar una entrada nueva.
+          Fecha, sensaciones, qué hicimos y fotos. Sin prisa: cada salida puede sumar una entrada nueva.
         </p>
       </div>
       <div class="pcc-bit__inner pcc-container">
@@ -322,8 +216,7 @@ const siteFootLinks = [
               <div class="pcc-empty pcc-empty--bit">
                 <p class="pcc-empty__title">Aún no hay recuerdos publicados</p>
                 <p class="pcc-empty__text">
-                  Empieza vacío a propósito: cada municipio que conozcan puede tener fotos y una anecdota aquí. El mapa de arriba lista el
-                  territorio; esta sección es solo lo que ustedes hayan vivido.
+                  Empieza vacío a propósito. Cada lugar que conozcan puede tener fotos y una anécdota acá.
                 </p>
               </div>
             ) : (
@@ -337,18 +230,18 @@ const siteFootLinks = [
 
   <SiteFooter
     brand={nombreSitio}
-    tagline={`${guia.lema} Por ${meta.autores ?? ""}. Cuaderno personal — sin afán institucional, solo el gusto de recordar.`}
+    tagline={`${guia.lema} Por ${meta.autores ?? ""}. Cuaderno personal — solo el gusto de recordar.`}
     year={year}
     officialLinks={officialFootLinks}
     siteLinks={siteFootLinks}
-    disclaimer="Este sitio no reemplaza la guía institucional ni las recomendaciones del Paisaje Cultural Cafetero. Es un diario personal."
+    disclaimer="Diario personal de viajes en pareja. No es una guía institucional."
   >
     <p slot="credit">
       Algunas imágenes de ambiente provienen de{" "}
       <a class="pcc-a" href="https://commons.wikimedia.org/wiki/Category:Paisaje_Cultural_Cafetero" target="_blank" rel="noopener noreferrer">
         Wikimedia Commons
       </a>
-      . Las fotos de cada parada son vuestras.
+      . Las fotos de cada parada son nuestras.
     </p>
   </SiteFooter>
 </Layout>
