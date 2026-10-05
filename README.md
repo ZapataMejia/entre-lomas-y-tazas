@@ -1,6 +1,6 @@
-# Entre lomas y tazas
+# Mil rutas un destino
 
-Sitio estático (Astro) con diario del Paisaje Cultural Cafetero: presentación, índice al estilo de la guía oficial, municipios del núcleo UNESCO y bitácora.
+Sitio estático (Astro): diario de viajes en pareja — bitácora, lugares, rutas en mapa y fotos.
 
 ## Desarrollo
 

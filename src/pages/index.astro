@@ -13,13 +13,13 @@ import { slugMunicipio } from "../lib/slug-municipio";
 import { withBase } from "../lib/base";
 
 const { meta, guia, visitados, ilustraciones, municipiosPcc } = rutas;
-const nombreSitio = meta.titulo ?? "Antes de que se nos olvide";
+const nombreSitio = meta.titulo ?? "Mil rutas un destino";
 const slugsConVisita = new Set(
   visitados.map((v) => (typeof v.slug === "string" && v.slug.length > 0 ? v.slug : slugMunicipio(v.municipio))),
 );
 const pageTitle = `${nombreSitio} · ${meta.subtitulo ?? "Recuerdos de viaje"}`;
 const pageDescription =
-  "Diario de Santiago y Esmeralda: lugares que visitamos, fotos, qué nos gustó y lo que hicimos juntos.";
+  "Mil rutas un destino — diario de Santiago y Esmeralda: lugares, fotos, rutas y lo que vivimos juntos.";
 
 const navLinks = [
   { label: "Intro", href: "#introduccion" },

@@ -104,7 +104,7 @@ export const rutas: RutasData = {
   },
   meta: {
     /** Título público del sitio (marca en cabecera, hero y pestaña del navegador) */
-    titulo: "Antes de que se nos olvide",
+    titulo: "Mil rutas un destino",
     subtitulo: "Recuerdos de viaje en pareja",
     selloSerie: "Santiago y Esmeralda",
     campana: {
