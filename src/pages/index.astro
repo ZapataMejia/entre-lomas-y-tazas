@@ -156,37 +156,39 @@ const siteFootLinks = [
                   }
                 </p>
                 <ul class="pcc-muni__chips" aria-label={`Lugares en ${bloque.departamento}`}>
-                  {bloque.municipios.map((nombre) => (
-                    <li>
-                      <a
-                        class:list={[
-                          "pcc-muni__chip",
-                          "pcc-muni__chip--link",
-                          slugsConVisita.has(slugMunicipio(nombre)) && "pcc-muni__chip--visitado",
-                        ]}
-                        href={withBase(`/municipio/${slugMunicipio(nombre)}`)}
-                      >
-                        {nombre}
-                      </a>
-                    </li>
-                  ))}
-                  {bloque.municipiosCuaderno?.map((nombre) => (
-                    <li>
-                      <a
-                        class:list={[
-                          "pcc-muni__chip",
-                          "pcc-muni__chip--link",
-                          "pcc-muni__chip--cuaderno",
-                          slugsConVisita.has(slugMunicipio(nombre)) && "pcc-muni__chip--visitado",
-                        ]}
-                        href={withBase(`/municipio/${slugMunicipio(nombre)}`)}
-                        title="Lo sumamos al cuaderno aunque no esté en el listado base del núcleo."
-                      >
-                        {nombre}
-                        <span class="pcc-muni__chip-tag">Nuestro</span>
-                      </a>
-                    </li>
-                  ))}
+                  {
+                    (() => {
+                      const todos = [
+                        ...bloque.municipios.map((nombre) => ({ nombre, extra: false })),
+                        ...(bloque.municipiosCuaderno ?? []).map((nombre) => ({ nombre, extra: true })),
+                      ];
+                      // Visitados primero, el resto después (mismo estilo de lista)
+                      todos.sort((a, b) => {
+                        const va = slugsConVisita.has(slugMunicipio(a.nombre)) ? 0 : 1;
+                        const vb = slugsConVisita.has(slugMunicipio(b.nombre)) ? 0 : 1;
+                        return va - vb;
+                      });
+                      return todos.map(({ nombre }) => {
+                        const slug = slugMunicipio(nombre);
+                        const visitado = slugsConVisita.has(slug);
+                        return (
+                          <li>
+                            <a
+                              class:list={[
+                                "pcc-muni__chip",
+                                "pcc-muni__chip--link",
+                                visitado && "pcc-muni__chip--visitado",
+                              ]}
+                              href={withBase(`/municipio/${slug}`)}
+                              title={visitado ? "Ya fuimos" : undefined}
+                            >
+                              {nombre}
+                            </a>
+                          </li>
+                        );
+                      });
+                    })()
+                  }
                 </ul>
               </div>
             ))
