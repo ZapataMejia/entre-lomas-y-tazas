@@ -2228,29 +2228,30 @@ a.pcc-chapter-card:focus-visible {
   line-height: 1.2;
 }
 
-/* Ya fuimos: chip más marcado */
+/* Ya fuimos: mismo chip, solo un check discreto (sin relleno verde) */
 .pcc-muni__chip--visitado {
-  border-color: var(--pcc-leaf) !important;
-  background: rgba(45, 107, 79, 0.12) !important;
-  color: var(--pcc-forest-dark) !important;
-  font-weight: 600;
+  border-color: var(--pcc-line);
+  background: var(--pcc-cream);
+  color: var(--pcc-ink);
+  font-weight: 500;
 }
 
-.pcc-muni__chip--visitado:not(.pcc-muni__chip--cuaderno)::after {
-  content: "";
+.pcc-muni__chip--visitado::after {
+  content: "✓";
   flex-shrink: 0;
-  width: 6px;
-  height: 6px;
-  margin-left: 0.28rem;
-  border-radius: 50%;
-  background: var(--pcc-leaf);
-  opacity: 1;
+  margin-left: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--pcc-leaf);
+  opacity: 0.9;
+  line-height: 1;
 }
 
+/* Cuaderno visitado: el tag "Nuestro" se queda; el check va después */
 .pcc-muni__chip--cuaderno.pcc-muni__chip--visitado .pcc-muni__chip-tag {
-  border-color: rgba(45, 107, 79, 0.55);
-  background: rgba(45, 107, 79, 0.18);
-  color: var(--pcc-forest);
+  border-color: rgba(45, 107, 79, 0.22);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--pcc-primary);
 }
 
 .pcc-muni__chips li .pcc-muni__chip--link {
