@@ -30,7 +30,7 @@ const payload = rutas.map((r) => ({
   distanciaKm: r.distanciaKm ?? null,
   desnivelM: r.desnivelM ?? null,
   fotos: (r.fotos ?? []).map((f) => ({
-    src: withBase(f.src),
+    src: f.src ? withBase(f.src) : "",
     alt: f.alt ?? r.titulo,
     lat: f.lat ?? null,
     lng: f.lng ?? null,
@@ -280,14 +280,15 @@ const payloadJson = JSON.stringify(payload);
       }
       if (fotos) {
         fotos.innerHTML = "";
-        (ruta.fotos || []).forEach((f) => {
+        const conFoto = (ruta.fotos || []).filter((f) => f.src);
+        conFoto.forEach((f) => {
           const img = document.createElement("img");
           img.src = f.src;
           img.alt = f.alt || ruta.titulo;
           img.loading = "lazy";
           fotos.appendChild(img);
         });
-        fotos.hidden = !(ruta.fotos && ruta.fotos.length);
+        fotos.hidden = conFoto.length === 0;
       }
     }
 
@@ -353,6 +354,10 @@ const payloadJson = JSON.stringify(payload);
         if (f.lat == null || f.lng == null) return;
         const ll = [f.lat, f.lng];
         bounds.push(ll);
+        const label = f.alt || "Parada " + (idx + 1);
+        const html = f.src
+          ? `<div class="pcc-map-pop"><img src="${f.src}" alt="" /><p>${label}</p></div>`
+          : `<div class="pcc-map-pop"><p>${label}</p></div>`;
         L.circleMarker(ll, {
           radius: 8,
           color: "#0f172a",
@@ -360,10 +365,8 @@ const payloadJson = JSON.stringify(payload);
           fillOpacity: 1,
           weight: 2,
         })
-          .bindPopup(
-            `<div class="pcc-map-pop"><img src="${f.src}" alt="" /><p>${f.alt || "Foto " + (idx + 1)}</p></div>`,
-            { maxWidth: 220 },
-          )
+          .bindPopup(html, { maxWidth: 220 })
+          .bindTooltip(label)
           .addTo(fotoLayer);
       });
 

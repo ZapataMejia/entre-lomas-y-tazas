@@ -24,7 +24,7 @@ const payload = {
   terreno: ruta.terreno ?? "",
   extracto: ruta.extracto ?? "",
   fotos: (ruta.fotos ?? []).map((f) => ({
-    src: withBase(f.src),
+    src: f.src ? withBase(f.src) : "",
     alt: f.alt ?? ruta.titulo,
     lat: f.lat ?? null,
     lng: f.lng ?? null,
@@ -191,6 +191,10 @@ const terrenoLabel: Record<string, string> = {
       if (f.lat == null || f.lng == null) return;
       const ll = [f.lat, f.lng];
       bounds.push(ll);
+      const label = f.alt || "Parada " + (idx + 1);
+      const html = f.src
+        ? `<div class="pcc-map-pop"><img src="${f.src}" alt="" /><p>${label}</p></div>`
+        : `<div class="pcc-map-pop"><p>${label}</p></div>`;
       L.circleMarker(ll, {
         radius: 7,
         color: "#0f172a",
@@ -198,10 +202,8 @@ const terrenoLabel: Record<string, string> = {
         fillOpacity: 1,
         weight: 2,
       })
-        .bindPopup(
-          `<div class="pcc-map-pop"><img src="${f.src}" alt="" /><p>${f.alt || "Foto " + (idx + 1)}</p></div>`,
-          { maxWidth: 200 },
-        )
+        .bindPopup(html, { maxWidth: 200 })
+        .bindTooltip(label)
         .addTo(map);
     });
 

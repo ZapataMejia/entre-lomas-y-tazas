@@ -255,12 +255,33 @@ export const rutas: RutasData = {
   ],
   visitados: [
     {
+      slug: "2026-10-04-ruta-sur",
+      municipio: "Altagracia · Arabia · Ulloa · Filandia",
+      departamento: "Risaralda · Valle · Quindío",
+      fecha: "4 oct 2026",
+      calificacion: 5,
+      rutaSlug: "2026-10-04-altagracia-arabia-ulloa-filandia",
+      extracto:
+        "Salida larga: mirador en Altagracia, almuerzo en Arabia, nos metimos al río Barbas, destapada hasta La India, descubrimos Ulloa y cerramos con café en Filandia.",
+      nota:
+        "Apenas salimos fuimos a Altagracia y conocimos el mirador. Después bajamos a Arabia y comimos en un restaurante rico. Bajamos al río Barbas y nos metimos al agua. De ahí a La India por destapada — mera trocha. Llegamos a Ulloa: un pueblo muy bonito, no lo conocíamos, muy lindo; nos tomamos fotos porque había lugares muy turísticos. De Ulloa salimos a Filandia; nos tomamos un cafecito en un pueblo que ya conocíamos. Y de ahí por la principal de regreso a casa. Fotos: las sumamos cuando las pases.",
+      experiencias: [
+        "Mirador Altagracia",
+        "Almuerzo en Arabia",
+        "Río Barbas",
+        "Destapada / trocha",
+        "La India",
+        "Ulloa (primera vez)",
+        "Café en Filandia",
+      ],
+      fotos: [],
+    },
+    {
       slug: "viterbo",
       municipio: "Viterbo",
       departamento: "Caldas",
       fecha: "Mayo 2026",
       calificacion: 5,
-      /** Mapa del camino: La Sultana → Hacienda El Jordán */
       rutaSlug: "dosquebradas-viterbo-hacienda-el-jordan",
       extracto:
         "Un día que nos encantó: buena comida, un rincón de frases lleno de detalle, parque, hacienda de ensueño, animales, atardecer y dos cafés hablando hasta reír.",
