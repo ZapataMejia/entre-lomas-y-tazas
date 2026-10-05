@@ -73,8 +73,7 @@ const siteFootLinks = [
           <span class="pcc-kicker">Empezá por acá</span>
           <h2 class="pcc-h2 pcc-h2--section">Qué es este cuaderno</h2>
           <p class="pcc-section-dek">
-            Un recuerdo juntos: a dónde fuimos, qué hicimos, qué nos gustó y las fotos del día. Sin prisa y sin texto de guía
-            turística.
+            A dónde fuimos, qué hicimos, qué nos gustó y las fotos del día.
           </p>
         </header>
         <div class="pcc-article__inner pcc-article__inner--intro">
@@ -88,18 +87,6 @@ const siteFootLinks = [
                 <li>{t}</li>
               ))}
             </ul>
-            {
-              guia.guiaTuristica.length > 0 && (
-                <>
-                  <h3 class="pcc-h3">Notas sueltas de viaje</h3>
-                  <div class="pcc-guidecallout">
-                    {guia.guiaTuristica.map((p) => (
-                      <p class="pcc-prose">{p}</p>
-                    ))}
-                  </div>
-                </>
-              )
-            }
           </div>
           <figure class="pcc-intro__fig">
             <img

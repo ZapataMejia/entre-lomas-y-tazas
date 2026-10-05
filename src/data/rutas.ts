@@ -106,19 +106,18 @@ export const rutas: RutasData = {
     /** Título público del sitio (marca en cabecera, hero y pestaña del navegador) */
     titulo: "Antes de que se nos olvide",
     subtitulo: "Recuerdos de viaje en pareja",
-    selloSerie: "Desde La Sultana, Dosquebradas",
+    selloSerie: "Santiago y Esmeralda",
     campana: {
       pre: "Una página",
       palabra: "nuestra",
       medio: "para lo que vivimos en carretera, finca y pueblo",
       cierre: "sin prisa",
     },
-    epigrafe:
-      "Diario íntimo de salidas: a dónde fuimos, qué hicimos, qué nos gustó y las fotos del día. Casa en La Sultana, Dosquebradas.",
+    epigrafe: "Diario de salidas: a dónde fuimos, qué hicimos, qué nos gustó y las fotos del día.",
     /** Crédito (pie de página); el nombre del sitio es `titulo` */
     autores: "Santiago y Esmeralda",
-    /** Base real: barrio La Sultana, Dosquebradas, Risaralda */
-    puntoPartida: "Casa en La Sultana, Dosquebradas (Risaralda)",
+    /** Dónde vivimos — se muestra una sola vez (hero) */
+    puntoPartida: "La Sultana, Dosquebradas",
     mostrarCintaHoy: false,
     textoCintaHoy: "Hoy una ruta nueva",
     enlaceMapa: {
@@ -138,24 +137,23 @@ export const rutas: RutasData = {
     heroTopper: "Diario en pareja",
     heroQuote: "Lo que nos pasa en el eje cafetero — y en los otros rincones que vamos conociendo.",
     heroTagline: "",
-    heroMeta: "Desde La Sultana, Dosquebradas",
+    /** Única mención de dónde vivimos en portada */
+    heroMeta: "Vivimos en La Sultana, Dosquebradas",
     lema: "Memorias anotadas con calma.",
-    taglineLibro: "Recuerdos juntos, no guía turística.",
+    taglineLibro: "Recuerdos juntos.",
+    /** Segundo párrafo corto; sin repetir el barrio */
     introUnesco:
-      "Vivimos en el barrio La Sultana, Dosquebradas (Risaralda). Desde ahí salimos al eje y a otros rincones: finca, pueblo, mirador, mesa. El mapa guarda el camino; la bitácora, el día.",
+      "Fotos, olores y conversaciones de cada salida. El mapa guarda el camino; la bitácora, el día.",
     introPersonal:
-      "Acá va el cajón de fotos, olores y conversaciones — imperfecciones incluidas. Lo importante es que sea nuestro. Casa base: La Sultana.",
+      "Acá va el cajón de lo que vivimos juntos — imperfecciones incluidas. Lo importante es que sea nuestro.",
     comoLeer: [
-      "La bitácora es el corazón: cada visita con fecha, relato y fotos.",
-      "En Lugares marcamos a dónde ya fuimos; la ficha guarda el detalle.",
-      "En Rutas está el camino desde casa (La Sultana) — por ejemplo a Viterbo — con el trazo en el mapa.",
-      "Favoritos reúne los sitios que más nos gustaron (estrellas).",
+      "Bitácora: el relato y las fotos de cada salida.",
+      "Lugares: el mapa de pueblos; tocás uno para ver la ficha.",
+      "Rutas: el trazo en el mapa (cómo llegamos).",
+      "Favoritos: lo que más nos gustó (estrellas).",
     ],
-    guiaTuristica: [
-      "Mejor un eje por día que cruzar tres departamentos sin atardecer en ningún pueblo.",
-      "Impermeable en la mochila siempre; la franja seca ayuda, no la garantiza.",
-      "Catas y fincas con reserva — más en puente.",
-    ],
+    /** Vacío a propósito: las “notas sueltas” de guía no aportaban y confunden */
+    guiaTuristica: [],
     cocinaTradicional:
       "Arepas, mogollas, variaciones regionales y mesa cafetera: la cocina del PCC es parte del viaje. Esta sección es nuestro espacio para anotar platos, mercados y restaurantes que querríamos repetir o recomendar.",
     territorio: [
@@ -267,7 +265,7 @@ export const rutas: RutasData = {
       extracto:
         "Un día que nos encantó: buena comida, un rincón de frases lleno de detalle, parque, hacienda de ensueño, animales, atardecer y dos cafés hablando hasta reír.",
       nota:
-        "Salimos de casa en La Sultana (Dosquebradas) hacia Viterbo. El plan nos gustó mucho; vimos lugares muy ricos y reaccionamos a todo. Comimos unas hamburguesas deliciosas —una más picante, esa no tanto, pero igual rica—. Hubo un rincón de frases, muy bonito y muy bien decorado, nos encantó. De ahí al parque, y luego a una hacienda preciosa (El Jordán): soñamos en voz alta qué haríamos si fuera nuestra, qué cambiaríamos; nos tomamos un montón de fotos. No alcanzamos la cabalgata y nos dio un poquito de pena; ya sabemos que hay que volver. Vimos y disfrutamos muchos animales hermosos. El atardecer en la hacienda fue un regalo. Volvimos al parque: dos cafés muy ricos, charla, risas y tiempo de calidad; hacía falta. Nos fue muy bien de retorno a la casa; paramos en la Villa Olímpica porque no queríamos llegar temprano a la casa, y saludamos a un amigo de Santi de hace muchos años y nos reímos mucho juntos. Posdata: Esmeralda llegó a dormir, jaja.",
+        "El plan nos gustó mucho; vimos lugares muy ricos y reaccionamos a todo. Comimos unas hamburguesas deliciosas —una más picante, esa no tanto, pero igual rica—. Hubo un rincón de frases, muy bonito y muy bien decorado, nos encantó. De ahí al parque, y luego a una hacienda preciosa (El Jordán): soñamos en voz alta qué haríamos si fuera nuestra, qué cambiaríamos; nos tomamos un montón de fotos. No alcanzamos la cabalgata y nos dio un poquito de pena; ya sabemos que hay que volver. Vimos y disfrutamos muchos animales hermosos. El atardecer en la hacienda fue un regalo. Volvimos al parque: dos cafés muy ricos, charla, risas y tiempo de calidad; hacía falta. De regreso paramos en la Villa Olímpica porque no queríamos llegar temprano, y saludamos a un amigo de Santi de hace muchos años y nos reímos mucho juntos. Posdata: Esmeralda llegó a dormir, jaja.",
       experiencias: [
         "Gastronomía",
         "Rincón / frases",
@@ -276,8 +274,6 @@ export const rutas: RutasData = {
         "Animales",
         "Atardecer",
         "Cafés y conversación",
-        "Ruta desde La Sultana",
-        "Regreso a La Sultana",
       ],
       fotos: Array.from({ length: 15 }, (_, j) => `/fotos/viterbo-2026-05/viterbo-${String(j + 1).padStart(2, "0")}.jpeg`),
     },

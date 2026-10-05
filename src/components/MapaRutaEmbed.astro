@@ -74,9 +74,7 @@ const terrenoLabel: Record<string, string> = {
     aria-label={`Mapa: ${ruta.titulo}`}
   >
   </div>
-  <p class="pcc-embed-map__credit">
-    OpenStreetMap · trazo GPX desde casa (La Sultana) hasta el destino
-  </p>
+  <p class="pcc-embed-map__credit">OpenStreetMap · nuestro trazo</p>
 </div>
 
 <script type="application/json" id={jsonId} set:html={payloadJson} />
@@ -173,7 +171,7 @@ const terrenoLabel: Record<string, string> = {
               fillOpacity: 1,
               weight: 2,
             })
-              .bindTooltip("Casa · La Sultana")
+              .bindTooltip("Salida")
               .addTo(map);
             L.circleMarker(latlngs[latlngs.length - 1], {
               radius: 7,

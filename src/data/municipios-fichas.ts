@@ -1,6 +1,5 @@
 /**
- * Fichas enriquecidas por municipio (texto guía + datos propios).
- * Pueden existir aunque el pueblo no esté en el listado UNESCO del núcleo PCC.
+ * Fichas por municipio — tono de cuaderno personal, no guía turística.
  */
 import type { MunicipiosPcc } from "./rutas";
 import { slugMunicipio } from "../lib/slug-municipio";
@@ -13,14 +12,13 @@ export type MunicipioFicha = {
   departamento: string;
   /** true = municipio del listado oficial del núcleo inscrito UNESCO */
   nucleoPcc: boolean;
-  /** Párrafo inicial (contexto o aviso si está fuera del núcleo) */
+  /** Párrafo inicial (corto, personal) */
   introduccion?: string;
+  /** Solo datos útiles para nosotros (p. ej. km desde casa) */
   datos?: DatoFicha[];
-  /** Párrafos desarrollados (paisaje, economía, clima…) */
   cuerpo?: string[];
   atractivosUrbanos?: string[];
   experienciasGuia?: string[];
-  /** Ideas para próximas visitas */
   planTrabajo?: string[];
   fuente?: string;
 };
@@ -32,30 +30,19 @@ export const fichasMunicipios: MunicipioFicha[] = [
     departamento: "Caldas",
     nucleoPcc: false,
     introduccion:
-      "Viterbo no aparece en el listado del núcleo urbano-rural del Paisaje Cultural Cafetero (UNESCO), pero pertenece al mismo eje de vida del café y al valle medio del río Risaralda — por eso lo incluimos en nuestro cuaderno además del mapa oficial.",
+      "Un pueblo del valle del Risaralda al que fuimos un día entero: comida, parque, Hacienda El Jordán y mucho rato juntos.",
     datos: [
-      { label: "Distancia a Manizales", value: "≈ 74 km" },
-      { label: "Distancia a Pereira", value: "≈ 45 km" },
-      { label: "Altitud", value: "998 m s.n.m." },
-      { label: "Río / valle", value: "Valle del río Risaralda" },
-      { label: "Clima", value: "Cálido; temperatura media cercana a 28 °C" },
+      { label: "Desde casa", value: "≈ 57 km (La Sultana → Viterbo)" },
+      { label: "Cuándo fuimos", value: "Mayo 2026" },
+      { label: "Lo pendiente", value: "La cabalgata (hay que volver)" },
     ],
     cuerpo: [
-      "El municipio se asienta en un valle de geografías relativamente planas, con buen acceso para quien busca paisajes naturales sin las pendientes extremas de otras zonas del eje.",
-      "En el ámbito rural predomina el trabajo en cultivos tropicales y de transición: caña de azúcar, café, frutas tropicales, además de piscicultura (cachama y mojarra), actividades que marcan el ritmo económico local.",
+      "Nos gustó el ritmo del pueblo y la hacienda al atardecer. No es una ficha de guía: es lo que vivimos ese día.",
     ],
-    atractivosUrbanos: [
-      "Templo de la Inmaculada Concepción",
-      "Casa de la Cultura",
-      "Plaza Restrepo",
-    ],
-    experienciasGuia: ["Cultura cafetera", "Cafés especiales", "Cabalgatas"],
-    planTrabajo: [
-      "Volver con tiempo para la cabalgata pendiente.",
-      "Anotar cafés o mesas que quieran repetir en una próxima ida.",
-      "Si descubren más rincones del casco o del valle, sumarlos acá o en la bitácora.",
-    ],
-    fuente: "Contenido adaptado de la guía «Mil experiencias, un destino» y notas del viaje.",
+    atractivosUrbanos: ["Parque / plaza", "Rincón de frases", "Hacienda El Jordán"],
+    experienciasGuia: ["Comida", "Hacienda", "Atardecer", "Cafés"],
+    planTrabajo: ["Volver con tiempo para la cabalgata.", "Repetir un café en el parque."],
+    fuente: "Nuestra bitácora.",
   },
 ];
 
@@ -118,7 +105,7 @@ export function resolverMunicipioPorSlug(slug: string, municipiosPcc: Municipios
             nombre,
             departamento: bloque.departamento,
             nucleoPcc: false,
-            ficha: fichaPorSlug.get(slug) ?? null,
+            ficha: null,
           };
         }
       }

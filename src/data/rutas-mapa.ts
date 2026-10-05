@@ -66,10 +66,8 @@ export const rutasMapa: RutaMapa[] = [
     titulo: "La Sultana → Viterbo (Hacienda El Jordán)",
     fecha: "Mayo 2026",
     terreno: "carretera",
-    extracto:
-      "Desde casa en La Sultana (Dosquebradas) hasta Viterbo, Caldas — Hacienda El Jordán. El día de la bitácora: comida, parque, hacienda y atardecer.",
-    nota:
-      "Punto de partida: barrio La Sultana, Dosquebradas. Destino: Hacienda El Jordán y el casco de Viterbo. El trazo sigue la ruta de Google Maps (carretera ~57 km). Si un día van por destapada, se suma otro GPX.",
+    extracto: "Camino hasta Viterbo y Hacienda El Jordán. Comida, parque, hacienda y atardecer.",
+    nota: "Carretera ~57 km. Si un día vamos por destapada, sumamos otro trazo.",
     gpx: "/rutas/dosquebradas-la-sultana-viterbo-hacienda-el-jordan.gpx",
     googleMapsUrl:
       "https://www.google.com/maps/place/Hacienda+El+Jord%C3%A1n/@4.9300371,-75.9168729,12z/data=!4m28!1m21!4m20!1m4!2m2!1d-75.6765623!2d4.8178594!4e1!1m6!1m2!1s0x8e47850039f4ef93:0xfee598a4500871ef!2sHacienda+El+Jord%C3%A1n,+Cl.+12+%2311-2+a+11-110,+Viterbo,+Caldas!2m2!1d-75.8715718!2d5.0576528!1m6!1m2!1s0x8e478537250ec0cf:0x15a105e281e5bed2!2sViterbo,+Caldas!2m2!1d-75.872356!2d5.0605779!3e0!3m5!1s0x8e47850039f4ef93:0xfee598a4500871ef!8m2!3d5.057656!4d-75.8715827!16s%2Fg%2F11x7wzbsxt",

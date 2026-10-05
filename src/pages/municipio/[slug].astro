@@ -83,7 +83,7 @@ const pageDescription = entradaBitacora?.extracto
 
       <header class="pcc-ficha__head">
         <span class="pcc-kicker">
-          {resolved.nucleoPcc ? "Núcleo UNESCO · PCC" : "Eje cafetero · fuera del núcleo"}
+          {entradaBitacora ? "Nuestra visita" : resolved.departamento}
         </span>
         <h1 class="pcc-ficha__h">{resolved.nombre}</h1>
         <p class="pcc-ficha__depto">{resolved.departamento}</p>
@@ -95,9 +95,9 @@ const pageDescription = entradaBitacora?.extracto
           )
         }
         {
-          !f && (
+          !f && !entradaBitacora && (
             <p class="pcc-prose pcc-ficha__intro">
-              Municipio del listado oficial del núcleo Paisaje Cultural Cafetero. Pronto ampliaremos esta ficha con datos de la guía y de nuestras visitas.
+              Todavía no hay una salida anotada acá. Cuando vayamos, la bitácora y las fotos van a vivir en esta ficha.
             </p>
           )
         }
@@ -110,10 +110,11 @@ const pageDescription = entradaBitacora?.extracto
       }
 
       {
+        /* Datos solo si aportan (p. ej. km desde casa) y no repiten la bitácora entera */
         f?.datos && f.datos.length > 0 && (
           <section class="pcc-ficha__section" aria-labelledby="ficha-datos">
             <h2 class="pcc-ficha__h2" id="ficha-datos">
-              Datos rápidos
+              En corto
             </h2>
             <dl class="pcc-ficha__datos">
               {f.datos.map((d) => (
@@ -128,53 +129,10 @@ const pageDescription = entradaBitacora?.extracto
       }
 
       {
-        f?.cuerpo && f.cuerpo.length > 0 && (
-          <section class="pcc-ficha__section" aria-labelledby="ficha-cuerpo">
-            <h2 class="pcc-ficha__h2" id="ficha-cuerpo">
-              Paisaje y territorio
-            </h2>
-            {f.cuerpo.map((p) => (
-              <p class="pcc-prose">{p}</p>
-            ))}
-          </section>
-        )
-      }
-
-      {
-        f?.atractivosUrbanos && f.atractivosUrbanos.length > 0 && (
-          <section class="pcc-ficha__section" aria-labelledby="ficha-urbano">
-            <h2 class="pcc-ficha__h2" id="ficha-urbano">
-              Casco urbano
-            </h2>
-            <ul class="pcc-ul pcc-ul--check">
-              {f.atractivosUrbanos.map((t) => (
-                <li>{t}</li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
-
-      {
-        f?.experienciasGuia && f.experienciasGuia.length > 0 && (
-          <section class="pcc-ficha__section" aria-labelledby="ficha-exp">
-            <h2 class="pcc-ficha__h2" id="ficha-exp">
-              Experiencias que destacan
-            </h2>
-            <ul class="pcc-tags pcc-tags--ficha">
-              {f.experienciasGuia.map((t) => (
-                <li>{t}</li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
-
-      {
         f?.planTrabajo && f.planTrabajo.length > 0 && (
           <section class="pcc-ficha__section pcc-ficha__section--plan" aria-labelledby="ficha-plan">
             <h2 class="pcc-ficha__h2" id="ficha-plan">
-              Plan para seguir explorando
+              Para la próxima
             </h2>
             <ul class="pcc-ul pcc-ul--check">
               {f.planTrabajo.map((t) => (
@@ -193,30 +151,15 @@ const pageDescription = entradaBitacora?.extracto
         )
       }
 
-      <section class="pcc-ficha__section pcc-ficha__cta" aria-labelledby="ficha-bit">
-        <h2 class="pcc-ficha__h2" id="ficha-bit">
-          También en la portada
-        </h2>
-        {
-          entradaBitacora ? (
-            <p class="pcc-prose">
-              La misma entrada está en la{" "}
-              <a class="pcc-a" href={bitacoraHref!}>
-                bitácora de inicio
-              </a>
-              , por si querés enlazarla o comparar con otras visitas.
-            </p>
-          ) : (
-            <p class="pcc-prose">
-              Cuando tengan fotos y relato, pueden sumar la visita en <em>visitados</em> en la{" "}
-              <a class="pcc-a" href={withBase("/#bitacora")}>
-                bitácora de la portada
-              </a>
-              ; esta ficha enlazará solo automáticamente.
-            </p>
-          )
-        }
-      </section>
+      {
+        entradaBitacora && bitacoraHref && (
+          <p class="pcc-ficha__back">
+            <a class="pcc-a" href={bitacoraHref}>
+              Ver esta salida en la bitácora
+            </a>
+          </p>
+        )
+      }
 
       <p class="pcc-ficha__back">
         <a class="pcc-a" href={withBase("/#municipios")}>← Volver al mapa de municipios</a>
