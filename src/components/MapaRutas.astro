@@ -26,6 +26,7 @@ const payload = rutas.map((r) => ({
   nota: r.nota ?? "",
   gpx: r.gpx ? withBase(r.gpx) : "",
   wikilocUrl: r.wikilocUrl ?? "",
+  googleMapsUrl: r.googleMapsUrl ?? "",
   distanciaKm: r.distanciaKm ?? null,
   desnivelM: r.desnivelM ?? null,
   fotos: (r.fotos ?? []).map((f) => ({
@@ -128,6 +129,7 @@ const payloadJson = JSON.stringify(payload);
           <p class="pcc-mapas__detail-ex" data-detail-ex></p>
           <p class="pcc-mapas__detail-note" data-detail-note></p>
           <p class="pcc-mapas__detail-links">
+            <a class="pcc-a" data-detail-maps href="#" target="_blank" rel="noopener noreferrer" hidden>Ver en Google Maps ↗</a>
             <a class="pcc-a" data-detail-wiki href="#" target="_blank" rel="noopener noreferrer" hidden>Ver en Wikiloc ↗</a>
             <a class="pcc-a" data-detail-visita href="#" hidden>Ver en bitácora</a>
           </p>
@@ -235,6 +237,7 @@ const payloadJson = JSON.stringify(payload);
       const ex = box.querySelector("[data-detail-ex]");
       const note = box.querySelector("[data-detail-note]");
       const wiki = box.querySelector("[data-detail-wiki]");
+      const maps = box.querySelector("[data-detail-maps]");
       const visita = box.querySelector("[data-detail-visita]");
       const fotos = box.querySelector("[data-detail-fotos]");
       if (t) t.textContent = ruta.titulo;
@@ -245,6 +248,12 @@ const payloadJson = JSON.stringify(payload);
       if (note) {
         note.textContent = ruta.nota || "";
         note.hidden = !ruta.nota;
+      }
+      if (maps) {
+        if (ruta.googleMapsUrl) {
+          maps.hidden = false;
+          maps.href = ruta.googleMapsUrl;
+        } else maps.hidden = true;
       }
       if (wiki) {
         if (ruta.wikilocUrl) {

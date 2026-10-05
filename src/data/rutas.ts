@@ -104,7 +104,7 @@ export const rutas: RutasData = {
     /** Título público del sitio (marca en cabecera, hero y pestaña del navegador) */
     titulo: "Antes de que se nos olvide",
     subtitulo: "Recuerdos de viaje en pareja",
-    selloSerie: "Desde Dosquebradas",
+    selloSerie: "Desde La Sultana, Dosquebradas",
     campana: {
       pre: "Una página",
       palabra: "nuestra",
@@ -112,10 +112,11 @@ export const rutas: RutasData = {
       cierre: "sin prisa",
     },
     epigrafe:
-      "Diario íntimo de salidas: a dónde fuimos, qué hicimos, qué nos gustó y las fotos del día.",
+      "Diario íntimo de salidas: a dónde fuimos, qué hicimos, qué nos gustó y las fotos del día. Casa en La Sultana, Dosquebradas.",
     /** Crédito (pie de página); el nombre del sitio es `titulo` */
     autores: "Santiago y Esmeralda",
-    puntoPartida: "Salimos de Dosquebradas, Risaralda",
+    /** Base real: barrio La Sultana, Dosquebradas, Risaralda */
+    puntoPartida: "Casa en La Sultana, Dosquebradas (Risaralda)",
     mostrarCintaHoy: false,
     textoCintaHoy: "Hoy una ruta nueva",
     enlaceMapa: {
@@ -135,17 +136,17 @@ export const rutas: RutasData = {
     heroTopper: "Diario en pareja",
     heroQuote: "Lo que nos pasa en el eje cafetero — y en los otros rincones que vamos conociendo.",
     heroTagline: "",
-    heroMeta: "Desde Dosquebradas, Risaralda",
+    heroMeta: "Desde La Sultana, Dosquebradas",
     lema: "Memorias anotadas con calma.",
     taglineLibro: "Recuerdos juntos, no guía turística.",
     introUnesco:
-      "Recorremos municipios del eje y también otros lugares que nos tiran: finca, pueblo, mirador, mesa. El mapa es una ayuda; la bitácora es lo que importa.",
+      "Vivimos en el barrio La Sultana, Dosquebradas (Risaralda). Desde ahí salimos al eje y a otros rincones: finca, pueblo, mirador, mesa. El mapa guarda el camino; la bitácora, el día.",
     introPersonal:
-      "Acá va el cajón de fotos, olores y conversaciones — imperfecciones incluidas. Lo importante es que sea nuestro.",
+      "Acá va el cajón de fotos, olores y conversaciones — imperfecciones incluidas. Lo importante es que sea nuestro. Casa base: La Sultana.",
     comoLeer: [
       "La bitácora es el corazón: cada visita con fecha, relato y fotos.",
       "En Lugares marcamos a dónde ya fuimos; la ficha guarda el detalle.",
-      "En Rutas van las destapadas y trazos GPX (estilo Wikiloc) con el camino en el mapa.",
+      "En Rutas está el camino desde casa (La Sultana) — por ejemplo a Viterbo — con el trazo en el mapa.",
       "Favoritos reúne los sitios que más nos gustaron (estrellas).",
     ],
     guiaTuristica: [
@@ -271,7 +272,7 @@ export const rutas: RutasData = {
         "Animales",
         "Atardecer",
         "Cafés y conversación",
-        "Regreso a Pereira",
+        "Regreso a La Sultana",
       ],
       fotos: Array.from({ length: 15 }, (_, j) => `/fotos/viterbo-2026-05/viterbo-${String(j + 1).padStart(2, "0")}.jpeg`),
     },
