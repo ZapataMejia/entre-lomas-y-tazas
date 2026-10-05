@@ -2203,21 +2203,22 @@ a.pcc-chapter-card:focus-visible {
 }
 
 /*
- * Ya fuimos: tipografía del sitio + acento de tinta (no verde chillón, sin ✓ ni “Nuestro”).
- * Fondo papel, borde suave, peso un poco más firme.
+ * Ya fuimos: se lee al toque (fondo terracota suave + borde + peso).
+ * Sin ✓, sin tag “Nuestro”.
  */
 .pcc-muni__chip--visitado {
-  background: #fff;
-  border-color: rgba(30, 58, 48, 0.28);
-  color: var(--pcc-forest-dark);
-  font-weight: 600;
-  box-shadow: inset 0 -2px 0 0 rgba(184, 87, 42, 0.55);
+  background: #f3e4d8;
+  border-color: #b8572a;
+  border-width: 1.5px;
+  color: #5c2e14;
+  font-weight: 700;
+  box-shadow: 0 1px 0 rgba(184, 87, 42, 0.12);
 }
 
 .pcc-muni__chip--visitado:hover {
-  border-color: rgba(30, 58, 48, 0.45);
-  box-shadow: inset 0 -2px 0 0 rgba(184, 87, 42, 0.75);
-  background: #fff;
+  background: #edd6c4;
+  border-color: #9d4620;
+  color: #4a2410;
 }
 
 .pcc-muni__chips li .pcc-muni__chip--link {
