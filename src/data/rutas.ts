@@ -255,6 +255,27 @@ export const rutas: RutasData = {
   ],
   visitados: [
     {
+      slug: "palestina",
+      municipio: "Palestina",
+      departamento: "Caldas",
+      fecha: "Varias veces",
+      calificacion: 5,
+      rutaSlug: "casa-palestina-caldas",
+      extracto:
+        "Un segundo hogar: Mencha, Angie, Beto y tanta gente que nos quiere. Cumpleaños 26, boda de Manuelita y Felipe, y muchos momentos lindos.",
+      nota:
+        "A Palestina hemos ido muchas veces. Ahí conocimos a personas muy bonitas: a Mencha (tía de Esme), a Angie (prima), a Beto (esposo de Mencha) y a mucha gente importante para nosotros. Fuimos una vez a conocer a la familia de Esme —Mencha, Angie y Beto— y terminamos encontrando una familia, un segundo hogar donde nos quieren y nos han ayudado mucho. Es un lugar que recorremos mucho y donde hemos vivido momentos muy bonitos: el cumpleaños 26 de Santi lo celebraron allá; también fuimos a la boda de Manuelita y Felipe (primos de Esmeralda), participamos y Santi se vistió de monja —pasamos una noche espectacular. Palestina se quedó en el corazón.",
+      experiencias: [
+        "Familia · Mencha, Angie, Beto",
+        "Segundo hogar",
+        "Cumpleaños 26",
+        "Boda Manuelita y Felipe",
+        "Santi de monja",
+        "Muchas visitas",
+      ],
+      fotos: Array.from({ length: 24 }, (_, j) => `/fotos/palestina/palestina-${String(j + 1).padStart(2, "0")}.jpeg`),
+    },
+    {
       slug: "2026-10-04-ruta-sur",
       municipio: "Altagracia · Arabia · Ulloa · Filandia",
       departamento: "Risaralda · Valle · Quindío",
@@ -264,7 +285,7 @@ export const rutas: RutasData = {
       extracto:
         "Salida larga: mirador en Altagracia, almuerzo en Arabia, nos metimos al río Barbas, destapada hasta La India, descubrimos Ulloa y cerramos con café en Filandia.",
       nota:
-        "Apenas salimos fuimos a Altagracia y conocimos el mirador. Después bajamos a Arabia y comimos en un restaurante rico. Bajamos al río Barbas y nos metimos al agua. De ahí a La India por destapada — mera trocha. Llegamos a Ulloa: un pueblo muy bonito, no lo conocíamos, muy lindo; nos tomamos fotos porque había lugares muy turísticos. De Ulloa salimos a Filandia; nos tomamos un cafecito en un pueblo que ya conocíamos. Y de ahí por la principal de regreso a casa. Fotos: las sumamos cuando las pases.",
+        "Apenas salimos fuimos a Altagracia y conocimos el mirador. Después bajamos a Arabia y comimos en un restaurante rico. Bajamos al río Barbas y nos metimos al agua. De ahí a La India por destapada — mera trocha. Llegamos a Ulloa: un pueblo muy bonito, no lo conocíamos, muy lindo; nos tomamos fotos porque había lugares muy turísticos. De Ulloa salimos a Filandia; nos tomamos un cafecito en un pueblo que ya conocíamos. Y de ahí por la principal de regreso a casa.",
       experiencias: [
         "Mirador Altagracia",
         "Almuerzo en Arabia",

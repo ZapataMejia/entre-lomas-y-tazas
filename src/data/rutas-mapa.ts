@@ -61,6 +61,27 @@ export const MAPA_CENTRO_DEFAULT = { lat: CASA.lat, lng: CASA.lng, zoom: 11 };
  */
 export const rutasMapa: RutaMapa[] = [
   {
+    slug: "casa-palestina-caldas",
+    titulo: "Casa → Palestina",
+    fecha: "Varias veces",
+    terreno: "carretera",
+    extracto: "El camino al segundo hogar: familia, cumpleaños, bodas y mucho cariño.",
+    nota: "Desde el corazón del hogar hasta Palestina, Caldas (~32 km).",
+    gpx: "/rutas/casa-palestina-caldas.gpx",
+    googleMapsUrl: "https://www.google.com/maps/dir/4.8195984,-75.6767607/Palestina,+Caldas/@4.92,-75.65,11z",
+    distanciaKm: 31.8,
+    visitaSlug: "palestina",
+    fotos: [
+      { src: "/fotos/palestina/palestina-01.jpeg", alt: "Salida", lat: CASA.lat, lng: CASA.lng },
+      {
+        src: "/fotos/palestina/palestina-12.jpeg",
+        alt: "Palestina, Caldas",
+        lat: 5.0203683,
+        lng: -75.6223394,
+      },
+    ],
+  },
+  {
     slug: "2026-10-04-altagracia-arabia-ulloa-filandia",
     titulo: "Altagracia · Arabia · Ulloa · Filandia",
     fecha: "4 oct 2026",
