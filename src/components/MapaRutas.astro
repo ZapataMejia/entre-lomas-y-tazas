@@ -190,13 +190,24 @@ const payloadJson = JSON.stringify(payload);
       return;
     }
 
-    const map = L.map(canvas, { scrollWheelZoom: false });
+    const map = L.map(canvas, {
+      scrollWheelZoom: true,
+      dragging: true,
+      touchZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: true,
+      zoomControl: true,
+    });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
       attribution: "&copy; OpenStreetMap",
     }).addTo(map);
     map.setView([defLat, defLng], defZoom);
-    map.on("click", () => map.scrollWheelZoom.enable());
+    map.scrollWheelZoom.enable();
+    map.dragging.enable();
+    map.touchZoom.enable();
+    map.doubleClickZoom.enable();
 
     let trackLayer = null;
     const startEnd = [];

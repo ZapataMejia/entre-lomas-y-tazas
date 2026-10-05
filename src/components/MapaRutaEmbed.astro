@@ -125,12 +125,24 @@ const terrenoLabel: Record<string, string> = {
       return;
     }
 
-    const map = L.map(canvas, { scrollWheelZoom: false });
+    const map = L.map(canvas, {
+      scrollWheelZoom: true,
+      dragging: true,
+      touchZoom: true,
+      doubleClickZoom: true,
+      boxZoom: true,
+      keyboard: true,
+      zoomControl: true,
+    });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
       attribution: "&copy; OSM",
     }).addTo(map);
-    map.on("click", () => map.scrollWheelZoom.enable());
+    // Rueda, pinch, arrastre y +/- siempre activos
+    map.scrollWheelZoom.enable();
+    map.dragging.enable();
+    map.touchZoom.enable();
+    map.doubleClickZoom.enable();
 
     const bounds = [];
 

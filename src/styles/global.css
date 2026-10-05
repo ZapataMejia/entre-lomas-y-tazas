@@ -3166,3 +3166,34 @@ a.pcc-chapter-card:focus-visible {
   height: min(48vh, 22rem);
   min-height: 16rem;
 }
+
+/* Mapa interactivo: zoom rueda, arrastre, pinch */
+.pcc-mapas__canvas.leaflet-container,
+.pcc-embed-map__canvas.leaflet-container,
+.pcc-mapas__canvas .leaflet-container,
+.pcc-embed-map__canvas .leaflet-container {
+  cursor: grab;
+  touch-action: none;
+}
+
+.pcc-mapas__canvas.leaflet-drag-target,
+.pcc-embed-map__canvas.leaflet-drag-target,
+.leaflet-dragging .pcc-mapas__canvas,
+.leaflet-dragging .pcc-embed-map__canvas {
+  cursor: grabbing;
+}
+
+.pcc-mapas__canvas,
+.pcc-embed-map__canvas {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.pcc-mapas__canvas .leaflet-control-zoom a,
+.pcc-embed-map__canvas .leaflet-control-zoom a {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1.15rem;
+}
