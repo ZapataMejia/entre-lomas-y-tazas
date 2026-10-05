@@ -2228,20 +2228,29 @@ a.pcc-chapter-card:focus-visible {
   line-height: 1.2;
 }
 
+/* Ya fuimos: chip más marcado */
+.pcc-muni__chip--visitado {
+  border-color: var(--pcc-leaf) !important;
+  background: rgba(45, 107, 79, 0.12) !important;
+  color: var(--pcc-forest-dark) !important;
+  font-weight: 600;
+}
+
 .pcc-muni__chip--visitado:not(.pcc-muni__chip--cuaderno)::after {
   content: "";
   flex-shrink: 0;
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   margin-left: 0.28rem;
   border-radius: 50%;
   background: var(--pcc-leaf);
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .pcc-muni__chip--cuaderno.pcc-muni__chip--visitado .pcc-muni__chip-tag {
-  border-color: rgba(45, 107, 79, 0.45);
-  background: rgba(45, 107, 79, 0.1);
+  border-color: rgba(45, 107, 79, 0.55);
+  background: rgba(45, 107, 79, 0.18);
+  color: var(--pcc-forest);
 }
 
 .pcc-muni__chips li .pcc-muni__chip--link {

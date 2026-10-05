@@ -14,9 +14,21 @@ import { withBase } from "../lib/base";
 
 const { meta, guia, visitados, ilustraciones, municipiosPcc } = rutas;
 const nombreSitio = meta.titulo ?? "Mil rutas un destino";
-const slugsConVisita = new Set(
-  visitados.map((v) => (typeof v.slug === "string" && v.slug.length > 0 ? v.slug : slugMunicipio(v.municipio))),
-);
+/** Chips del mapa: todos los municipios que ya tocamos (incl. rutas de un día con varias paradas). */
+const slugsConVisita = new Set<string>();
+for (const v of visitados) {
+  if (v.lugaresSlugs?.length) {
+    for (const s of v.lugaresSlugs) slugsConVisita.add(s);
+  } else if (typeof v.slug === "string" && v.slug.length > 0) {
+    slugsConVisita.add(v.slug);
+  }
+  // nombre simple de municipio → slug
+  if (v.municipio && !v.municipio.includes("·")) {
+    slugsConVisita.add(slugMunicipio(v.municipio));
+  }
+}
+// Casa siempre cuenta como visitado en el mapa
+slugsConVisita.add("dosquebradas");
 const pageTitle = `${nombreSitio} · ${meta.subtitulo ?? "Recuerdos de viaje"}`;
 const pageDescription =
   "Mil rutas un destino — diario de Santiago y Esmeralda: lugares, fotos, rutas y lo que vivimos juntos.";
@@ -129,7 +141,20 @@ const siteFootLinks = [
             municipiosPcc.map((bloque) => (
               <div class="pcc-muni__card">
                 <h3 class="pcc-muni__depto">{bloque.departamento}</h3>
-                <p class="pcc-muni__count">{bloque.municipios.length} en el listado base</p>
+                <p class="pcc-muni__count">
+                  {
+                    (() => {
+                      const todos = [
+                        ...bloque.municipios.map((n) => slugMunicipio(n)),
+                        ...(bloque.municipiosCuaderno ?? []).map((n) => slugMunicipio(n)),
+                      ];
+                      const hechos = todos.filter((s) => slugsConVisita.has(s)).length;
+                      return hechos > 0
+                        ? `${hechos} visitado${hechos === 1 ? "" : "s"} · ${bloque.municipios.length} en el listado`
+                        : `${bloque.municipios.length} en el listado`;
+                    })()
+                  }
+                </p>
                 <ul class="pcc-muni__chips" aria-label={`Lugares en ${bloque.departamento}`}>
                   {bloque.municipios.map((nombre) => (
                     <li>

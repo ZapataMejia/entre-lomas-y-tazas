@@ -16,6 +16,11 @@ export type Visita = {
   fotos: string[];
   /** slug de `rutasMapa` — muestra el mapa del camino dentro de la bitácora */
   rutaSlug?: string;
+  /**
+   * Municipios del mapa (chips) que esta salida toca.
+   * Ej. una ruta de un día puede marcar Ulloa + Filandia + Pereira.
+   */
+  lugaresSlugs?: string[];
 };
 
 export type IdeaRuta = {
@@ -220,6 +225,8 @@ export const rutas: RutasData = {
         "Santa Rosa de Cabal",
         "Santuario",
       ],
+      /** Paradas nuestras cerca de Pereira (no van en el listado base UNESCO) */
+      municipiosCuaderno: ["Altagracia", "Arabia"],
     },
     {
       departamento: "Quindío",
@@ -236,6 +243,7 @@ export const rutas: RutasData = {
         "Quimbaya",
         "Salento",
       ],
+      municipiosCuaderno: ["La India"],
     },
     {
       departamento: "Valle del Cauca",
@@ -261,6 +269,7 @@ export const rutas: RutasData = {
       fecha: "Varias veces",
       calificacion: 5,
       rutaSlug: "casa-palestina-caldas",
+      lugaresSlugs: ["palestina", "dosquebradas"],
       extracto:
         "Un segundo hogar: Mencha, Angie, Beto y tanta gente que nos quiere. Cumpleaños 26, boda de Manuelita y Felipe, y muchos momentos lindos.",
       nota:
@@ -282,6 +291,16 @@ export const rutas: RutasData = {
       fecha: "4 oct 2026",
       calificacion: 5,
       rutaSlug: "2026-10-04-altagracia-arabia-ulloa-filandia",
+      /** Chips del mapa que esta salida toca */
+      lugaresSlugs: [
+        "dosquebradas",
+        "altagracia",
+        "arabia",
+        "la-india",
+        "ulloa",
+        "filandia",
+        "pereira",
+      ],
       extracto:
         "Salida larga: mirador en Altagracia, almuerzo en Arabia, nos metimos al río Barbas, destapada hasta La India, descubrimos Ulloa y cerramos con café en Filandia.",
       nota:
@@ -304,6 +323,7 @@ export const rutas: RutasData = {
       fecha: "Mayo 2026",
       calificacion: 5,
       rutaSlug: "dosquebradas-viterbo-hacienda-el-jordan",
+      lugaresSlugs: ["viterbo", "dosquebradas"],
       extracto:
         "Un día que nos encantó: buena comida, un rincón de frases lleno de detalle, parque, hacienda de ensueño, animales, atardecer y dos cafés hablando hasta reír.",
       nota:
